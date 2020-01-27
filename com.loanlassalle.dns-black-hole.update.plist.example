@@ -1,0 +1,59 @@
+<!--
+    dns-black-hole update agent
+
+    Author: Loan Lassalle <https://github.com/lassalleloan>
+-->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+		<key>Label</key>
+        <string>com.loanlassalle.dns-black-hole.update</string>
+        
+        <!--
+            Absolute path must be configured
+            Concatenation between WORKING_DIRECTORY in .conf file and 
+            the path "/agent/com.loanlassalle.dns-black-hole.update.plist"
+        -->
+        <key>WorkingDirectory</key>
+        <string><absolute-path></string>
+        
+        <key>ProgramArguments</key>
+        <array>
+            <string>sh</string>
+            <string>-u</string>
+            <string>run-app</string>
+
+            <!--
+                Verbosity level for debugging
+            -->
+            <!--
+                <string>-v</string>
+                <string><verbosity-level></string>
+            -->
+        </array>
+
+        <!--
+            Debugging outputs
+        -->
+        <!--
+            <key>StandardOutPath</key>
+            <string>agent/stdout</string>
+            <key>StandardErrorPath</key>
+            <string>agent/stderr</string>
+        -->
+
+        <key>RunAtLoad</key>
+        <true/>
+
+        <!--
+            Run the job every hour
+            If the system is asleep, the job will be started the next time the computer wakes up.
+            If multiple intervals transpire before the computer is woken, 
+            those events will be coalesced into one event upon wake from sleep.
+        -->
+        <key>StartInterval</key>
+        <integer>3600</integer>
+    </dict>
+</plist>
