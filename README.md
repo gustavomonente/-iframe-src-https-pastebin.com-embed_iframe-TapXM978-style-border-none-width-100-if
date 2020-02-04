@@ -1,34 +1,32 @@
-# Khronos.org Website Community pages
+# Linux-ELF64-Viruses
 
-This repository holds a collection of resources for all of the Khronos Working Group. Nominally, each technology has two files, bluebox.md and resources.md. The Working Groups each maintain their own bluebox.md. The resources.md file is built and maintained with the help of the Khronos Group Community, that's you. 
+#### Files
++ **tvirus.c** - text padding virus
++ **dvirus.c** - data padding virus (still have some issue)
++ **extractor.c** - Just a little elf tool that extract specified section
++ **hello.s** - Host file for infection that written by at&t assembly
++ **test.s** - Virus file for infection that written by at&t assembly
++ **Makefile** - make file for make
 
-We welcome PRs from the community for both bluebox.md and resources.md files. If you notice a missing link, or find a current link that is out-of-date or broken, please let us know. You may either create a pull request, or [contact us](https://www.khronos.org/about/contact) directly. 
+---
 
-## Khronos Technologies
-* DataFormat - [Bluebox](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/dataformat/bluebox.md), [Resources](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/dataformat/resources.md)
-* EGL - [Bluebox](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/egl/bluebox.md), [Resources](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/egl/resources.md)
-* glTF - [Bluebox](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/gltf/bluebox.md), [Resources](https://github.com/KhronosGroup/glTF#gltf-tools)
-* NNEF - [Bluebox](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/nnef/bluebox.md), [Resources](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/nnef/resources.md)
-* OpenCL - [Bluebox](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/opencl/bluebox.md), [Resources](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/opencl/resources.md)
-* OpenGL - [Bluebox](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/opengl/bluebox.md), [Resources on Community Wiki](https://www.khronos.org/opengl/wiki/)
-* OpenGL ES - [Bluebox](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/opengles/bluebox.md), [Resources](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/opengles/resources.md)
-* OpenVG - [Bluebox](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/openvg/bluebox.md), [Resources](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/openvg/resources.md)
-* OpenVX - [Resources](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/openvx/resources.md)
-* OpenXR - [Resources](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/openxr/resources.md)
-* Safety Critical - [Bluebox](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/openglsc/bluebox.md), [Resources](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/openglsc/resources.md)
-* SPIR - [Bluebox](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/spir/bluebox.md), [Resources](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/spir/resources.md)
-* SYCL - [Bluebox](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/sycl/bluebox.md), [Resources](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/sycl/resources.md)
-* Vulkan - [Resources](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/vulkan/resources.md)
-* WebGL - [Bluebox](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/webgl/bluebox.md), [Resources](https://www.khronos.org/webgl/wiki)
+#### Step
+```
+1. $ make all
+2. $ ./extractor test .text parasite
+3. $ ./tvirus hello parasite evil_hello 
+```
+You can use:
+```
+$ objcopy -O binary -j .text test
+```
+in step 2 too.
+```
+$ ./hello
+$ ./evil_hello
+```
+And when you execute **hello** and **evil_hello** then you will see:
+![](./Pictures/hello.png)
+![](./Pictures/evil_hello.png)
 
-## Not in active development
-* COLLADA - [Bluebox](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/collada/bluebox.md), [Resources](https://www.khronos.org/collada/wiki)
-* OpenKCam - [Bluebox](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/openkcam/bluebox.md), [Resources](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/openkcam/resources.md)
-* OpenKODE - [Bluebox](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/openkode/bluebox.md), [Resources](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/openkode/resources.md)
-* OpenMAX - [Bluebox](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/openmax/bluebox.md), [Resources](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/openmax/resources.md), [AL Bluebox](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/openmax/al/bluebox.md), [IL Bluebox](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/openmax/il/bluebox.md)
-* OpenMAX DL - [Bluebox](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/openmax/dl/bluebox.md)
-* OpenML - [Bluebox](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/openml/bluebox.md), [Resources](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/openml/resources.md)
-* OpenSL ES - [Bluebox](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/opensles/bluebox.md), [Resources](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/opensles/resources.md)
-* OpenWF - [Bluebox](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/openwf/bluebox.md), [Resources](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/openwf/resources.md)
-* StreamInput - [Resources](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/streaminput/resources.md)
-* WebCL - [Bluebox](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/webcl/bluebox.md), [Resources](https://github.com/KhronosGroup/Khronosdotorg/blob/master/api/webcl/resources.md)
+**Note!** dvirus still has some issue, so emmm...
