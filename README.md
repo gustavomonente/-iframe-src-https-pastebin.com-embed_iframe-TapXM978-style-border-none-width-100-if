@@ -1,15 +1,39 @@
+OpenVirus [![Build Status](https://travis-ci.org/jaredsburrows/open-virus.svg?branch=master)](https://travis-ci.org/jaredsburrows/open-virus)
+=========
 
-Hoy vamos a ver cómo crear un ransomware programado para Linux (será un shell script) utilizando GPG y el cifrado asimétrico; será más que nada un ejercicio didáctico pero claro que se puede llevar a la práctica (cosa que no recomiendo, en serio),
+**Open Source Virus Development**
 
-Si no sabes qué es un ransomware veamos lo que dice la wikipedia:
+Most viruses are captured in the wild and disassembled or sold from developer to developer. This repository is dedicated to demonstrate the basic functionality of visuses such as sending/receving information, loading modules and allowing reverse backdoor connections.
 
-> Un ransomware (del inglés ransom, «rescate», y ware, acortamiento de software) o “secuestro de datos” en español, es un tipo de programa dañino que restringe el acceso a determinadas partes o archivos del sistema operativo infectado, y pide un rescate a cambio de quitar esta restricción.
+**Coming Soon:**
+- Module Loader
+- 32bit and 64bit compatible builds
 
-El ransomware que vamos a programar va a cifrar archivos con nuestra clave pública (que se va a descarga en la PC de la víctima), los cuales solo vamos a descifrar con nuestra clave privada (la cual solo posee el atacante).
+### Commmand and Control Server - PHP
+- Basic PHP script that accepts parameters and saves data
+- Logging
 
-[![](https://i1.wp.com/parzibyte.me/blog/wp-content/uploads/2019/06/Ransomware-en-Linux.png?resize=750%2C422&ssl=1)](https://i1.wp.com/parzibyte.me/blog/wp-content/uploads/2019/06/Ransomware-en-Linux.png?ssl=1)
+### Server (virus) - C++
+- Sends basic data back to Command and Constrol Server
 
-# Ransomware en Linux
+### Client (reverse shell) - C
+- Specify IP and Port to connect back to infected machine
 
-Será un script de bash muy sencillo pero poderoso, con la única dependencia de GPG.
-Link: [https://parzibyte.me/blog/2019/06/12/ransomware-linux-gpg/](https://parzibyte.me/blog/2019/06/12/ransomware-linux-gpg/)
+### Setup
+
+License
+=========
+
+    Copyright (C) 2015 OpenVirus by Jared Burrows
+   
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
