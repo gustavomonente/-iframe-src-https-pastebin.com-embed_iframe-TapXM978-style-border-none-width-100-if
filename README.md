@@ -1,11 +1,6 @@
-CIH (Chernobyl)
-===
+# EnergyPATHWAYS
 
-CIH (also known as Chernobyl) was created in 1998 by Chen Ing-hau, a student at Tatung University in Taiwan. It affects only older Windows 9x (95, 98, Me) operating systems.
+The energyPATHWAYS model is a professional, open-source energy and carbon planning tool for use in evaluating long-term, economy-wide greenhouse gas mitigation scenarios. For more information on model methodology and usage, please see [the documentation at Read the Docs](http://energypathways.readthedocs.io/). (The sphinx documentation source can also be found in the `doc/source` directory if you prefer to build it yourself.)
 
-## This program and its source files are only for educational purposes. Do not execute this program if you don't know what it does
-
-#### References
-
-- [CIH (computer virus) - Wikipedia](http://en.wikipedia.org/wiki/CIH_\(computer_virus\))
-- [CIH Virus - Computer Hope](http://www.computerhope.com/vcih.htm)
+## License
+EnergyPathways is released under the MIT License (MIT). See the LICENSE file for further details.
