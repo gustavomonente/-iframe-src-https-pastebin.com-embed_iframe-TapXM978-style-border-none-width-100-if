@@ -1,0 +1,175 @@
+#!/bin/sh -u
+# -u: Treat unset variables as an error when performing parameter expansion.
+# If expansion is attempted on an unset interactive, exits with a non-zero status.
+#
+# Unset the dns-black-hole update agent
+#
+# Author: Loan Lassalle <https://github.com/lassalleloan>
+
+# .conf file based on .conf.example file and filled with your own values
+if [ ! -f .conf ]; then
+  printf ".conf: No such file\n"
+  exit 1
+fi
+
+# Working directory
+WORKING_DIRECTORY="$(sed -En 's/^WORKING_DIRECTORY=(\/[^ #]+)(( |#)?.*)$/\1/p' .conf)"
+
+# Agent property list file
+AGENT_PLIST=~/Library/LaunchAgents/com.loanlassalle.dns-black-hole.update.plist
+
+# Default verbosity level
+VERBOSITY="$(sed -En 's/^VERBOSITY=([0-9]{1})(( |#).*)?$/\1/p' .conf)"
+
+# Display a banner
+banner() {
+  printf "Unset-agent script\n"
+}
+
+# Usage of the script
+usage() {
+  printf "Usage: unset-agent [--verbosity (0 | 1 | 2)]\n"
+  printf "\n"
+  printf "Unset the dns-black-hole update agent\n"
+  printf "\n"
+  printf "Version: 1.0.0, build deadbeef\n"
+  printf "\n"
+  printf "Author:\n"
+  printf "  Loan Lassalle - <https://github.com/lassalleloan>\n"
+  printf "\n"
+  printf "Options:\n"
+  printf "  -v, --verbosity (0 | 1 | 2)     Level of verbosity: no ouput, step information (default), all information\n"
+  printf "  -h, --help                      Help on how to use this script\n"
+}
+
+# Stop the agent
+stop_agent() {
+  local verbosity="$1"
+
+  local agent_name="com.loanlassalle.dns-black-hole.update"
+
+  if [ "$verbosity" -ne 0 ]; then
+    printf "Stopping the agent\n"
+  fi
+
+  if [ "$verbosity" -eq 2 ]; then
+    launchctl stop "$agent_name"
+  else
+    launchctl stop "$agent_name" > /dev/null 2>&1
+  fi
+}
+
+# Unload the property list file
+unload_plist() {
+  local agent_plist="$1"
+  local verbosity="$2"
+
+  if [ "$verbosity" -ne 0 ]; then
+    printf "Stopping the agent\n"
+  fi
+
+  # Stops and unloads and disables the job
+  # The job will NOT restart on the next login/restart
+  if [ "$verbosity" -eq 2 ]; then
+    launchctl unload -w "$agent_plist"
+  else
+    launchctl unload -w "$agent_plist" > /dev/null 2>&1
+  fi
+}
+
+# Remove the property list file
+remove_plist() {
+  local agent_plist="$1"
+  local verbosity="$2"
+
+  local property_list_file="$WORKING_DIRECTORY/agent/com.loanlassalle.dns-black-hole.update.plist"
+
+  if [ "$verbosity" -ne 0 ]; then
+    printf "Removing the property list file\n"
+  fi
+
+  if [ "$verbosity" -eq 2 ]; then
+    rm -r "$property_list_file"
+
+    local file_count="$(find ~/Library/LaunchAgents -type f | wc -l | sed -E 's/[[:space:]]+//')"
+    if [ "$file_count" -eq 1 ]; then
+      rm -r ~/Library/LaunchAgents
+    else
+      rm -r "$agent_plist"
+    fi
+  else
+    rm -rf "$property_list_file" > /dev/null 2>&1
+
+    local file_count="$(find ~/Library/LaunchAgents -type f 2> /dev/null | \
+      wc -l | \
+      sed -E 's/[[:space:]]+//')"
+    if [ "$file_count" -eq 1 ]; then
+      rm -rf ~/Library/LaunchAgents > /dev/null 2>&1
+    else
+      rm -rf "$agent_plist" > /dev/null 2>&1
+    fi
+  fi
+
+  local file_count="$(find ~/Library/LaunchAgents -type f 2> /dev/null | \
+    wc -l | \
+    sed -E 's/[[:space:]]+//')"
+}
+
+# Check if it is an integer
+exit_if_not_integer() {
+  local variable="$1"
+
+  if ! echo "$variable" | grep -Eq  "^[0-9]{1}$"; then
+    printf "%s: not a integer\n" "$variable"
+    usage
+    exit 1
+  fi
+}
+
+# Main
+for arg in "$@"; do
+  shift
+  case "$arg" in
+    "--verbosity")
+      set -- "$@" "-v"
+      ;;
+    "--help")
+      set -- "$@" "-h"
+      ;;
+    "--"*)
+      set -- "$@" "-?"
+      ;;
+    *)
+      set -- "$@" "$arg"
+  esac
+done
+
+while getopts ":v:h" option; do
+  case $option in
+    v)
+      VERBOSITY=$OPTARG
+      exit_if_not_integer "$VERBOSITY"
+      ;;
+    h)
+      usage
+      exit
+      ;;
+    :)
+      printf "%s: required argument\n" "$OPTARG"
+      exit 1
+      ;;
+    \?)
+      printf "%s: invalid option\n" "$OPTARG"
+      usage
+      exit 1
+      ;;
+  esac
+done
+
+if [ "$VERBOSITY" -ne 0 ]; then
+  banner
+fi
+
+stop_agent "$VERBOSITY"
+unload_plist "$AGENT_PLIST" "$VERBOSITY"
+remove_plist "$AGENT_PLIST" "$VERBOSITY"

@@ -1,3 +1,10 @@
-node_modules/
-out
-out.xml
+.conf
+.log
+agent/com.loanlassalle.dns-black-hole.update.plist
+agent/stdout
+agent/stderr
+backup/hosts.bk
+src/hosts
+src/myhosts
+src/whitelist
+src/blacklist

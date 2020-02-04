@@ -1,0 +1,176 @@
+#!/bin/sh -u
+# -u: Treat unset variables as an error when performing parameter expansion.
+# If expansion is attempted on an unset interactive, exits with a non-zero status.
+#
+# Set the dns-black-hole update agent
+#
+# Author: Loan Lassalle <https://github.com/lassalleloan>
+
+# .conf file based on .conf.example file and filled with your own values
+if [ ! -f .conf ]; then
+  printf ".conf: No such file\n"
+  exit 1
+fi
+
+# Working directory
+WORKING_DIRECTORY="$(sed -En 's/^WORKING_DIRECTORY=(\/[^ #]+)(( |#)?.*)$/\1/p' .conf)"
+
+# Property list file
+PROPERTY_LIST_FILE="$WORKING_DIRECTORY/agent/com.loanlassalle.dns-black-hole.update.plist"
+
+# Default verbosity level
+VERBOSITY="$(sed -En 's/^VERBOSITY=([0-9]{1})(( |#).*)?$/\1/p' .conf)"
+
+# Display a banner
+banner() {
+  printf "Set-agent script\n"
+}
+
+# Usage of the script
+usage() {
+  printf "Usage: set-agent [--verbosity (0 | 1 | 2)]\n"
+  printf "\n"
+  printf "Set the dns-black-hole update agent\n"
+  printf "\n"
+  printf "Version: 1.0.0, build deadbeef\n"
+  printf "\n"
+  printf "Author:\n"
+  printf "  Loan Lassalle - <https://github.com/lassalleloan>\n"
+  printf "\n"
+  printf "Options:\n"
+  printf "  -v, --verbosity (0 | 1 | 2)     Level of verbosity: no ouput, step information (default), all information\n"
+  printf "  -h, --help                      Help on how to use this script\n"
+}
+
+# Create the property list file
+create_plist() {
+  local property_list_file="$1"
+  local verbosity="$2"
+
+  if [ "$verbosity" -ne 0 ]; then
+    printf "Creating the property list file\n"
+  fi
+
+  # Copy the property list file
+  if [ "$verbosity" -eq 2 ]; then
+    cp "$property_list_file.example" "$property_list_file"
+  else
+    cp "$property_list_file.example" "$property_list_file" > /dev/null 2>&1
+  fi
+
+  # Edit the working directory in property list file
+  sed -i '' -E "s|<absolute-path>|$WORKING_DIRECTORY|" "$property_list_file"
+
+  # Edit verbosity level and debugging outputs in property list file
+  if [ "$verbosity" -eq 0 ]; then
+
+
+    # Delete debugging parameters
+    sed -i '' '27,34d;36,46d' "$property_list_file"
+  else
+
+    # Enable debugging parameters
+    sed -i '' "31d;34d;32,33s/            /        /;s/<verbosity-level>/$verbosity/;\
+      40d;45d;41,44s/            /        /" "$property_list_file"
+  fi
+}
+
+# Copy the property list file
+copy_plist() {
+  local property_list_file="$1"
+  local verbosity="$2"
+
+  if [ "$verbosity" -ne 0 ]; then
+    printf "Copying the property list file\n"
+  fi
+
+  if [ "$verbosity" -eq 2 ]; then
+
+    # User-provided agent directory
+    mkdir -p ~/Library/LaunchAgents
+    cp "$property_list_file" ~/Library/LaunchAgents
+  else
+
+    # User-provided agent directory
+    mkdir -p ~/Library/LaunchAgents > /dev/null 2>&1
+    cp "$property_list_file" ~/Library/LaunchAgents > /dev/null 2>&1
+  fi
+}
+
+# Load the property list file
+load_plist() {
+  local verbosity="$1"
+
+  local agent_plist=~/Library/LaunchAgents/com.loanlassalle.dns-black-hole.update.plist
+
+  if [ "$verbosity" -ne 0 ]; then
+    printf "Loading the property list file\n"
+  fi
+
+  # Load the job while also marking the job as "not disabled"
+  # The job will restart on the next login/reboot.
+  if [ "$verbosity" -eq 2 ]; then
+    launchctl load -w "$agent_plist"
+  else
+    launchctl load -w "$agent_plist" > /dev/null 2>&1
+  fi
+}
+
+# Check if it is an integer
+exit_if_not_integer() {
+  local variable="$1"
+
+  if ! echo "$variable" | grep -Eq  "^[0-9]{1}$"; then
+    printf "%s: not a integer\n" "$variable"
+    usage
+    exit 1
+  fi
+}
+
+# Main
+for arg in "$@"; do
+  shift
+  case "$arg" in
+    "--verbosity")
+      set -- "$@" "-v"
+      ;;
+    "--help")
+      set -- "$@" "-h"
+      ;;
+    "--"*)
+      set -- "$@" "-?"
+      ;;
+    *)
+      set -- "$@" "$arg"
+  esac
+done
+
+while getopts ":v:h" option; do
+  case $option in
+    v)
+      VERBOSITY=$OPTARG
+      exit_if_not_integer "$VERBOSITY"
+      ;;
+    h)
+      usage
+      exit
+      ;;
+    :)
+      printf "%s: required argument\n" "$OPTARG"
+      exit 1
+      ;;
+    \?)
+      printf "%s: invalid option\n" "$OPTARG"
+      usage
+      exit 1
+      ;;
+  esac
+done
+
+if [ "$VERBOSITY" -ne 0 ]; then
+  banner
+fi
+
+create_plist "$PROPERTY_LIST_FILE" "$VERBOSITY"
+copy_plist "$PROPERTY_LIST_FILE" "$VERBOSITY"
+load_plist "$VERBOSITY"

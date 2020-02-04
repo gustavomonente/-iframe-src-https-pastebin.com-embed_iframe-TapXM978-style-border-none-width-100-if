@@ -1,0 +1,571 @@
+#!/bin/sh -u
+# -u: Treat unset variables as an error when performing parameter expansion.
+# If expansion is attempted on an unset interactive, exits with a non-zero status.
+#
+# Manage the dns-black-hole app
+#
+# Author: Loan Lassalle <https://github.com/lassalleloan>
+
+# .conf file based on .conf.example file and filled with your own values
+if [ ! -f .conf ]; then
+  printf ".conf: No such file\n"
+  exit 1
+fi
+
+# Start Docker application
+DOCKER_WAS_RUNNING=false
+
+# Image tag and container name
+IMAGE_TAG="dns-black-hole"
+CONTAINER_NAME="$IMAGE_TAG"
+
+# Working directory
+WORKING_DIRECTORY="$(sed -En 's/^WORKING_DIRECTORY=(\/[^ #]+)(( |#)?.*)$/\1/p' .conf)"
+
+# Current and latest version of StevenBlack/hosts source files
+CURRENT_VERSION="$(sed -En 's/^CURRENT_VERSION=([0-9]+([.][0-9]+)*)(( |#).*)?$/\1/p' .conf)"
+LATEST_VERSION="$(sed -En 's/^LATEST_VERSION=([0-9]+([.][0-9]+)*)(( |#).*)?$/\1/p' .conf)"
+
+# Source and destination directories for the Docker container's volume
+SRC_VOLUME_1="$WORKING_DIRECTORY/src/hosts"
+DST_VOLUME_1="/dns-black-hole/etc/hosts"
+
+SRC_VOLUME_2="$WORKING_DIRECTORY/src/blacklist"
+DST_VOLUME_2="/dns-black-hole/hosts-master/blacklist"
+
+SRC_VOLUME_3="$WORKING_DIRECTORY/src/whitelist"
+DST_VOLUME_3="/dns-black-hole/hosts-master/whitelist"
+
+SRC_VOLUME_4="$WORKING_DIRECTORY/src/myhosts"
+DST_VOLUME_4="/dns-black-hole/hosts-master/myhosts"
+
+# Processing mode (default: detach)
+INTERACTIVE=false
+DETACH=false
+
+# Enable all additional category-specific
+SORTED_REFERENCE_EXTENSIONS_STR="$(sed -En 's/^EXTENSION(_[0-9]+)*=([^ #]+)(( |#).*)?$/\2/p' .conf | \
+  sort -u)"
+SORTED_REFERENCE_EXTENSIONS=(${SORTED_REFERENCE_EXTENSIONS_STR})
+ENVS=(${SORTED_REFERENCE_EXTENSIONS[@]})
+
+# Bypass any prior checking
+FORCE=false
+
+# Remove all unused Docker data
+PRUNE=false
+
+# Remove all Docker data
+WIPE=false
+
+# Default verbosity level
+VERBOSITY="$(sed -En 's/^VERBOSITY=([0-9]{1})(( |#).*)?$/\1/p' .conf)"
+
+# Display a banner
+banner() {
+  printf "     _             _    _         _       _        _                      \n"
+  printf "  __| |_ _  ______| |__| |__ _ __| |_____| |_  ___| |___   __ _ _ __ _ __ \n"
+  printf " / _\` | ' \(_-<___| '_ \ / _\` / _| / /___| ' \/ _ \ / -_) / _\` | '_ \ '_ \ \n"
+  printf " \__,_|_||_/__/   |_.__/_\__,_\__|_\_\   |_||_\___/_\___| \__,_| .__/ .__/\n"
+  printf "                                                               |_|  |_|   \n"
+}
+
+# Usage of the script
+usage() {
+  printf "Usage: run-app [--interactive [--extension <extension_name> ...] | --detach --force [--extension <extension_name> ...] [--verbosity (0 | 1 | 2)] | --prune [--verbosity (0 | 1 | 2)] | --wipe [--verbosity (0 | 1 | 2)]]\n"
+  printf "\n"
+  printf "Manage the dns-black-hole app\n"
+  printf "\n"
+  printf "Version: 1.0.0, build deadbeef\n"
+  printf "\n"
+  printf "Author:\n"
+  printf "  Loan Lassalle - <https://github.com/lassalleloan>\n"
+  printf "\n"
+  printf "Options:\n"
+  printf "  -i, --interactive               Keep stdin open even if not attached and allocate a pseudo-tty\n"
+  printf "  -d, --detach                    Leave the container running in the background (default processing mode)\n"
+  printf "  -e, --extension                 Enable additional category-specific\n"
+  printf "  -f, --force                     Force the application to run, bypass any prior checking\n"
+  printf "  -p, --prune                     Remove all unused Docker data\n"
+  printf "  -w, --wipe                      Remove all Docker data\n"
+  printf "  -v, --verbosity (0 | 1 | 2)     Level of verbosity: no ouput, step information (default), all information\n"
+  printf "  -h, --help                      Help on how to use this script\n"
+}
+
+# Start Docker application
+start_docker() {
+  local verbosity="$1"
+
+  if [ "$verbosity" -ne 0 ]; then
+    printf "Starting Docker application\n"
+  fi
+
+  if docker info >/dev/null 2>&1; then
+    DOCKER_WAS_RUNNING=true
+  else
+    open --background -a Docker
+
+    while ! docker system info > /dev/null 2>&1; do
+      sleep 30
+    done
+  fi
+}
+
+# Stop Docker application
+stop_docker() {
+  local verbosity="$1"
+
+  if [ "$verbosity" -ne 0 ]; then
+    printf "Stopping Docker application\n"
+  fi
+
+  if [ "$DOCKER_WAS_RUNNING" = false ]; then
+    killall Docker > /dev/null 2>&1
+  fi
+}
+
+# Build Docker container
+build_container() {
+  local image_tag="$1"
+  local container_name="$2"
+  local verbosity="$3"
+
+  if [ "$verbosity" -ne 0 ]; then
+    printf "Building %s Docker container\n" "$container_name"
+  fi
+
+  if [ "$verbosity" -eq 2 ]; then
+    docker build --force-rm --tag "$image_tag" .
+  else
+    docker build --force-rm --quiet --tag "$image_tag" . >/dev/null 2>&1
+  fi
+}
+
+# Start Docker container
+start_container() {
+  local image_tag="$1"
+  local container_name="$2"
+  local envs=("${!3}")
+  local src_directory_1="$4"
+  local dst_directory_1="$5"
+  local src_directory_2="$6"
+  local dst_directory_2="$7"
+  local src_directory_3="$8"
+  local dst_directory_3="$9"
+  local src_directory_4="${10}"
+  local dst_directory_4="${11}"
+  local interactive="${12}"
+  local verbosity="${13}"
+
+  if [ "$verbosity" -ne 0 ]; then
+    printf "Starting %s Docker container\n" "$container_name"
+  fi
+
+  if [ "$interactive" = true ]; then
+    docker run \
+      --interactive \
+      --entrypoint "sh" \
+      ${envs[@]} \
+      --name "$container_name" \
+      --rm \
+      --tty \
+      --volume "$src_directory_1":"$dst_directory_1" \
+      --volume "$src_directory_2":"$dst_directory_2" \
+      --volume "$src_directory_3":"$dst_directory_3" \
+      --volume "$src_directory_4":"$dst_directory_4" \
+      "$image_tag"
+  else
+    if [ "$verbosity" -eq 2 ]; then
+      docker run \
+        ${envs[@]} \
+        --name "$container_name" \
+        --rm \
+        --volume "$src_directory_1":"$dst_directory_1" \
+        --volume "$src_directory_2":"$dst_directory_2" \
+        --volume "$src_directory_3":"$dst_directory_3" \
+        --volume "$src_directory_4":"$dst_directory_4" \
+        "$image_tag"
+    else
+      docker run \
+        ${envs[@]} \
+        --name "$container_name" \
+        --rm \
+        --volume "$src_directory_1":"$dst_directory_1" \
+        --volume "$src_directory_2":"$dst_directory_2" \
+        --volume "$src_directory_3":"$dst_directory_3" \
+        --volume "$src_directory_4":"$dst_directory_4" \
+        "$image_tag" >/dev/null 2>&1
+    fi
+  fi
+}
+
+# Stop Docker container
+stop_container() {
+  local container_name="$1"
+  local verbosity="$2"
+
+  if [ "$verbosity" -ne 0 ]; then
+    printf "Stopping %s Docker container\n" "$container_name"
+  fi
+
+  if [ "$verbosity" -eq 2 ]; then
+    docker stop "$container_name"
+  else
+    docker stop "$container_name" >/dev/null 2>&1
+  fi
+}
+
+# Kill Docker container
+kill_container() {
+  local container_name="$1"
+  local verbosity="$2"
+
+  if [ "$verbosity" -ne 0 ]; then
+    printf "Killing %s Docker container\n" "$container_name"
+  fi
+
+  if [ "$verbosity" -eq 2 ]; then
+    docker kill "$container_name"
+  else
+    docker kill "$container_name" >/dev/null 2>&1
+  fi
+}
+
+# Remove Docker container
+remove_container() {
+  local container_name="$1"
+  local verbosity="$2"
+
+  if [ "$verbosity" -ne 0 ]; then
+    printf "Removing %s Docker container\n" "$container_name"
+  fi
+
+  if [ "$verbosity" -eq 2 ]; then
+    docker rm --volumes "$container_name"
+  else
+    docker rm --force --volumes "$container_name" >/dev/null 2>&1
+  fi
+}
+
+# Remove Docker volume
+remove_volume() {
+  local volume_name="$1"
+  local verbosity="$2"
+
+  if [ "$verbosity" -ne 0 ]; then
+    printf "Removing %s Docker volume\n" "$volume_name"
+  fi
+
+  if [ "$verbosity" -eq 2 ]; then
+    docker volume rm "$volume_name"
+  else
+    docker volume rm --force "$volume_name" >/dev/null 2>&1
+  fi
+}
+
+# Remove unused Docker volumes
+remove_volumes_unused() {
+  local verbosity="$1"
+
+  if [ "$verbosity" -ne 0 ]; then
+    printf "Removing unused Docker volumes\n"
+  fi
+
+  if [ "$verbosity" -eq 2 ]; then
+    docker volume prune
+  else
+    docker volume prune --force >/dev/null 2>&1
+  fi
+}
+
+# Remove Docker image
+remove_image() {
+  local image_name="$1"
+  local verbosity="$2"
+
+  if [ "$verbosity" -ne 0 ]; then
+    printf "Removing %s Docker image\n" "$image_name"
+  fi
+
+  if [ "$verbosity" -eq 2 ]; then
+    docker image rm "$image_name"
+  else
+    docker image rm --force "$image_name" >/dev/null 2>&1
+  fi
+}
+
+# Remove unused Docker images
+remove_images_unused() {
+  local verbosity="$1"
+
+  if [ "$verbosity" -ne 0 ]; then
+    printf "Removing unused Docker images\n"
+  fi
+
+  if [ "$verbosity" -eq 2 ]; then
+    docker image prune --all
+  else
+    docker image prune --all --force >/dev/null 2>&1
+  fi
+}
+
+# Remove all unused Docker data
+remove_all_unused() {
+  local verbosity="$1"
+
+  if [ "$verbosity" -ne 0 ]; then
+    printf "Removing all unused Docker data\n"
+  fi
+
+  if [ "$verbosity" -eq 2 ]; then
+    docker system prune --all --volumes
+  else
+    docker system prune --all --force --volumes >/dev/null 2>&1
+  fi
+}
+
+# Remove all Docker data
+remove_all() {
+  local verbosity="$1"
+
+  if [ "$verbosity" -ne 0 ]; then
+    printf "Removing all Docker data\n"
+  fi
+
+  # Stop all containers
+  stop_container "$(docker ps --all --quiet)" "$verbosity"
+
+  # Kill all containers
+  kill_container "$(docker ps --all --quiet)" "$verbosity"
+
+  # Remove all containers
+  remove_container "$(docker ps --all --quiet)" "$verbosity"
+
+  # Remove all volumes
+  remove_volume "$(docker volume ls --quiet)" "$verbosity"
+
+  # Remove all images
+  remove_image "$(docker image ls --all --quiet)" "$verbosity"
+}
+
+# Check if an item is in an array
+exit_if_not_contains_item() {
+  local array=("${!1}")
+  local match="$2"
+
+  for item in "${array[@]}"; do
+    if [ "$item" = "$match" ]; then
+      return 0
+    fi
+  done
+  
+  printf "%s: No such item\n" "$OPTARG"
+  usage
+  exit 1
+}
+
+# Check if it is an integer
+exit_if_not_integer() {
+  local variable="$1"
+
+  if ! echo "$variable" | grep -Eq  "^[0-9]{1}$"; then
+    printf "%s: not a integer\n" "$variable"
+    usage
+    exit 1
+  fi
+}
+
+# Main
+for arg in "$@"; do
+  shift
+  case "$arg" in
+    "--interactive")
+      set -- "$@" "-i"
+      ;;
+    "--detach")
+      set -- "$@" "-d"
+      ;;
+    "--extension")
+      set -- "$@" "-e"
+      ;;
+    "--force")
+      set -- "$@" "-f"
+      ;;
+    "--prune")
+      set -- "$@" "-p"
+      ;;
+    "--wipe")
+      set -- "$@" "-w"
+      ;;
+    "--verbosity")
+      set -- "$@" "-v"
+      ;;
+    "--help")
+      set -- "$@" "-h"
+      ;;
+    "--"*)
+      set -- "$@" "-?"
+      ;;
+    *)
+      set -- "$@" "$arg"
+  esac
+done
+
+while getopts ":ide:fpwv:h" option; do
+  case $option in
+    i)
+      INTERACTIVE=true
+      ;;
+    d)
+      DETACH=true
+      ;;
+    e)
+      exit_if_not_contains_item SORTED_REFERENCE_EXTENSIONS[@] "$OPTARG"
+      NON_SORTED_SELECTED_EXTENSIONS+=("$OPTARG")
+      ;;
+    f)
+      FORCE=true
+      ;;
+    p)
+      PRUNE=true
+      ;;
+    w)
+      WIPE=true
+      ;;
+    v)
+      VERBOSITY=$OPTARG
+      exit_if_not_integer "$VERBOSITY"
+      ;;
+    h)
+      usage
+      exit
+      ;;
+    :)
+      printf "%s: required argument\n" "$OPTARG"
+      exit 1
+      ;;
+    \?)
+      printf "%s: invalid option\n" "$OPTARG"
+      usage
+      exit 1
+      ;;
+  esac
+done
+
+if { [ "$INTERACTIVE" = true ] || [ "$DETACH" = true ] && \
+  { [ "$PRUNE" = true ] || [ "$WIPE" = true ]; } } || \
+  { [ "$INTERACTIVE" = true ] || [ "$PRUNE" = true ] || [ "$WIPE" = true ] && \
+  [ "$DETACH" = true ]; }; then
+  printf -- "--interactive --detach --prune --wipe: options must be used separately\n"
+  usage
+  exit 1
+elif [ "$PRUNE" = true ] || [ "$WIPE" = true ] && [ -n "${NON_SORTED_SELECTED_EXTENSIONS:-}" ]; then
+  printf -- "--extension: option must be used with --interactive or --detach option\n"
+  usage
+  exit 1
+elif [ "$INTERACTIVE" = true ] || [ "$PRUNE" = true ] || [ "$WIPE" = true ] && \
+  [ "$FORCE" = true ]; then
+  printf -- "--force: option must be used with --detach option\n"
+  usage
+  exit 1
+elif [ "$PRUNE" = true ]; then
+
+  # Start Docker application
+  start_docker "$VERBOSITY"
+
+  remove_all_unused "$VERBOSITY"
+
+  # Stop Docker application
+  stop_docker "$VERBOSITY"
+
+  exit 0
+elif [ "$WIPE" = true ]; then
+
+  # Start Docker application
+  start_docker "$VERBOSITY"
+
+  remove_all "$VERBOSITY"
+
+  # Stop Docker application
+  stop_docker "$VERBOSITY"
+
+  exit 0
+else
+  if [ "$INTERACTIVE" = true ]; then
+    VERBOSITY=2
+  fi
+
+  if [ -n "${NON_SORTED_SELECTED_EXTENSIONS:-}" ]; then
+    SELECTED_EXTENSIONS_STR="$(printf "%s\n" "${NON_SORTED_SELECTED_EXTENSIONS[@]}" | sort -u)"
+    ENVS=(${SELECTED_EXTENSIONS_STR})
+
+    # Bypass any prior checking
+    FORCE=true
+  fi
+
+  # Transform extensions into Docker container's environment variables
+  for index in "${!ENVS[@]}"; do
+    ENVS[index]="--env EXTENSION_$((index+1))=${ENVS[index]}"
+  done
+
+  if [ "$VERBOSITY" -ne 0 ]; then
+    banner
+  fi
+
+  # Pre-run script
+  if [ "$INTERACTIVE" = false ] && [ "$FORCE" = false ]; then
+    if [ "$VERBOSITY" -ne 0 ]; then
+      printf "\n"
+    fi
+
+    if ! sh pre-run -v "$VERBOSITY"; then
+      exit 0
+    fi
+  fi
+
+  # Run script
+  if [ "$VERBOSITY" -ne 0 ]; then
+    printf "\nRun script\n"
+  fi
+  
+  # Start Docker application
+  start_docker "$VERBOSITY"
+
+  # Build Docker container
+  if ! build_container "$IMAGE_TAG" "$CONTAINER_NAME" "$VERBOSITY"; then
+    exit 1
+  fi
+
+  # Audit system
+  if [ "$VERBOSITY" -eq 0 ]; then
+    printf "%s\tinfo\tupgrade\t%s\t%s\t\"Upgrade in progress\"\n" \
+      "$(date -u +%FT%TZ)" "$CURRENT_VERSION" "$LATEST_VERSION" >> .log
+  fi
+  
+  # Start Docker container
+  if ! start_container "$IMAGE_TAG" "$CONTAINER_NAME" \
+    ENVS[@] \
+    "$SRC_VOLUME_1" "$DST_VOLUME_1" \
+    "$SRC_VOLUME_2" "$DST_VOLUME_2" \
+    "$SRC_VOLUME_3" "$DST_VOLUME_3" \
+    "$SRC_VOLUME_4" "$DST_VOLUME_4" \
+    "$INTERACTIVE" "$VERBOSITY"; then
+    exit 1
+  fi
+  
+  # Remove all related data to this container
+  stop_container "$CONTAINER_NAME" "$VERBOSITY"
+  kill_container "$CONTAINER_NAME" "$VERBOSITY"
+  remove_container "$CONTAINER_NAME" "$VERBOSITY"
+  remove_volumes_unused "$VERBOSITY"
+  remove_images_unused "$VERBOSITY"
+
+  # Stop Docker application
+  stop_docker "$VERBOSITY"
+
+  # Post-run script
+  if [ "$VERBOSITY" -ne 0 ]; then
+    printf "\n"
+  fi
+  sh post-run -v "$VERBOSITY"
+fi

@@ -1,0 +1,26 @@
+# Scripts configuration file
+#
+# Author: Loan Lassalle <https://github.com/lassalleloan>
+
+# Working directory (absolute path must be configured)
+WORKING_DIRECTORY=<absolute-path>
+
+# Default verbosity level
+# 0 -- no ouput
+# 1 -- step information
+# 2 -- interactive
+VERBOSITY=1
+
+# Additional category-specific
+# To disable an extension, you must comment the line with '#' at the beginning of the line
+# If you add another extension, you must also add the environment variable to the Docker container
+# Do not modify an existing extension if you do not know what you are doing
+EXTENSION_1=fakenews
+EXTENSION_2=gambling
+EXTENSION_3=porn
+EXTENSION_4=social
+
+# Current and latest version of StevenBlack/hosts source files
+# Do not modify if you do not know what you are doing
+CURRENT_VERSION=2.5.0
+LATEST_VERSION=2.5.0

@@ -1,0 +1,150 @@
+#!/bin/sh -u
+# -u: Treat unset variables as an error when performing parameter expansion.
+# If expansion is attempted on an unset interactive, exits with a non-zero status.
+#
+# Process executed before application manager execution
+#
+# Author: Loan Lassalle <https://github.com/lassalleloan>
+
+# Current version of StevenBlack/hosts source files
+CURRENT_VERSION="$(sed -En 's/^CURRENT_VERSION=([0-9]+([.][0-9]+)*)(( |#).*)?$/\1/p' .conf)"
+
+# Default verbosity level
+VERBOSITY="$(sed -En 's/^VERBOSITY=([0-9]{1})(( |#).*)?$/\1/p' .conf)"
+
+# Display a banner
+banner() {
+  printf "Pre-run script\n"
+}
+
+# Usage of the script
+usage() {
+  printf "Usage: pre-run [--verbosity (0 | 1 | 2)]\n"
+  printf "\n"
+  printf "Process executed before run-app execution\n"
+  printf "\n"
+  printf "Version: 1.0.0, build deadbeef\n"
+  printf "\n"
+  printf "Author:\n"
+  printf "  Loan Lassalle - <https://github.com/lassalleloan>\n"
+  printf "\n"
+  printf "Options:\n"
+  printf "  -v, --verbosity (0 | 1 | 2)     Level of verbosity: no ouput, step information (default), all information\n"
+  printf "  -h, --help                      Help on how to use this script\n"
+}
+
+# Check for updates
+check_updates() {
+  local current_version="$1"
+  local verbosity="$2"
+
+  # Retrieve the latest version number of StevenBlack/hosts source files
+  local latest_version="$(curl --silent https://raw.githubusercontent.com/StevenBlack/hosts/master/package.json | \
+    sed -En 's/^[ ]*"version": "([0-9]+([.][0-9]+)*)",$/\1/p')"
+
+  # Check if the latest version number has been retrieved
+  if [ -z "$latest_version" ]; then
+    latest_version="0.0.0"
+  fi
+
+  if [ "$verbosity" -ne 0 ]; then
+    printf "Checking for updates\n"
+  fi
+
+  if [ "$verbosity" -eq 2 ]; then
+    printf "Current version: %*s\n" 12 "$current_version"
+    printf "Latest version: %*s\n" 13 "$latest_version"
+  fi
+
+  # Check if the latest version is greater than the current version
+  if [ ! -f src/hosts ] || \
+    [ ! -s src/hosts ] || \
+    [ "$(printf '%s\n' "$current_version" "$latest_version" | \
+      sort -rV | \
+      head -n 1)" != "$current_version" ]; then
+
+    # Update the lastest version in .conf file
+    sed -i '' -E "/^LATEST_VERSION=$current_version(( |#).*)?$/ s/$current_version/$latest_version/" \
+      .conf
+
+    # Audit system
+    if [ "$verbosity" -eq 0 ]; then
+      printf "%s\tinfo\tupgrade\t%s\t%s\t\"New version available\"\n" \
+        "$(date -u +%FT%TZ)" "$current_version" "$latest_version" >> .log
+    fi
+  else
+
+    # Audit system
+    if [ "$verbosity" -eq 0 ]; then
+      printf "%s\tinfo\tupdate\t" "$(date -u +%FT%TZ)" >> .log
+
+      if [ "$latest_version" = "0.0.0" ]; then
+        printf "%s\t%s\t\"Lastest version number not retrieved\"\n" \
+          "$current_version" "$latest_version" >> .log
+      else
+        printf "%s\t%s\t\"No new version available\"\n" "$current_version" "$latest_version" >> .log
+      fi
+    fi
+
+    # Stop all future process
+    exit 1
+  fi
+}
+
+# Check if it is an integer
+exit_if_not_integer() {
+  local variable="$1"
+
+  if ! echo "$variable" | grep -Eq  "^[0-9]{1}$"; then
+    printf "%s: not a integer\n" "$variable"
+    usage
+    exit 1
+  fi
+}
+
+# Main
+for arg in "$@"; do
+  shift
+  case "$arg" in
+    "--verbosity")
+      set -- "$@" "-v"
+      ;;
+    "--help")
+      set -- "$@" "-h"
+      ;;
+    "--"*)
+      set -- "$@" "-?"
+      ;;
+    *)
+      set -- "$@" "$arg"
+  esac
+done
+
+while getopts ":v:h" option; do
+  case $option in
+    v)
+      VERBOSITY=$OPTARG
+      exit_if_not_integer "$VERBOSITY"
+      ;;
+    h)
+      usage
+      exit
+      ;;
+    :)
+      printf "%s: required argument\n" "$OPTARG"
+      exit 1
+      ;;
+    \?)
+      printf "%s: invalid option\n" "$OPTARG"
+      usage
+      exit 1
+      ;;
+  esac
+done
+
+if [ "$VERBOSITY" -ne 0 ]; then
+  banner
+fi
+
+# Check for updates
+check_updates "$CURRENT_VERSION" "$VERBOSITY"

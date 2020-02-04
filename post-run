@@ -1,0 +1,147 @@
+#!/bin/sh -u
+# -u: Treat unset variables as an error when performing parameter expansion.
+# If expansion is attempted on an unset interactive, exits with a non-zero status.
+#
+# Process executed after application manager execution
+#
+# Author: Loan Lassalle <https://github.com/lassalleloan>
+
+# Working directory
+WORKING_DIRECTORY="$(sed -En 's/^WORKING_DIRECTORY=(\/[^ #]+)(( |#)?.*)$/\1/p' .conf)"
+
+# Source file for creating hard link
+HARD_LINK_SRC_FILE="$WORKING_DIRECTORY/src/hosts"
+
+# Current and latest version of StevenBlack/hosts source files
+CURRENT_VERSION="$(sed -En 's/^CURRENT_VERSION=([0-9]+([.][0-9]+)*)(( |#).*)?$/\1/p' .conf)"
+LATEST_VERSION="$(sed -En 's/^LATEST_VERSION=([0-9]+([.][0-9]+)*)(( |#).*)?$/\1/p' .conf)"
+
+# Default verbosity level
+VERBOSITY="$(sed -En 's/^VERBOSITY=([0-9]{1})(( |#).*)?$/\1/p' .conf)"
+
+# Display a banner
+banner() {
+  printf "Post-run script\n"
+}
+
+# Usage of the script
+usage() {
+  printf "Usage: post-run [--verbosity (0 | 1 | 2)]\n"
+  printf "\n"
+  printf "Process executed after run-app execution\n"
+  printf "\n"
+  printf "Version: 1.0.0, build deadbeef\n"
+  printf "\n"
+  printf "Author:\n"
+  printf "  Loan Lassalle - <https://github.com/lassalleloan>\n"
+  printf "\n"
+  printf "Options:\n"
+  printf "  -v, --verbosity (0 | 1 | 2)     Level of verbosity: no ouput, step information (default), all information\n"
+  printf "  -h, --help                      Help on how to use this script\n"
+}
+
+# Create a hard link between /etc/hosts and $hard_link_src_file
+hard_link() {
+  local hard_link_src_file="$1"
+  local verbosity="$2"
+  
+  local is_hard_link=$(stat -f "%l" /etc/hosts)
+
+  if [ "$verbosity" -ne 0 ]; then
+    printf "Creation of hard link between /etc/hosts and %s\n" "$hard_link_src_file"
+  fi
+
+  if [ "$is_hard_link" -le 1 ]; then
+    printf "sudo command is required to create the hard link, please run the following command:\n"
+    printf "sudo ln -f %s /etc/hosts\n" "$hard_link_src_file"
+  fi
+}
+
+# Flush the local DNS cache
+flush_dns_cache() {
+  local verbosity="$1"
+
+  if [ "$verbosity" -ne 0 ]; then
+    printf "Flushing of local DNS cache\n"
+  fi
+
+  if [ "$verbosity" -eq 2 ]; then
+    killall -HUP mDNSResponder
+  else 
+    killall -HUP mDNSResponder >/dev/null 2>&1
+  fi
+}
+
+# Check if it is an integer
+exit_if_not_integer() {
+  local variable="$1"
+
+  if ! echo "$variable" | grep -Eq  "^[0-9]{1}$"; then
+    printf "%s: not a integer\n" "$variable"
+    usage
+    exit 1
+  fi
+}
+
+# Main
+for arg in "$@"; do
+  shift
+  case "$arg" in
+    "--verbosity")
+      set -- "$@" "-v"
+      ;;
+    "--help")
+      set -- "$@" "-h"
+      ;;
+    "--"*)
+      set -- "$@" "-?"
+      ;;
+    *)
+      set -- "$@" "$arg"
+  esac
+done
+
+while getopts ":v:h" option; do
+  case $option in
+    v)
+      VERBOSITY=$OPTARG
+      exit_if_not_integer "$VERBOSITY"
+      ;;
+    h)
+      usage
+      exit
+      ;;
+    :)
+      printf "%s: required argument\n" "$OPTARG"
+      exit 1
+      ;;
+    \?)
+      printf "%s: invalid option\n" "$OPTARG"
+      usage
+      exit 1
+      ;;
+  esac
+done
+
+if [ "$VERBOSITY" -ne 0 ]; then
+  banner
+fi
+
+# Create a hard link to /etc/hosts of local machine
+hard_link "$HARD_LINK_SRC_FILE" "$VERBOSITY"
+
+# Flush the local DNS cache
+flush_dns_cache "$VERBOSITY"
+
+# Update the current version in .conf file
+sed -i '' -E "/^CURRENT_VERSION=$CURRENT_VERSION(( |#).*)?$/ s/$CURRENT_VERSION/$LATEST_VERSION/" \
+  .conf
+
+# Audit system
+if [ "$VERBOSITY" -eq 0 ]; then
+  printf "%s\tinfo\tupgrade\t%s\t%s\t\"Upgrade completed\"\n" \
+    "$(date -u +%FT%TZ)" "$LATEST_VERSION" "$LATEST_VERSION" >> .log
+fi
+
+# To avoid exit 1 of the DNS cache flushing
+exit 0

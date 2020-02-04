@@ -1,57 +1,269 @@
-﻿# Control Any Remote Controlled Device via Alexa
+# DNS Black Hole :: Generate hosts file to block any DNS request
 
-## What these apps do:
-This set of codes lets you link up many (likely most) of your RF- and IR-controlled devices to smartthings, and in turn to any other services linked to your smartthings account, such as IFTTT or <a href="https://www.amazon.com/gp/product/B01DFKC2SO/ref=as_li_ss_tl?pf_rd_m=ATVPDKIKX0DER&pf_rd_s=merchandised-search-top-2&pf_rd_r=TQYV2353YDED0M7X1P2H&pf_rd_r=TQYV2353YDED0M7X1P2H&pf_rd_t=101&pf_rd_p=19a8c901-9fbf-4092-a3fc-c2acf5c8bb5f&pf_rd_p=19a8c901-9fbf-4092-a3fc-c2acf5c8bb5f&pf_rd_i=9818047011&linkCode=ll1&tag=seniorhacks20-20&linkId=85e32cda5628189143d9475add80ce4a">Amazon’s Echo (Alexa)</a>.  The total cost of needed items (besides the optional <a href="https://www.amazon.com/Samsung-SmartThings-Hub-2nd-Generation/dp/B010NZV0GE/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=seniorhacks-20&linkId=b46f48982e4f13a2dccf39ba3c3461d1">SmartThings hub</a>) is around $30-35 (depending on which approach you select) at the time of this writing.  There are three versions of this app, each with separate instructions in additional readme files.  They differ in what additional programs you need and whether you can control via a SmartThings Hub on your local LAN or via the cloud (potentially less secure and slower but does not require purchasing a SmartThings Hub).  Because SmartThings is hosting the service, I'd recommend the version with the hub, but also offer the cloud version to use at your own risk, supposing you know enough about your network's security to decide what to do. 
+Author: Loan Lassalle
+***
 
-Because this is focused on Alexa integration, it is limited to switches (on/off only, no dimmers or hi/medium/low, but there are workarounds to control different functions as if they were switches, which I'll describe in each approach's readme). While this will also let you integrate these devices into smartthings scenes and so forth, the individual devices don't look ideal in the SmartThings app on their own.  This is because these devices don't report their on/off status and I did not put any effort into trying to mimic that. Someone who wishes to clean that up can certainly fork this code to do so.  If there is interest, I may add other types of devices after this initial code is in use and tested more broadly but probably not until Alexa can handle them.  If I get enough requests for a certain type of device I will give it a try.
+## Purpose
 
-## Skill level: 
-Intermediate. Need a comfort level with digging through things that appear complicated and troubleshooting possible missteps, if provided enough instructions, which I hope to do here. No programming needed. Must be OK with using a device that comes with a manual in Chinese but is similar to other wifi setup processes.
+This repository provides an easy way to generate host files from [StevenBlack's hosts repository](https://github.com/StevenBlack/hosts).  
+StevenBlack's hosts repository consolidates several reputable hosts files, and merges them into a unified hosts file with duplicates removed. A variety of tailored hosts files are provided.
 
-## What you need for all versions of the code:
-1. <a href='https://www.amazon.com/BroadLink-Universal-Remote-Control-RMPRO-US/dp/B01FJMBM8M/ref=as_li_ss_tl?_encoding=UTF8&psc=1&refRID=EWXC2F49XBNYPNKZ6X0C&linkCode=ll1&tag=seniorhacks20-20&linkId=c97026595ab5c4e4f0ec4c2a0d545b4e'>Broadlink RM</a>.  I purchased and tested this with the RM2 pro version linked here. This should work with other models too, possibly with less functionality in what devices they control, but I don't own one to test.  If anyone gets this working with other models please let me know.
+If you need more details or explanations about this repository, feel free to explore source code of this repository and read [StevenBlack's hosts repository](https://github.com/StevenBlack/hosts).
 
-2.	Android device on the same local network as the Broadlink. This could be a dedicated device (I use a <a href='https://www.amazon.com/gp/product/B01LCQNWNM/ref=as_li_ss_tl?ie=UTF8&psc=1&linkCode=ll1&tag=seniorhacks20-20&linkId=1eaf649f894967fe6755217e0d41e9bd'>cheap android box</a>) or your phone, but this setup will only work while the Android device is on the same network as the Broadlink and is running the bridge app described under #3 (a battery drainer, so probably want a plugged in Android device). This may also work if the Android is on the local network via vpn, but I have not tested it. You can use this code to operate your devices from outside your network.   It is only the Android "bridge" device that must be on the same network as your Broadlink RM. IMPORTANT UPDATE September 2016: I was using an old Nexus 4 but choose something else.  Please research your device to see how it behaves if left plugged in for long periods.  Likely will work best with an Android TV box, a virtual machine on another computer, or similar setup without potential battery issues.  Search the web for "Nexus 4 battery bulging" to see the very bad phone self-destruction that happened due to leaving it plugged in and running for this app.  Everything else here works fine and any old cheap android box should work if this baattery issue is avoided.
+## Prerequisites
 
-3.	Android app used to “bridge” between the Broadlink and web-based services like smartthings.  This is needed because Broadlink does not publish information that would allow users to directly interface with it.  Other developers have figured out a way around this, so I am not attempting to reinvent it.  One possible app is a free option (called <a href='https://play.google.com/store/apps/details?id=de.fun2code.android.rmbridge&hl=en'>RM Bridge</a>) and the other (<a href='https://play.google.com/store/apps/details?id=us.originally.tasker&hl=en'>RM Tasker</a>) costs just over $5 at the time of this writing but is available for a 7 day free trial.  I had poor results with the security on the RM Tasker app (a friend testing this with me was able to view the MAC of my Broadlink without my password from outside my network), so I cannot recommend that one unless you control over your LAN with a smartthings hub.  For anyone using either app via the cloud, users are cautioned to test whether the security meets their expectations.  There are also differences in how to set up and use these sets of code, as well as how they integrate multiple Broadlink devices.  Read the separate Readme files for each app to get a feel for which is your best choice.  The main upside to the RM Tasker app is that it integrates with Tasker (an Android app commonly used for automation) if you have interest in also using your Broadlink RM device this way.  This version also works much more simply/reliably with devices where you want to use multiple remote keys for "on" (for instance to "turn on" a Tv channel by sending several numbers).  I have it working both ways but RM Tasker was made to do it versus me having to create a workaround for RM Bridge.
+* macOS Mojave 10.14.6 (18G84) or later
+* Docker Desktop 2.1.0.1 (37199) or later
 
-4.	A free smartthings account.  Get one from the Android app or by going to <a href='https://graph.api.smartthings.com/'>the SmartThings developer site</a>.  You will need to go to this web site anyway, best on a computer, to set up these tools.
+## Usage
 
-5.	A physical remote control for whatever you want to control here.  If you've lost it, you will need to program it into a universal remote.  There is no way to access a list of manufacturer codes with the Broadlink.
-	
-## Additional things you may need depending on version
-1. A <a href='https://www.amazon.com/Samsung-SmartThings-Hub-2nd-Generation/dp/B010NZV0GE/ref=as_li_ss_tl?ie=UTF8&linkCode=ll1&tag=seniorhacks-20&linkId=b46f48982e4f13a2dccf39ba3c3461d1'>SmartThings Hub</a> if you want to control via your LAN.  I have only tried this with a V2 hub.  Your hub must support local LAN commands (specifically one called hubaction) for this to work.  
-2. An externally accessible IP address and an open port, if you want to control without the hub.
+Before running `run-app` script, you must create and fill with your own values the following files:
+* .conf file based on .conf.example file
+* blacklist file based on blacklist.example file
+* myhosts file based on myhosts.example file
+* whitelist files based on whitelist.example file
 
-## Options and Files on this site:
+Then you can ran the `run-app` script.
 
-The <a href='https://beckyricha.github.io/Broadlink-RM-SmartThings-Alexa/RM%20Tasker%20LAN%20ReadMe.html'>RM Tasker Version with local control</a> was published first, and uses the following files:
-<ul>
-<li><a href='https://github.com/beckyricha/Broadlink-RM-SmartThings-Alexa/blob/master/Broadlink%20LAN%20SmartApp'>Broadlink LAN SmartApp</a></li>
-<li><a href='https://github.com/beckyricha/Broadlink-RM-SmartThings-Alexa/blob/master/Broadlink%20Manual%20device%20entry'>Broadlink Manual device entry</a></li>
-<li><a href='https://github.com/beckyricha/Broadlink-RM-SmartThings-Alexa/blob/master/Broadlinkswitch%20device%20handler'>Broadlinkswitch device handler</a></li>
-<li><a href='https://beckyricha.github.io/Broadlink-RM-SmartThings-Alexa/RM%20Tasker%20LAN%20ReadMe.html'> RM Tasker LAN ReadMe </a></li>
-</ul>
-The <a href='https://beckyricha.github.io/Broadlink-RM-SmartThings-Alexa/RM%20Bridge%20LAN%20Readme.html'>RM Bridge version with local control</a> uses the following files:
-<ul>
-<li><a href='https://github.com/beckyricha/Broadlink-RM-SmartThings-Alexa/blob/master/Broadlink%20RM%20Bridge%20Switch%20LAN'>Broadlink RM Bridge Switch LAN</a></li>
-<li><a href='https://beckyricha.github.io/Broadlink-RM-SmartThings-Alexa/RM%20Bridge%20LAN%20Readme.html'>RM Bridge LAN readme</a></li>
-</ul>
-The <a href='https://beckyricha.github.io/Broadlink-RM-SmartThings-Alexa/RM%20Bridge%20Cloud%20Readme.html'>version with cloud control</a> uses the following files:
-<ul>
-<li><a href='https://github.com/beckyricha/Broadlink-RM-SmartThings-Alexa/blob/master/RM%20Bridge%20Switch%20Cloud'>Broadlink RM Bridge Switch Cloud</a></li>
-<li><a href='https://beckyricha.github.io/Broadlink-RM-SmartThings-Alexa/RM%20Bridge%20Cloud%20Readme.html'>RM Bridge Cloud readme</a></li>
-</ul>
-I also had a functioning version that used RM Tasker via the cloud, but have not recreated and tested it for publication because of the security issues I encountered and the difficulty integrating more than one Broadlink with this app.  If you want this version to play with, it's on the repo but not supported.  Find it <a href='https://github.com/beckyricha/Broadlink-RM-SmartThings-Alexa/blob/master/tasker_cloud_version'>here</a>.
+```sh
+sh -u run-app
+```
 
+The above command allows you to start a Docker container with all source files of [StevenBlack's hosts repository](https://github.com/StevenBlack/hosts) and generate a hosts file through a Docker volume.
 
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+Here are the steps of `run-app` script:
+1. Running `pre-run` script
+   1. Checking for updates, if there is a new version of source files of [StevenBlack's hosts repository](https://github.com/StevenBlack/hosts), the script continues. It stops otherwise.
+2. Running `run-app` script
+   1. Start Docker if it is not running
+   2. Build the Docker container
+   3. Start the Docker container with all Docker volumes
+      1. The following python command is ran:  
+      `python3 updateHostsFile.py --auto --extensions fakenews gambling porn social --output /dns-black-hole/etc`
+   4. Stop the Docker container
+   5. Kill the Docker container
+   6. Remove the Docker container
+   7. Remove Docker volumes unsued
+   8. Remove Docker images unsued
+   9. Stop Docker if it was not running before the launch of the script
+3. Running `post-run` script
+   1. Creation of hard link between /etc/hosts and `$WORKING_DIRECTORY`/dns-black-hole/src/hosts (variable in the configuration file .conf)
+   2. Flushing of local DNS cache
 
-  ga('create', 'UA-89762317-3', 'auto');
-  ga('send', 'pageview');
+**Note:** `pre-run` and `post-run` scripts are present to allow you to add processes before and after the hosts file is generated.
 
-</script>
+The following output shows you how to use `run-app` script, all its options and their utility.
+
+```sh
+Usage: run-app [--interactive [--extension <extension_name> ...] | --detach --force [--extension <extension_name> ...] [--verbosity (0 | 1 | 2)] | --prune [--verbosity (0 | 1 | 2)] | --wipe [--verbosity (0 | 1 | 2)]]
+
+Manage the dns-black-hole app
+
+Version: 1.0.0, build deadbeef
+
+Author:
+  Loan Lassalle - <https://github.com/lassalleloan>
+
+Options:
+  -i, --interactive               Keep stdin open even if not attached and allocate a pseudo-tty
+  -d, --detach                    Leave the container running in the background (default processing mode)
+  -e, --extension                 Enable additional category-specific
+  -f, --force                     Force the application to run, bypass any prior checking
+  -p, --prune                     Remove all unused Docker data
+  -w, --wipe                      Remove all Docker data
+  -v, --verbosity (0 | 1 | 2)     Level of verbosity: no ouput, step information (default), all information
+  -h, --help                      Help on how to use this script
+```
+
+## How to block domains
+
+The domains you list in the blacklist file are included from the final hosts file.
+
+The contents of this file (containing a listing of additional domains in hosts file format) are appended to the unified hosts file during the update process. A sample blacklist is included, and may be modified as you desire.
+
+The blacklist is not tracked by git, so any changes you make won't be overridden when you git pull this repo from origin in the future.
+
+## How to include your own custom domain mappings
+
+If you have custom hosts records, place them in file myhosts. The contents of this file are prepended to the unified hosts file during the update process.
+
+The myhosts file is not tracked by git, so any changes you make won't be overridden when you git pull this repo from origin in the future.
+
+## How to unblock domains
+
+The domains you list in the whitelist file are excluded from the final hosts file.
+
+The whitelist uses partial matching. Therefore if you whitelist google-analytics.com, that domain and all its subdomains won't be merged into the final hosts file.
+
+The whitelist is not tracked by git, so any changes you make won't be overridden when you git pull this repo from origin in the future.
+
+## How to temporarily unblock DNS requests for a category-specific of domains
+
+To temporarily unblock DNS requests for a category-specific of domains, it is recommended to run `run-app` script with [--extension <extension_name> ...] option.  
+It allows you to access to certain category-specific domains without having to edit the .conf configuration file.
+
+When you want to cancel the previous change, you just have to execute the `run-app` script with [--force] option.
+
+**Example:** You want to temporarily unblock DNS requests for social category-specific of domains.
+
+```sh
+sh -u run-app --extension fakenews --extension gambling --extension porn
+```
+
+Now you can access to the social category-specific of domains.  
+When you want to cancel the previous change.
+
+```sh
+sh -u run-app --force
+```
+
+## How to temporarily unblock DNS requests for a specific domain
+
+To temporarily unblock DNS requests for a specific domain, it is recommended to comment all lines related to that specific domain in the hosts file. To do this, you must add a hashtag or # at the beginning of lines.  
+Due to multiple subdomains for a specific domain, you can use the following regex to find a domain and all its subdomains.
+
+```regex
+^(0[.]0[.]0[.]0 ([a-zA-Z0-9_-]+:\/\/)?(([a-zA-Z0-9_-]+[.])*)(reddit[.][a-zA-Z0-9_-]+))$
+```
+
+Then, you can use the replace function of your text editor to add # at the beginning of lines using the previous regex and the next string.
+
+```replace-text
+# $1
+```
+
+After these changes, you must flush your DNS cache. To do this, you must execute the following commands in a terminal. These commands only works on a macOS.
+
+```sh
+killall -HUP mDNSResponder
+```
+
+**Note:** It may be necessary to close all tabs of your web browsers accessing this domain and its subdomains. In addition, some web browsers need to be restarted to clear their local DNS cache.
+
+When you want to reverse previous actions and block DNS requests for a specific domain and subdomains, simply use the following regex to remove the hashtag or # at the beginning of lines.
+
+```regex
+^# (0[.]0[.]0[.]0 ([a-zA-Z0-9_-]+:\/\/)?(([a-zA-Z0-9_-]+[.])*)(reddit[.][a-zA-Z0-9_-]+))$
+```
+
+Then, you can use the replace function of your text editor to remove # at the beginning of lines using the previous regex and the next string.
+
+```replace-text
+$1
+```
+
+After these changes, you must flush your DNS cache. To do this, you must execute the following commands in a terminal. These commands only works on a macOS.
+
+```sh
+killall -HUP mDNSResponder
+```
+
+**Note:** It may be necessary to close all tabs of your web browsers accessing this domain and its subdomains. In addition, some web browsers need to be restarted to clear their local DNS cache.
+
+### Domains associated with a string
+
+It is not unusual for a website to use other legitimate domains, other than subdomains. That is why you can use the following regex to find other domains that contain the same string.
+
+```regex
+^(0[.]0[.]0[.]0 ([a-zA-Z0-9_-]+:\/\/)?(([a-zA-Z0-9_-]+[.])*)([a-zA-Z0-9_-]+reddit[a-zA-Z0-9_-]+[.][a-zA-Z0-9_-]+))$
+```
+
+**Note:** Beware, this regex could allow you to unblock DNS requests to illegitimate or malicious domains.
+
+## Location of your hosts file
+
+To modify your current hosts file, look for it in the following places and modify it with a text editor.
+
+macOS: /etc/hosts file.
+
+## Reloading hosts file
+
+Your operating system will cache DNS lookups. You can either reboot or run the following commands to manually flush your DNS cache once the new hosts file is in place.
+
+| The Google Chrome browser may require manually cleaning up its DNS Cache on `chrome://net-internals/#dns` page to thereafter see the changes in your hosts file. See: https://superuser.com/questions/723703
+:-----------------------------------------------------------------------------------------
+
+### macOS
+
+Open a Terminal and run:
+
+```
+killall -HUP mDNSResponder
+```
+
+## Miscellaneous
+
+### How to automate the update of the hosts file
+
+It may be interesting for you to automate the update of the hosts file. To do this, you must create an agent which will execute the `run-app` script. To simplify configuration, you can use the `agent/set-agent` script.
+
+Here are the steps of `agent/set-agent` script:
+1. Creation of the property list file to specify the behavior of the agent
+   1. Copy the property list file from plist.example
+   2. Edit the working directory in property list file
+   2. Edit the debugging ouputs in property list file
+2. Copying of the property list file to `~/Library/LaunchAgents`
+3. Loading the property list file
+
+After running the `agent/set-agent` script, the `com.loanlassalle.dns-black-hole.update` agent is ready to run automatically according to calendar intervals.  
+The agent will perform every hour.
+
+**Note:** If the system is asleep, the job will be started the next time the computer wakes up. If multiple intervals transpire before the computer is woken, those events will be coalesced into one event upon wake from sleep.
+
+**Note:** It is possible to change the execution interval. To do this, please follow instructions on [this website](https://www.launchd.info) at Configuration/StartCalendarInterval section.
+
+If you want to reverse all these actions produced by the `agent/set-agent` script, you can use the `agent/unset-agent` script. It will delete all files created and clean up the User-provided agent directory.
+
+### How to know domains contacted while web browsing
+
+It may be interesting for you to add other domains that are contacted during your web browsing. The first solution is to inspect Web page elements and retrieve contacted domains. To know how to do it, [let me Google that for you](https://lmgtfy.com/?q=inspect+web+page+elements).
+
+The second solution consists to extract domains from DNS logs. The first thing to do is to enable the showing of private data. Since DNS queries may be sensitive, these are hidden by default.
+
+```sh
+sudo log config --mode "private_data:on"
+```
+
+Then, you can extract domains contacted while web browsing from logs. To do this, you can use the following command. This command streams information log data from mDNSResponder process, extract domains and save to dns-requests.log file.
+
+```sh
+log stream --level info --process mDNSResponder --type log | sudo sed -En 's/^.*GetServerForQuestion.*for (([a-zA-Z0-9_-]+:\/\/)?(([a-zA-Z0-9_-]+[.])*)([a-zA-Z0-9_-]+[.][a-zA-Z0-9_-]+))[.] \((AAAA|Addr)\)$/\1/w'`date -u +%FT%TZ`_dns-requests.log
+```
+
+When you want to stop the domains extraction, you just need to stop the command with interruption signal or `CTRL + C` and disable the showing of private data with the follwoing command.
+
+```sh
+sudo log config --mode "private_data:off"
+```
+
+**Note:** All the above commands must be executed by a user account with administrator rights.
+
+### How to reverse changes made to macOS system files
+
+The only file affected by scripts is /etc/hosts. They create a hard link between /etc/hosts and `$WORKING_DIRECTORY`/dns-black-hole/src/hosts variable in the configuration file .conf.  
+The creation of this hard link will change rights of the original file /etc/hosts because this hard link must be readable and writable by the current user without administrator rights.  
+If you need to reverse these changes, you need to run following commands on /etc/hosts.
+
+```sh
+rm dns-black-hole/src/hosts
+sudo cp -f dns-black-hole/backup/hosts.bk /etc/hosts
+sudo chown root:wheel /etc/hosts
+```
+
+The following outout is the status of files related to the hosts file before changes.
+```
+ls -l /etc/hosts*
+-rw-r--r--  1 root          wheel      213 24 jul 19:25 /etc/hosts
+-rw-r--r--  1 root          wheel      213 24 jul 19:25 /etc/hosts.bk
+-rw-r--r--  1 root          wheel        0 17 aoû  2018 /etc/hosts.equiv
+-rw-r--r--  1 root          wheel      213 17 aoû  2018 /etc/hosts~orig
+```
+
+### References
+
+* [StevenBlack's hosts repository](https://github.com/StevenBlack/hosts)
+* [Apple - Daemons and Services Programming Guide](https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html)
+* [man page launchd(8)](https://www.manpagez.com/man/8/launchd/)
+* [man page launchd.plist(5)](https://www.manpagez.com/man/5/launchd.plist/)
+* [A launchd Tutorial](https://www.launchd.info)
+* [Logging DNS requests with internet sharing on macOS](https://www.sjoerdlangkemper.nl/2019/05/22/logging-dns-requests-with-internet-sharing-on-macos/)

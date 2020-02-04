@@ -1,0 +1,10 @@
+# Custom domain name mapping section ---------------------------------------------- start
+#
+# The contents of this file (containing a listing of additional domains in
+# 'hosts' file format) are appended to the unified hosts file during the
+# update process. For example, uncomment the following line to create a mapping for
+# 'example.com':
+
+# 127.0.0.1 example.com
+
+# Custom domain name mapping section ------------------------------------------------ end
