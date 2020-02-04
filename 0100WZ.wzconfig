@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<winzipsetup>
+  <mailservices default="Gmail">
+    <mailservice name="Gmail" login="yes" encryption="tls">
+      <smtp server="smtp.gmail.com" port="587"/>
+      <domains>gmail.com</domains>
+    </mailservice>
+    <mailservice name="Hotmail" login="yes" encryption="tls">
+      <smtp server="smtp.live.com" port="587"/>
+      <domains>hotmail.*;live.*;msnhotmail.com</domains>
+    </mailservice>
+    <mailservice name="Yahoo!" login="yes" encryption="none">
+      <smtp server="plus.smtp.mail.yahoo.com" port="465"/>
+      <domains>yahoo.com;sbcglobal.com</domains>
+    </mailservice>
+    <mailservice name="Outlook.com" login="yes" encryption="tls">
+      <smtp server="smtp-mail.outlook.com" port="587"/>
+      <domains>outlook.com</domains>
+    </mailservice>
+  </mailservices>
+</winzipsetup>
