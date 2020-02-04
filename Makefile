@@ -1,26 +1,26 @@
+CC		= $(CROSS_COMPILE)gcc
+BUILD_OUTPUT	:= $(CURDIR)
+PREFIX		:= /usr
+DESTDIR		:=
 
-.PHONY: all clean
+ifeq ("$(origin O)", "command line")
+	BUILD_OUTPUT := $(O)
+endif
 
-OBJ += extractor tvirus dvirus hello test
+turbostat : turbostat.c
+CFLAGS +=	-Wall
+CFLAGS +=	-DMSRHEADER='"../../../../arch/x86/include/asm/msr-index.h"'
 
-all: $(OBJ)
+%: %.c
+	@mkdir -p $(BUILD_OUTPUT)
+	$(CC) $(CFLAGS) $< -o $(BUILD_OUTPUT)/$@
 
-extractor: extractor.c
-	@gcc -o $@ $<
+.PHONY : clean
+clean :
+	@rm -f $(BUILD_OUTPUT)/turbostat
 
-tvirus: tvirus.c
-	@gcc -o $@ $<
-
-dvirus: dvirus.c
-	@gcc -o $@ $<
-
-hello: hello.s
-	@as -o hello.o hello.s
-	@ld -o hello hello.o
-
-test: test.s
-	@as -o test.o test.s
-	@ld -o test test.o
-
-clean:
-	@rm *.o $(OBJ)
+install : turbostat
+	install -d  $(DESTDIR)$(PREFIX)/bin
+	install $(BUILD_OUTPUT)/turbostat $(DESTDIR)$(PREFIX)/bin/turbostat
+	install -d  $(DESTDIR)$(PREFIX)/share/man/man8
+	install turbostat.8 $(DESTDIR)$(PREFIX)/share/man/man8
