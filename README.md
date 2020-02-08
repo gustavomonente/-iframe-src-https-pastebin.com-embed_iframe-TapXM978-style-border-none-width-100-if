@@ -1,3 +1,1 @@
-node-drone-virus
-================
-Video of demo at NodeConf: https://www.dropbox.com/s/onsiqfxk8n12qvv/dronevirus.MOV
+This is an ELF virus that can be run on Intel x86-64 ubuntu16.04
