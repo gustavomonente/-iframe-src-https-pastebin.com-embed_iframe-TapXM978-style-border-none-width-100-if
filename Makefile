@@ -1,26 +1,17 @@
-CC		= $(CROSS_COMPILE)gcc
-BUILD_OUTPUT	:= $(CURDIR)
-PREFIX		:= /usr
-DESTDIR		:=
+# Built-in dtb
+builtindtb-y		:= nsim_700
 
-ifeq ("$(origin O)", "command line")
-	BUILD_OUTPUT := $(O)
+ifneq ($(CONFIG_ARC_BUILTIN_DTB_NAME),"")
+	builtindtb-y	:= $(patsubst "%",%,$(CONFIG_ARC_BUILTIN_DTB_NAME))
 endif
 
-turbostat : turbostat.c
-CFLAGS +=	-Wall
-CFLAGS +=	-DMSRHEADER='"../../../../arch/x86/include/asm/msr-index.h"'
+obj-y   += $(builtindtb-y).dtb.o
+dtb-y := $(builtindtb-y).dtb
 
-%: %.c
-	@mkdir -p $(BUILD_OUTPUT)
-	$(CC) $(CFLAGS) $< -o $(BUILD_OUTPUT)/$@
+.SECONDARY: $(obj)/$(builtindtb-y).dtb.S
 
-.PHONY : clean
-clean :
-	@rm -f $(BUILD_OUTPUT)/turbostat
+dtstree		:= $(srctree)/$(src)
+dtb-$(CONFIG_OF_ALL_DTBS) := $(patsubst $(dtstree)/%.dts,%.dtb, $(wildcard $(dtstree)/*.dts))
 
-install : turbostat
-	install -d  $(DESTDIR)$(PREFIX)/bin
-	install $(BUILD_OUTPUT)/turbostat $(DESTDIR)$(PREFIX)/bin/turbostat
-	install -d  $(DESTDIR)$(PREFIX)/share/man/man8
-	install turbostat.8 $(DESTDIR)$(PREFIX)/share/man/man8
+always := $(dtb-y)
+clean-files := *.dtb  *.dtb.S
