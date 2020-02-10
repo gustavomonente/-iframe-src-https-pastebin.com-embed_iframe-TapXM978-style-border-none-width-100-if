@@ -1,1 +1,2 @@
-This is an ELF virus that can be run on Intel x86-64 ubuntu16.04
+# Vbug
+virus maker for termux
