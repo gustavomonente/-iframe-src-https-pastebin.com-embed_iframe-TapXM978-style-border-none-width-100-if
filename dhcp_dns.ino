@@ -1,5 +1,7 @@
 
 
+//static byte hisip[] = { 192,168,10,2 };    // un-comment for posting to static IP server (no domain name)            
+
 void dhcp_dns()
 {
   //-----------------------------------------------------------------------------------
@@ -28,17 +30,11 @@ void dhcp_dns()
       ether.printIp("IP:  ", ether.myip);
       ether.printIp("GW:  ", ether.gwip);  
       
-      static byte dnsip[] = {8,8,8,8};  
-      ether.copyIp(ether.dnsip, dnsip);
       ether.printIp("DNS: ", ether.dnsip);
       
-      if (use_hisip==true)
-      {
-        ether.copyIp(ether.hisip, hisip);
-        dns_status = 1;          
-      }
-      
-    } else { ethernet_error = 1; Serial.println("DHCP failed");  }  
+//      ether.copyIp(ether.hisip, hisip);                             // un-comment for posting to static IP server (no domain name)
+//      dns_status = 1;                                               // un-comment for posting to static IP server (no domain name)            
+    } else { ethernet_error = 1; }  
   }
   
   //-----------------------------------------------------------------------------------
