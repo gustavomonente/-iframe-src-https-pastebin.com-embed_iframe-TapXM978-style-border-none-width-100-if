@@ -1,27 +1,25 @@
-source "compat26/pdk19_006/drivers/media/tegra/avp/Kconfig"
-source "compat26/pdk19_006/drivers/media/tegra/mediaserver/Kconfig"
+config TEGRA_RPC
+	bool "Enable support for Tegra RPC"
+	depends on ARCH_TEGRA
+	default y
+	help
+	  Enables support for the RPC mechanism necessary for the Tegra
+	  multimedia framework. It is both used to communicate locally on the
+	  CPU between multiple multimedia components as well as to communicate
+	  with the AVP for offloading media decode.
 
-config TEGRA_CAMERA
-        bool "Enable support for tegra camera/isp hardware"
-        depends on ARCH_TEGRA
-        default y
-        help
-          Enables support for the Tegra camera interface
+	  Exports the local tegra RPC interface on device node
+	  /dev/tegra_rpc. Also provides tegra fd based semaphores needed by
+	  the tegra multimedia framework.
 
-          If unsure, say Y
+	  If unsure, say Y
 
-config TEGRA_ITU656
-        bool "Enable support for VIP ITU656 hardware"
-        depends on ARCH_TEGRA
-        default y
-        help
-          Enables support for the Tegra  VIP ITU656 inteface
+config TEGRA_AVP
+	bool "Enable support for the AVP multimedia offload engine"
+	depends on ARCH_TEGRA && TEGRA_RPC
+	default y
+	help
+	  Enables support for the multimedia offload engine used by Tegra
+	  multimedia framework.
 
-          If unsure, say Y
-
-config VIDEO_OV5650
-        tristate "OV5650 camera sensor support"
-        depends on I2C && ARCH_TEGRA
-        ---help---
-          This is a driver for the Omnivision OV5650 5MP camera sensor
-          for use with the tegra isp.
+	  If unsure, say Y
