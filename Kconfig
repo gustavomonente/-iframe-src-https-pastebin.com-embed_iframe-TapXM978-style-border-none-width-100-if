@@ -1,25 +1,27 @@
-config TEGRA_RPC
-	bool "Enable support for Tegra RPC"
-	depends on ARCH_TEGRA
-	default y
-	help
-	  Enables support for the RPC mechanism necessary for the Tegra
-	  multimedia framework. It is both used to communicate locally on the
-	  CPU between multiple multimedia components as well as to communicate
-	  with the AVP for offloading media decode.
+config ASYNC_CORE
+	tristate
 
-	  Exports the local tegra RPC interface on device node
-	  /dev/tegra_rpc. Also provides tegra fd based semaphores needed by
-	  the tegra multimedia framework.
+config ASYNC_MEMCPY
+	tristate
+	select ASYNC_CORE
 
-	  If unsure, say Y
+config ASYNC_XOR
+	tristate
+	select ASYNC_CORE
+	select XOR_BLOCKS
 
-config TEGRA_AVP
-	bool "Enable support for the AVP multimedia offload engine"
-	depends on ARCH_TEGRA && TEGRA_RPC
-	default y
-	help
-	  Enables support for the multimedia offload engine used by Tegra
-	  multimedia framework.
+config ASYNC_PQ
+	tristate
+	select ASYNC_CORE
 
-	  If unsure, say Y
+config ASYNC_RAID6_RECOV
+	tristate
+	select ASYNC_CORE
+	select ASYNC_PQ
+	select ASYNC_XOR
+
+config ASYNC_TX_DISABLE_PQ_VAL_DMA
+	bool
+
+config ASYNC_TX_DISABLE_XOR_VAL_DMA
+	bool

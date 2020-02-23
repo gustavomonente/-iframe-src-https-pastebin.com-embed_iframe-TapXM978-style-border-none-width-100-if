@@ -1,9 +1,6 @@
-obj-$(CONFIG_TEGRA_RPC)		+= tegra_rpc.o
-obj-$(CONFIG_TEGRA_RPC)		+= trpc_local.o
-obj-$(CONFIG_TEGRA_RPC)		+= trpc_sema.o
-obj-$(CONFIG_TEGRA_AVP)		+= avp.o
-obj-$(CONFIG_TEGRA_AVP)		+= avp_svc.o
-obj-$(CONFIG_TEGRA_AVP)		+= headavp.o
-
-include $(srctree)/compat26/Makefile.inc
-ccflags-y += -I$(srctree)/compat26/$(compat-dir-y)/drivers/video/tegra/
+obj-$(CONFIG_ASYNC_CORE) += async_tx.o
+obj-$(CONFIG_ASYNC_MEMCPY) += async_memcpy.o
+obj-$(CONFIG_ASYNC_XOR) += async_xor.o
+obj-$(CONFIG_ASYNC_PQ) += async_pq.o
+obj-$(CONFIG_ASYNC_RAID6_RECOV) += async_raid6_recov.o
+obj-$(CONFIG_ASYNC_RAID6_TEST) += raid6test.o
