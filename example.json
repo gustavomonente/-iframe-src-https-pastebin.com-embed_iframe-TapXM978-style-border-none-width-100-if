@@ -1,0 +1,54 @@
+{
+    "account_list": [
+        {
+            "account_nr": "GB29IBAN20160604201923",
+            "holder_name": "Alex Watson",
+            "holder_id": "920160406",
+            "bank_name": "Some Bank",
+            "currency": "GBP",
+            "start_balance": 2016.46,
+            "end_balance": 2750.86,
+            "debit_turnover": 366.40,
+            "credit_turnover": 1100.80,
+            "period_start": "2019-08-01",
+            "period_end": "2019-08-15",
+            "transaction_list": [
+                {
+                    "date": "2019-08-01",
+                    "partner": "Local Groceries",
+                    "info": "PURCHASE 201620190406111 15.45GBP",
+                    "transaction_id": "arbritary-unique-id1",
+                    "sum": -15.45
+                },
+                {
+                    "date": "2019-08-05",
+                    "partner": "Job Ltd",
+                    "info": "SALARY 201620190406222 900.80GBP",
+                    "transaction_id": "arbritary-unique-id2",
+                    "sum": 900.80
+                },
+                {
+                    "date": "2019-08-07",
+                    "partner": "Freelance Agency Ltd",
+                    "info": "ROYALTIES 201620190406333 200.00GBP",
+                    "transaction_id": "arbritary-unique-id3",
+                    "sum": 200.00
+                },
+                {
+                    "date": "2019-08-11",
+                    "partner": "Gas Station",
+                    "info": "PURCHASE 201620190406444 50.45GBP",
+                    "transaction_id": "arbritary-unique-id4",
+                    "sum": -50.45
+                },
+                {
+                    "date": "2019-08-15",
+                    "partner": "Loan Bank",
+                    "info": "MORTGAGE PAYMENT, AGREEMENT A201664 300.50GBP",
+                    "transaction_id": "arbritary-unique-id5",
+                    "sum": -300.50
+                }
+            ]
+        }
+    ]
+}

